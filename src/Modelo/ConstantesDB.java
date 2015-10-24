@@ -2,7 +2,7 @@ package Modelo;
 
 public interface ConstantesDB{
     
-    public final String BASE_DE_DATOS = "farmaciamuestra",
+    public final String BASE_DE_DATOS = "simped",
                         LOGIN = "root",
                         CLAVE = "",
                         URL_DEL_SERVIDOR = "localhost",
