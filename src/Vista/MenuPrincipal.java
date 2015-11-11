@@ -1,7 +1,7 @@
 package Vista;
 
 import Controlador.CerrarVentana;
-import Vista.Formatos.FondoVentana;
+import Vista.Componentes.FondoPrincipal;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,87 +17,97 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
  */
 public class MenuPrincipal extends JFrame implements ActionListener, CerrarVentana{
     private JMenuBar barraDeNavegacion;
-    private JMenu archivos, procesos, reportes, sistema;
-    private JMenuItem laboratorio, medicamento, unidadesdemedida, componente, productos, sesion;
+    private JMenu admision, balance, emitir, sistema;
+    private JMenuItem admisionEstudiante, admisionProfesor, balanceEstudiante, balanceProfesor, constanciaEstudio, reporteInscripciones, cerrarSistema;
         
     public MenuPrincipal(){
-        super("Sistema de Farmacia");
+        super("Sistema Informatico para Manejo de Población Estudiantil y Docente");
         setLayout(new BorderLayout()); 
         
         barraDeNavegacion = new JMenuBar(); // se crea la barra de menus        
-        //setJMenuBar(menubar);
-        /*
-            archivos = new JMenu("Archivos"); //se crea un elemento del menu
-            barraDeNavegacion.add(archivos);
+        setJMenuBar(barraDeNavegacion);
+        
+            admision = new JMenu("Admision"); //crea un elemento del menu
+            barraDeNavegacion.add(admision);
             
-                laboratorio = new JMenuItem("Laboratorio");// se crea la opcion Laboratorio en el menu
-                laboratorio.addActionListener(this);
-                archivos.add(laboratorio);// se agrega el JMenuItem laboratorio al JMenuBar menubar
+                admisionEstudiante = new JMenuItem("Estudiante"); // se crea una opcion
+                admisionEstudiante.addActionListener(this);
+                admision.add(admisionEstudiante); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
                 
-                medicamento = new JMenuItem("Medicamento");// se crea la opcion Medicamento en el menu
-                medicamento.addActionListener(this);
-                archivos.add(medicamento);// se agrega el JMenuItem medicamento al JMenuBar menubar
+                admisionProfesor = new JMenuItem("Profesor"); // se crea una opcion
+                admisionProfesor.addActionListener(this);
+                admision.add(admisionProfesor); // se agrega la opcion docente al elemento admision de la barra de navegacion
+            
+            balance = new JMenu("Balance"); //crea un elemento del menu
+            barraDeNavegacion.add(balance);
+            
+                balanceEstudiante = new JMenuItem("Estudiantes"); // se crea una opcion
+                balanceEstudiante.addActionListener(this);
+                balance.add(balanceEstudiante); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
                 
-                unidadesdemedida = new JMenuItem("Unidades De Medida");// se crea la opcion Unidades De Medida en el menu
-                unidadesdemedida.addActionListener(this);
-                archivos.add(unidadesdemedida);// se agrega el JMenuItem unidadesdemedida al JMenuBar menubar
+                balanceProfesor = new JMenuItem("Profesores"); // se crea una opcion
+                balanceProfesor.addActionListener(this);
+                balance.add(balanceProfesor); // se agrega la opcion docente al elemento admision de la barra de navegacion
                 
-                componente = new JMenuItem("Componente");// se crea la opcion Componente en el menu
-                componente.addActionListener(this);
-                archivos.add(componente);// se agrega el JMenuItem componente al JMenuBar menubar
+            emitir = new JMenu("Emitir"); //crea un elemento del menu
+            barraDeNavegacion.add(emitir);
+            
+                constanciaEstudio = new JMenuItem("Constancia de Estudios"); // se crea una opcion
+                constanciaEstudio.addActionListener(this);
+                emitir.add(constanciaEstudio); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
+                
+                reporteInscripciones = new JMenuItem("Balance de Inscripciones"); // se crea una opcion
+                reporteInscripciones.addActionListener(this);
+                emitir.add(reporteInscripciones); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
 
-            procesos = new JMenu("Procesos"); //se crea un elemento del menu
-            barraDeNavegacion.add(procesos);
-            
-                productos = new JMenuItem("Productos");// se crea la opcion Laboratorios en el menu
-                productos.addActionListener(this);
-                procesos.add(productos);// se agrega el JMenuItem productos al JMenuBar menubar
-
-            reportes = new JMenu("Reportes"); //se crea un elemento del menu
-            barraDeNavegacion.add(reportes);
-            
-            sistema = new JMenu("Sistema"); //se crea un elemento del menu
+            sistema = new JMenu("Sistema"); //crea un elemento del menu
             barraDeNavegacion.add(sistema);
-            
-                sesion = new JMenuItem("Cerrar Sesion");// se crea la opcion Cerrar Sesion en el menu
-                sesion.addActionListener(this);
-                sistema.add(sesion);// se agrega el JMenuItem sesion al JMenuBar menubar                
-            */    
+
+                cerrarSistema = new JMenuItem("Cerrar Sistema"); // se crea una opcion
+                cerrarSistema.addActionListener(this);
+                sistema.add(cerrarSistema); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
+  
         add(BorderLayout.NORTH, barraDeNavegacion);
+        setExtendedState(JFrame.MAXIMIZED_BOTH); 
         setVisible(true);
-        setSize(800, 600);
         formWindowOpened(null);
     }
 
     private void formWindowOpened (java.awt.event.WindowEvent evt){
-        FondoVentana fondoPrincipal = new FondoVentana();
+        FondoPrincipal fondoPrincipal = new FondoPrincipal();
         add(fondoPrincipal, BorderLayout.CENTER);
         fondoPrincipal.repaint();
     }         
+
     
     /*verificar si puedo generar una estructura que pueda reutilizarse para el evento de apertura de ventanas*/
     @Override
     public void actionPerformed(ActionEvent e) {
-        /*
-        if (e.getSource() == laboratorio) {
-            new VistaLaboratorioManejo();
+        
+        if (e.getSource() == admisionEstudiante) {
+            new VistaAdmisionEstudiante();
         }
-        if (e.getSource() == medicamento) {
-            new VistaMedicamentoManejo();
+        if (e.getSource() == admisionProfesor) {
+            new VistaAdmisionProfesor();
         }
-        if (e.getSource() == unidadesdemedida) {
-            new VistaUnidadesDeMedidaManejo();
+        
+        if (e.getSource() == balanceEstudiante) {
+            new VistaAdmisionEstudiante();
         }
-        if (e.getSource() == componente) {
-            new VistaComponenteManejo();
+        if (e.getSource() == balanceProfesor) {
+            new VistaAdmisionProfesor();
         }
-        if (e.getSource() == productos) {
-            new VistaProductoManejo();
+        
+        if (e.getSource() == constanciaEstudio) {
+            new VistaAdmisionEstudiante();
         }
-        if (e.getSource() == sesion) {
+        if (e.getSource() == reporteInscripciones) {
+            new VistaAdmisionProfesor();
+        }
+        
+        if (e.getSource() == cerrarSistema) {
             cerrarVentana();
         }
-        */
     }
 
     @Override
@@ -112,9 +122,9 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
             this.dispose();
         }
     }
-/*
+
     public static void main(String[] args) {
-        MenuPrincipal ventana = new MenuPrincipal();
+        MenuPrincipal principal = new MenuPrincipal();
     }
-*/
+
 }

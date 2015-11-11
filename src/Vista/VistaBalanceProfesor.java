@@ -5,20 +5,10 @@
  */
 package Vista;
 
-import javax.swing.JDialog;
-
-
-
 /**
  *
- * @author yonalix
+ * @author josediaz
  */
-public class Profesor extends JDialog{
-    
-    
-    public Profesor(){
-        
-        setTitle("profesor");
-    }
+public class VistaBalanceProfesor {
     
 }

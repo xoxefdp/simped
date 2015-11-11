@@ -5,9 +5,12 @@
  */
 package Vista;
 
-import Vista.Formatos.Direccion;
-import Vista.Formatos.Nacionalidad;
-import Vista.Formatos.Nombres;
+import Vista.Formatos.Botonera;
+import Vista.Componentes.Direccion;
+import Vista.Componentes.FechaNacPf;
+import Vista.Componentes.Nacionalidad;
+import Vista.Componentes.Nombres;
+import Vista.Componentes.Telefonos;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,29 +19,35 @@ import javax.swing.JPanel;
  *
  * @author yonalix
  */
-public class pruebaProfesor extends JFrame{
+public class pruebaRepresentante extends JFrame{
     Nombres nomb;
     Nacionalidad nac;
     Direccion dir;
     JPanel panel1;
-    public pruebaProfesor(){
-        setTitle("datos profesor");
+    Botonera boton;
+    Telefonos telef;
+    FechaNacPf feP;
+    public pruebaRepresentante(){
+        setTitle("datos Representante");
         setLayout(new BorderLayout());
-        setSize(800,800);
+        setSize(500,700);
         nomb=new Nombres();
         nac=new Nacionalidad();
         dir=new Direccion();
         panel1=new JPanel();
+        boton=new Botonera(2);
+        telef=new Telefonos();
+       
         add(nomb);
+        add(boton);
+        add(telef);
         //panel1.add(nac);
         panel1.add(dir);
+        panel1.add(telef);
         add(BorderLayout.NORTH,nomb);
         add(BorderLayout.CENTER,panel1);
-        //add(BorderLayout.SOUTH,);
+        add(BorderLayout.SOUTH,boton);
         setVisible(true);
     }
-    public static void main(String[] args) {
-        new pruebaProfesor();
-    }
-    
+
 }

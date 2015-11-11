@@ -16,15 +16,21 @@ public class Botonera extends JPanel{
         cuadroBotonera = new JPanel();
             cuadroBotonera.setLayout(new FlowLayout());
         
+        if (botonesBotonera == 1) {
+            botones = new JButton[botonesBotonera];
+            botones[0] = new JButton("Aceptar");
+            cuadroBotonera.add(botones[0]);
+        }
+            
         if (botonesBotonera == 2) {
-            botones = new JButton[2];
+            botones = new JButton[botonesBotonera];
             botones[0] = new JButton("Aceptar");
             cuadroBotonera.add(botones[0]);
             botones[1] = new JButton("Cancelar");
             cuadroBotonera.add(botones[1]);
         }
         if (botonesBotonera == 3) {
-            botones = new JButton[3];
+            botones = new JButton[botonesBotonera];
             botones[0] = new JButton("Incluir");
             cuadroBotonera.add(botones[0]);
             botones[1] = new JButton("Modificar");

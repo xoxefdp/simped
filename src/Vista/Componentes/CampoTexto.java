@@ -1,4 +1,4 @@
-package Vista.Formatos;
+package Vista.Componentes;
 
 import java.awt.FlowLayout;
 import javax.swing.BorderFactory;
