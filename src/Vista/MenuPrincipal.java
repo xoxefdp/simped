@@ -92,17 +92,17 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
         }
         
         if (e.getSource() == balanceEstudiante) {
-            new VistaAdmisionEstudiante();
+            new VistaBalanceEstudiante();
         }
         if (e.getSource() == balanceProfesor) {
-            new VistaAdmisionProfesor();
+            new VistaBalanceProfesor();
         }
         
         if (e.getSource() == constanciaEstudio) {
-            new VistaAdmisionEstudiante();
+            //new VistaAdmisionEstudiante();
         }
         if (e.getSource() == reporteInscripciones) {
-            new VistaAdmisionProfesor();
+            //new VistaAdmisionProfesor();
         }
         
         if (e.getSource() == cerrarSistema) {

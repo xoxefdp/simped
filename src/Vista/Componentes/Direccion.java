@@ -18,7 +18,7 @@ public class Direccion extends JPanel{
     JPanel paneldirec;
     public Direccion(){
         paneldirec=new JPanel();
-        paneldirec.setBorder(BorderFactory.createTitledBorder("direccion"));
+        paneldirec.setBorder(BorderFactory.createTitledBorder("Direccion"));
         direcc= new TextArea();
         direcc.setColumns(30);
         direcc.setRows(10);
