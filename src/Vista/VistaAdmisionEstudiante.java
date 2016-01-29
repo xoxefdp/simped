@@ -29,21 +29,18 @@ public class VistaAdmisionEstudiante extends JFrame{
     JButton b1;
     Telefonos telef;
     FechaNacPf feP;
+    String[] IME = {"Incluir","Modificar","Eliminar"};
     
     public VistaAdmisionEstudiante(){
-        setTitle("datos alumnos");
+        setTitle("Datos Alumno");
         setLayout(new BorderLayout());
         setSize(600,400);
         nomb=new Nombres();
         nac=new Nacionalidad();
-        boton=new Botonera(3);
-        panel1=new JPanel();
-        b1=new JButton("representante");
-        panel1.add(b1);
+        boton=new Botonera(3, IME);
         add(nomb);
         add(boton);
         add(BorderLayout.NORTH,nomb);
-        add(BorderLayout.CENTER,panel1);
         add(BorderLayout.SOUTH,boton);
         setVisible(true);
     }

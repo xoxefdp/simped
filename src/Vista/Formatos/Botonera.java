@@ -11,11 +11,31 @@ import javax.swing.JPanel;
 public class Botonera extends JPanel{
     JButton[] botones;
     JPanel cuadroBotonera;
-
-    public Botonera(int botonesBotonera){
+    String[] nombresBotones;
+    
+    public Botonera(int numeroBotones, String[] nombresBotones){
+    
         cuadroBotonera = new JPanel();
-            cuadroBotonera.setLayout(new FlowLayout());
+        cuadroBotonera.setLayout(new FlowLayout());
         
+        for (int i = 0; i < numeroBotones ; i++) {
+            botones = new JButton[numeroBotones];
+            botones[i] = new JButton(nombresBotones[i]);
+            cuadroBotonera.add(botones[i]);
+        }
+        add(cuadroBotonera);
+    }
+    
+    // revisar oyentes
+    public void adherirEscucha(int posBoton, ActionListener escucha){
+        if (posBoton >= 0 && posBoton < botones.length)
+            botones[posBoton].addActionListener(escucha);
+    }
+
+}
+
+/*
+    //public Botonera(int botonesBotonera){
         if (botonesBotonera == 1) {
             botones = new JButton[botonesBotonera];
             botones[0] = new JButton("Aceptar");
@@ -49,7 +69,8 @@ public class Botonera extends JPanel{
             botones[posBoton].addActionListener(escucha);
         }
     }
-}
+    */
+
 /*
 public class Botonera extends JPanel{
     JButton [] botones;

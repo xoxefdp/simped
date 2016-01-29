@@ -27,6 +27,8 @@ public class VistaAdmisionProfesor extends JFrame{
     Botonera boton;
     Telefonos telef;
     FechaNacPf feP;
+    String[] AC = {"Aceptar","Cancelar"};
+    
     public VistaAdmisionProfesor(){
         setTitle("datos profesor");
         setLayout(new BorderLayout());
@@ -35,7 +37,7 @@ public class VistaAdmisionProfesor extends JFrame{
         nac=new Nacionalidad();
         dir=new Direccion();
         panel1=new JPanel();
-        boton=new Botonera(2);
+        boton=new Botonera(2, AC);
         telef=new Telefonos();
        
         add(nomb);

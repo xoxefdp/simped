@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  *
  * @author yonalix
  */
-public class pruebaRepresentante extends JFrame{
+public class VistaPRUEBARepresentante extends JFrame{
     Nombres nomb;
     Nacionalidad nac;
     Direccion dir;
@@ -27,15 +27,17 @@ public class pruebaRepresentante extends JFrame{
     Botonera boton;
     Telefonos telef;
     FechaNacPf feP;
-    public pruebaRepresentante(){
-        setTitle("datos Representante");
+    String[] AC = {"Aceptar","Cancelar"};
+    
+    public VistaPRUEBARepresentante(){
+        setTitle("Datos Representante");
         setLayout(new BorderLayout());
         setSize(500,700);
         nomb=new Nombres();
         nac=new Nacionalidad();
         dir=new Direccion();
         panel1=new JPanel();
-        boton=new Botonera(2);
+        boton=new Botonera(2,AC);
         telef=new Telefonos();
        
         add(nomb);
@@ -49,5 +51,5 @@ public class pruebaRepresentante extends JFrame{
         add(BorderLayout.SOUTH,boton);
         setVisible(true);
     }
-
+    
 }

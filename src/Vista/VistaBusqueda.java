@@ -23,6 +23,7 @@ public class VistaBusqueda extends JDialog implements AceptarCancelar, ActionLis
     private JPanel panel;
     private JTextField text;
     private Botonera botonera;
+    String[] AC = {"Aceptar","Cancelar"};
     
     public VistaBusqueda(String tituloBusqueda, String campoBusqueda){
         setTitle("Busqueda "+tituloBusqueda);
@@ -34,7 +35,7 @@ public class VistaBusqueda extends JDialog implements AceptarCancelar, ActionLis
             panel.add(text);
         add(panel, BorderLayout.NORTH);
         
-        botonera = new Botonera(2);
+        botonera = new Botonera(2,AC);
         add(botonera, BorderLayout.SOUTH);
         botonera.adherirEscucha(0,new OyenteAceptar(this));
         botonera.adherirEscucha(1,new OyenteCancelar(this));
