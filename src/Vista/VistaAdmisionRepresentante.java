@@ -5,6 +5,12 @@
  */
 package Vista;
 
+import Controlador.Aceptar;
+import Controlador.Cancelar;
+import Controlador.CerrarVentana;
+import Controlador.OyenteAceptar;
+import Controlador.OyenteCancelar;
+import Modelo.Representante;
 import Vista.Formatos.Botonera;
 import Vista.Componentes.Direccion;
 import Vista.Componentes.FechaNacPf;
@@ -19,7 +25,7 @@ import javax.swing.JPanel;
  *
  * @author yonalix
  */
-public class VistaPRUEBARepresentante extends JFrame{
+public class VistaAdmisionRepresentante extends JFrame implements Aceptar, Cancelar, CerrarVentana{
     Nombres nomb;
     Nacionalidad nac;
     Direccion dir;
@@ -29,7 +35,7 @@ public class VistaPRUEBARepresentante extends JFrame{
     FechaNacPf feP;
     String[] AC = {"Aceptar","Cancelar"};
     
-    public VistaPRUEBARepresentante(){
+    public VistaAdmisionRepresentante(){
         setTitle("Datos Representante");
         setLayout(new BorderLayout());
         setSize(500,700);
@@ -38,6 +44,10 @@ public class VistaPRUEBARepresentante extends JFrame{
         dir=new Direccion();
         panel1=new JPanel();
         boton=new Botonera(2,AC);
+        
+        boton.adherirEscucha(0, new OyenteAceptar(this));
+        boton.adherirEscucha(1, new OyenteCancelar(this));
+        
         telef=new Telefonos();
        
         add(nomb);
@@ -50,6 +60,28 @@ public class VistaPRUEBARepresentante extends JFrame{
         add(BorderLayout.CENTER,panel1);
         add(BorderLayout.SOUTH,boton);
         setVisible(true);
+    }
+
+    @Override
+    public void aceptar() {
+        Representante representante = new Representante();
+        /*
+        representante.incluir(int cedula, String nombre, String apellido,
+                                String telefono, String direccion, String correo,
+                                String parentesco, String fechaNacimiento, String sexo);
+        */
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void cancelar() {
+        cerrarVentana();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void cerrarVentana() {
+        this.dispose();
     }
     
 }

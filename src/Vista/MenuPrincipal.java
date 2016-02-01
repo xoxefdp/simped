@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Vista;
 
 import Controlador.CerrarVentana;
@@ -11,6 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
+
 /**
  *
  * @author José Diaz
@@ -85,23 +91,29 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == admisionEstudiante) {
-            new VistaAdmisionEstudiante();
+            new VistaListaRepresentante();
+            //new VistaAdmisionEstudiante();
         }
         if (e.getSource() == admisionProfesor) {
+            //new VistaListaProfesor();
             new VistaAdmisionProfesor();
         }
         
         if (e.getSource() == balanceEstudiante) {
+            //new VistaListaEstudiantes();
             new VistaBalanceEstudiante();
         }
         if (e.getSource() == balanceProfesor) {
+            //new VistaListaProfesor();
             new VistaBalanceProfesor();
         }
         
         if (e.getSource() == constanciaEstudio) {
+            //new VistaListaEstudiantes();
             //new VistaAdmisionEstudiante();
         }
         if (e.getSource() == reporteInscripciones) {
+            //new VistaListaEstudiantes();
             //new VistaAdmisionProfesor();
         }
         

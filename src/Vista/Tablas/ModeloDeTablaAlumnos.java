@@ -3,23 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista.Formatos;
+package Vista.Tablas;
 
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author José Diaz
+ * @author Hector Alvarez
  */
-public class Tabla extends DefaultTableModel{
+public class ModeloDeTablaAlumnos extends DefaultTableModel{
     
-    private ArrayList <Object> data;
-    private Object[] nombreColumnas;
-    private Object[] claseColumnas;
+    ArrayList <Object> data;
+    Object[] nombreColumnas  = {"Codigo","Nombre","Apellido","Fecha de Nacimiento","Genero","Representante",};
+    Object [] claseColumnas  = {new String(),new String()
+                               ,new String(),new String()
+                               ,new String(),new String()};
     
-    public Tabla(Object[] nombresCampos, Object[] claseColumnas){
-        nombreColumnas = nombresCampos;
+    public ModeloDeTablaAlumnos(){
         data = new ArrayList<>();
         setColumnIdentifiers(nombreColumnas);
     }

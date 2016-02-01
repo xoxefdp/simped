@@ -5,7 +5,6 @@
  */
 package Vista.Componentes;
 
-import java.awt.TextArea;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -25,6 +24,5 @@ public class Telefonos extends JPanel{
         paneldirec.add(local);
         add(paneldirec);
     }
-    
-    
+
 }

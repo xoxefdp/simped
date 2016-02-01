@@ -5,7 +5,6 @@
  */
 package Vista.Componentes;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;

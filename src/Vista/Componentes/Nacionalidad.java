@@ -8,8 +8,6 @@ package Vista.Componentes;
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 import java.awt.FlowLayout;
-import java.awt.Label;
-import java.awt.Panel;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 

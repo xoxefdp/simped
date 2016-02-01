@@ -7,7 +7,9 @@ import javax.swing.JPanel;
 /**
  *
  * @author José Diaz
- */
+
+*/
+//public class Botonera extends JPanel{
 public class Botonera extends JPanel{
     JButton[] botones;
     JPanel cuadroBotonera;
@@ -18,8 +20,8 @@ public class Botonera extends JPanel{
         cuadroBotonera = new JPanel();
         cuadroBotonera.setLayout(new FlowLayout());
         
+        botones = new JButton[numeroBotones];
         for (int i = 0; i < numeroBotones ; i++) {
-            botones = new JButton[numeroBotones];
             botones[i] = new JButton(nombresBotones[i]);
             cuadroBotonera.add(botones[i]);
         }
@@ -28,8 +30,13 @@ public class Botonera extends JPanel{
     
     // revisar oyentes
     public void adherirEscucha(int posBoton, ActionListener escucha){
-        if (posBoton >= 0 && posBoton < botones.length)
+        
+        botones[posBoton].addActionListener(escucha);
+        /*
+        if (posBoton >= 0 && posBoton < botones.length) {
             botones[posBoton].addActionListener(escucha);
+        }
+        */
     }
 
 }

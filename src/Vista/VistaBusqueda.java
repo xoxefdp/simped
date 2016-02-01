@@ -1,7 +1,8 @@
 package Vista;
 
+import Controlador.Aceptar;
 import Controlador.CerrarVentana;
-import Controlador.AceptarCancelar;
+import Controlador.Cancelar;
 import Controlador.OyenteAceptar;
 import Controlador.OyenteCancelar;
 import Vista.Formatos.Botonera;
@@ -17,7 +18,7 @@ import javax.swing.JTextField;
  *
  * @author José Diaz
  */
-public class VistaBusqueda extends JDialog implements AceptarCancelar, ActionListener, CerrarVentana{
+public class VistaBusqueda extends JDialog implements Aceptar, Cancelar, ActionListener, CerrarVentana{
 
     private Container contenedor;
     private JPanel panel;
