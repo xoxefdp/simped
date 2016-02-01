@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Controlador;
 
 import java.awt.event.ActionEvent;
@@ -8,9 +13,9 @@ import java.awt.event.ActionListener;
  */
 public class OyenteAceptar implements ActionListener{
     
-    AceptarCancelar eventoAceptar;
+    Aceptar eventoAceptar;
     
-    public OyenteAceptar(AceptarCancelar accionAceptar){
+    public OyenteAceptar(Aceptar accionAceptar){
         eventoAceptar = accionAceptar;
     }
     

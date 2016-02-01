@@ -7,9 +7,9 @@ package Controlador;
 
 /**
  *
- * @author José Diaz
+ * @author josediaz
  */
-public interface Aceptar {
+public interface Modificar {
     
-    public abstract void aceptar();
+    public abstract void modificar();
 }

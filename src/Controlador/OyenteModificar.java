@@ -11,16 +11,16 @@ import java.awt.event.ActionListener;
  *
  * @author José Diaz
  */
-public class OyenteCancelar implements ActionListener{
+public class OyenteModificar implements ActionListener{
     
-    Cancelar eventoCancelar;
+    Modificar eventoModificar;
     
-    public OyenteCancelar(Cancelar accionCancelar){
-        eventoCancelar = accionCancelar;
+    public OyenteModificar(Modificar accionModificar){
+        eventoModificar = accionModificar;
     }
-
+    
     @Override
-    public void actionPerformed(ActionEvent e) {
-        eventoCancelar.cancelar();
-    }
+    public void actionPerformed(ActionEvent ae) {
+        eventoModificar.modificar();
+    }    
 }

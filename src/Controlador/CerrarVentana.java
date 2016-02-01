@@ -10,5 +10,6 @@ package Controlador;
  * @author josediaz
  */
 public interface CerrarVentana {
+    
     public abstract void cerrarVentana();
 }
