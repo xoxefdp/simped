@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  */
 public class ConexionDB implements ConstantesDB{
     
-    public static Connection conectarBD(){
+    public static Connection conectarDB(){
         Connection conexion = null;
         String mensaje;
         
