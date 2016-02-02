@@ -5,31 +5,41 @@
  */
 package Vista;
 
+import Controlador.ConsultarListar;
 import Controlador.Eliminar;
 import Controlador.Incluir;
 import Controlador.Modificar;
+import Controlador.OyenteConsultar;
 import Controlador.OyenteEliminar;
 import Controlador.OyenteIncluir;
+import Controlador.OyenteListar;
 import Controlador.OyenteModificar;
+import Modelo.Alumno;
 import Vista.Componentes.CampoTexto;
 import Vista.Formatos.Botonera;
 import Vista.Tablas.TablaAlumnos;
 import java.awt.BorderLayout;
-import javax.swing.JButton;
+import java.awt.GridLayout;
+import java.sql.ResultSet;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
 /**
  * 
  * @author josediaz
  */
-public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, Eliminar{
-    TablaAlumnos tablaAlumnos;
-    Botonera botonera;
-    JButton b1;
-    CampoTexto cedula;
-    JPanel panelito;
-    String[] IME = {"Incluir","Modificar","Eliminar"};
+public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, Eliminar, ConsultarListar{
+    private TablaAlumnos tablaAlumnos;
+    private Botonera botoneraME,botoneraBU,botoneraDE,botoneraIC,botoneraLI;
+    private CampoTexto codigo;
+    private JPanel panelBusqueda,panelTop, panelBottom;
+    private final String[] IC = {"Incluir"};
+    private final String[] ME = {"Modificar","Eliminar"};
+    private final String[] BU = {"Buscar"};
+    private final String[] LI = {"Listar Todos"};
+    private final String[] DE = {"Detallar"};
+    private final Alumno alumno = new Alumno();
+    private ResultSet resultado;
     /**
      * Crea la interface de la clase.
      */
@@ -39,42 +49,65 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
     
     final void crearGui(){
         setTitle("Lista de Estudiantes");
-        setResizable(true);
+        setResizable(false);
         setLayout(new BorderLayout());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        tablaAlumnos = new TablaAlumnos();
-        b1=new JButton("Buscar");
-        botonera = new Botonera(3, IME);
-        
-        botonera.adherirEscucha(0, new OyenteIncluir(this));
-        botonera.adherirEscucha(1, new OyenteModificar(this));
-        botonera.adherirEscucha(2, new OyenteEliminar(this));
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 
-        cedula=new CampoTexto("Codigo Estudiante",12);
-        panelito =new JPanel();
-        panelito.add(cedula);
-        panelito.add(b1);
-        add(BorderLayout.NORTH,panelito);
-        add(BorderLayout.CENTER, tablaAlumnos);
-        add(BorderLayout.SOUTH,  botonera);
+        /**
+         * Elementos del panel superior
+         */
+        codigo=new CampoTexto("",15);
+        botoneraBU = new Botonera(1,BU);
+        botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
+        
+        panelBusqueda = new JPanel();
+        panelBusqueda.setBorder(BorderFactory.createTitledBorder("Codigo Estudiante"));
+        panelBusqueda.add(codigo);
+        panelBusqueda.add(botoneraBU);
+        
+        botoneraLI = new Botonera(1,LI);
+        botoneraLI.adherirEscucha(0, new OyenteListar(this));
+        
+        botoneraDE = new Botonera(1,DE);
+        
+        panelTop =new JPanel();
+        panelTop.setLayout(new GridLayout(1,3)); 
+        panelTop.setBorder(BorderFactory.createTitledBorder("Filtrar / Listar / Detallar"));
+        panelTop.add(panelBusqueda);
+        panelTop.add(botoneraLI);
+        panelTop.add(botoneraDE);
+        
+        /**
+         * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
+         */
+        resultado = alumno.consultarAlumnos();
+        tablaAlumnos = new TablaAlumnos();
+        tablaAlumnos.cargarTabla(resultado);
+        
+        /**
+         * Elementos del panel inferior
+         */
+        
+        botoneraIC = new Botonera(1,IC);
+        botoneraIC.adherirEscucha(0,new OyenteIncluir(this));
+        
+        botoneraME = new Botonera(2,ME);
+        botoneraME.adherirEscucha(0,new OyenteModificar(this));
+        botoneraME.adherirEscucha(1,new OyenteEliminar(this));
+        
+        panelBottom =new JPanel();
+        panelBottom.setBorder(BorderFactory.createTitledBorder("Operaciones"));
+        panelBottom.add(botoneraIC);
+        panelBottom.add(botoneraME);        
+        
+        add(BorderLayout.NORTH,panelTop);
+        add(BorderLayout.CENTER,tablaAlumnos);
+        add(BorderLayout.SOUTH,panelBottom);
         
         setSize(400,400);
         pack();
         setVisible(true);
     }
-    
-    /*
-    // Objeto  que contiene los metodos de consulta para la tabla de representantes
-    Representante representante = new Representante();
-    Object resultados = representante.consultarRepresentantes();
-    while(resultados.next()){
-        String cadena = resultados.getString(1)+" "+  //R.getString(cedula) + " " +
-                        resultados.getString(2)+" "+  //R.getString(nombre) + " " +
-                        resultados.getString(3); //R.getString(genero) + " ";
-        System.out.print(cadena);
-    }
-    */
 
     @Override
     public void incluir() {
@@ -86,9 +119,36 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
     public void modificar() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public void eliminar() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tablaAlumnos.tabla.getSelectedRow()>=0){
+            
+            String stringRepresentante; // debo convertirlo a int para pasarlo al metodo y a la base de datos
+            int cedulaRepresentante;            
+            
+            stringRepresentante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 0); //string 
+            cedulaRepresentante=Integer.parseInt(stringRepresentante);    //   int
+            
+            if (alumno.eliminar(cedulaRepresentante)) {
+                tablaAlumnos.tablaModelo.removeRow(tablaAlumnos.tabla.getSelectedRow()); //elimina de la tabla 
+            }
+        }
+    }
+    
+    @Override
+    public void listar() { // consulta todos
+        ResultSet resultadoListar = alumno.consultarAlumnos();
+        tablaAlumnos.cargarTabla(resultadoListar);
+    }
+    
+    @Override
+    public void consultar() { // consulta uno
+        
+        String stringCodigo = codigo.obtenerContenido(); //falta generalizar
+        int codigoAlumno=Integer.parseInt(stringCodigo);    //   int
+        
+        ResultSet resultadoConsulta = alumno.consultarAlumno(codigoAlumno);
+        tablaAlumnos.cargarTabla(resultadoConsulta);
     }
 }

@@ -20,13 +20,8 @@ public class Nacionalidad extends JPanel{
     Checkbox v,e;
     CheckboxGroup GrupoN;
     JPanel panelnac; 
-    public Nacionalidad(){
-           
-       
-       
+    public Nacionalidad(){       
         crearNacionalidad();
-        
-        
     } 
 
     private void crearNacionalidad() {

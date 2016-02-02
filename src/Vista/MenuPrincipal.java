@@ -23,8 +23,8 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
  */
 public class MenuPrincipal extends JFrame implements ActionListener, CerrarVentana{
     private JMenuBar barraDeNavegacion;
-    private JMenu admision, balance, emitir, sistema;
-    private JMenuItem admisionEstudiante, admisionProfesor, balanceEstudiante, balanceProfesor, constanciaEstudio, reporteInscripciones, cerrarSistema;
+    private JMenu listado, balance, emitir, sistema;
+    private JMenuItem admisionEstudiante, admisionRepresentante, admisionProfesor, balanceEstudiante, balanceProfesor, constanciaEstudio, reporteInscripciones, cerrarSistema;
         
     public MenuPrincipal(){
         super("Sistema Informatico para Manejo de Población Estudiantil y Docente");
@@ -33,16 +33,20 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
         barraDeNavegacion = new JMenuBar(); // se crea la barra de menus        
         setJMenuBar(barraDeNavegacion);
         
-            admision = new JMenu("Admision"); //crea un elemento del menu
-            barraDeNavegacion.add(admision);
+            listado = new JMenu("Listados y manejadores"); //crea un elemento del menu
+            barraDeNavegacion.add(listado);
             
                 admisionEstudiante = new JMenuItem("Estudiante"); // se crea una opcion
                 admisionEstudiante.addActionListener(this);
-                admision.add(admisionEstudiante); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
+                listado.add(admisionEstudiante); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
+                
+                admisionRepresentante = new JMenuItem("Representante"); // se crea una opcion
+                admisionRepresentante.addActionListener(this);
+                listado.add(admisionRepresentante); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
                 
                 admisionProfesor = new JMenuItem("Profesor"); // se crea una opcion
                 admisionProfesor.addActionListener(this);
-                admision.add(admisionProfesor); // se agrega la opcion docente al elemento admision de la barra de navegacion
+                listado.add(admisionProfesor); // se agrega la opcion docente al elemento admision de la barra de navegacion
             
             balance = new JMenu("Balance"); //crea un elemento del menu
             barraDeNavegacion.add(balance);
@@ -91,12 +95,18 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == admisionEstudiante) {
-            new VistaListaRepresentante();
+            new VistaListaEstudiante();
             //new VistaAdmisionEstudiante();
         }
+        
+        if (e.getSource() == admisionRepresentante) {
+            //new VistaListaProfesor();
+            new VistaListaRepresentante();
+        }
+        
         if (e.getSource() == admisionProfesor) {
             //new VistaListaProfesor();
-            new VistaAdmisionProfesor();
+            new VistaListaProfesor();
         }
         
         if (e.getSource() == balanceEstudiante) {

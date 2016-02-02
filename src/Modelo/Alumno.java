@@ -86,7 +86,7 @@ public class Alumno {
         return inserccionOk;
     }
 
-    public final boolean eliminar(String codigo){
+    public final boolean eliminar(int codigo){
         boolean inserccionOk = false;
         try{  
             consulta="DELETE FROM alumno WHERE cod_al = '" +codigo+"';";

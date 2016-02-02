@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Vista;
 
 import Controlador.Aceptar;
@@ -9,7 +14,6 @@ import Vista.Formatos.Botonera;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -18,28 +22,30 @@ import javax.swing.JTextField;
  *
  * @author José Diaz
  */
-public class VistaBusqueda extends JDialog implements Aceptar, Cancelar, ActionListener, CerrarVentana{
+public class VistaBusqueda extends JDialog implements Aceptar, Cancelar, CerrarVentana{
 
     private Container contenedor;
-    private JPanel panel;
-    private JTextField text;
-    private Botonera botonera;
-    String[] AC = {"Aceptar","Cancelar"};
+    private final JPanel panel;
+    private final JTextField text;
+    private final Botonera botonera;
+    private final String[] AC = {"Aceptar","Cancelar"};
     
     public VistaBusqueda(String tituloBusqueda, String campoBusqueda){
         setTitle("Busqueda "+tituloBusqueda);
         setModal(true);        
-        
+                
+        text = new JTextField(20);
         panel = new JPanel();
         panel.setBorder(BorderFactory.createTitledBorder(campoBusqueda));
-            text = new JTextField(20);
-            panel.add(text);
-        add(panel, BorderLayout.NORTH);
+        panel.add(text);
         
-        botonera = new Botonera(2,AC);
-        add(botonera, BorderLayout.SOUTH);
+        
+        botonera = new Botonera(2,AC);        
         botonera.adherirEscucha(0,new OyenteAceptar(this));
         botonera.adherirEscucha(1,new OyenteCancelar(this));
+        
+        add(botonera, BorderLayout.SOUTH);
+        add(panel, BorderLayout.NORTH);
         
         pack();
         setVisible(true);
@@ -53,11 +59,6 @@ public class VistaBusqueda extends JDialog implements Aceptar, Cancelar, ActionL
     @Override
     public void cancelar() {
         cerrarVentana();
-    }
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

@@ -5,77 +5,114 @@
  */
 package Vista;
 
+import Controlador.ConsultarListar;
 import Controlador.Eliminar;
 import Controlador.Incluir;
 import Controlador.Modificar;
+import Controlador.OyenteConsultar;
 import Controlador.OyenteEliminar;
 import Controlador.OyenteIncluir;
+import Controlador.OyenteListar;
 import Controlador.OyenteModificar;
+import Modelo.Representante;
 import Vista.Componentes.CampoTexto;
 import Vista.Formatos.Botonera;
 import Vista.Tablas.TablaRepresentantes;
 import java.awt.BorderLayout;
-import javax.swing.JButton;
+import java.awt.GridLayout;
+import java.sql.ResultSet;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
+
 /**
- * Interface para actualizar la tabla Laboratorio de la aplicacion Farmacia.
- * @author Hector Alvarez
+ * 
+ * @author josediaz
  */
-public class VistaListaRepresentante extends JFrame implements Incluir, Modificar, Eliminar{
-    TablaRepresentantes tablaRepresentantes;
-    Botonera botonera;
-    JButton b1;
-    CampoTexto cedula;
-    JPanel panelito;
-    String[] IME = {"Incluir","Modificar","Eliminar"};
+public class VistaListaRepresentante extends JFrame implements Incluir, Modificar, Eliminar, ConsultarListar{
+    private TablaRepresentantes tablaRepresentantes;
+    private Botonera botoneraME,botoneraBU,botoneraDE,botoneraIC,botoneraLI;
+    private CampoTexto cedula;
+    private JPanel panelBusqueda,panelTop, panelBottom;
+    private final String[] IC = {"Incluir"};
+    private final String[] ME = {"Modificar","Eliminar"};
+    private final String[] BU = {"Buscar"};
+    private final String[] LI = {"Listar Todos"};
+    private final String[] DE = {"Detallar"};
+    private final Representante representante = new Representante();
+    private ResultSet resultado;
     /**
      * Crea la interface de la clase.
      */
     public VistaListaRepresentante(){
+        
         crearGui();
     }
     
     final void crearGui(){
         setTitle("Lista de Representantes");
-        setResizable(true);
+        setResizable(false);
         setLayout(new BorderLayout());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                
+        /**
+         * Elementos del panel superior
+         */
+        cedula=new CampoTexto("",15);
+        botoneraBU = new Botonera(1,BU);
+        botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
+        
+        panelBusqueda = new JPanel();
+        panelBusqueda.setBorder(BorderFactory.createTitledBorder("Cedula Representante"));
+        panelBusqueda.add(cedula);
+        panelBusqueda.add(botoneraBU);
+        
+        botoneraLI = new Botonera(1,LI);
+        botoneraLI.adherirEscucha(0, new OyenteListar(this));
+        
+        botoneraDE = new Botonera(1,DE);
+        
+        panelTop =new JPanel();
+        panelTop.setLayout(new GridLayout(1,3)); 
+        panelTop.setBorder(BorderFactory.createTitledBorder("Filtrar / Listar / Detallar"));
+        panelTop.add(panelBusqueda);
+        panelTop.add(botoneraLI);
+        panelTop.add(botoneraDE);
+
+        
+        /**
+         * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
+         */
+        resultado = representante.consultarRepresentantes();
         tablaRepresentantes = new TablaRepresentantes();
-        b1=new JButton("Buscar");
-        botonera = new Botonera(3, IME);
+        tablaRepresentantes.cargarTabla(resultado);
+   
+        /**
+         * Elementos del panel inferior
+         */
+        botoneraIC = new Botonera(1,IC);
+        botoneraIC.adherirEscucha(0,new OyenteIncluir(this));
         
-        botonera.adherirEscucha(0, new OyenteIncluir(this));
-        botonera.adherirEscucha(1, new OyenteModificar(this));
-        botonera.adherirEscucha(2, new OyenteEliminar(this));
+        botoneraME = new Botonera(2,ME);
+        botoneraME.adherirEscucha(0,new OyenteModificar(this));
+        botoneraME.adherirEscucha(1,new OyenteEliminar(this));
         
+        panelBottom =new JPanel();
+        panelBottom.setBorder(BorderFactory.createTitledBorder("Operaciones"));
+        panelBottom.add(botoneraIC);
+        panelBottom.add(botoneraME);
         
-        cedula=new CampoTexto("Cedula",12);
-        panelito =new JPanel();
-        panelito.add(cedula);
-        panelito.add(b1);
-        add(BorderLayout.NORTH,panelito);
-        add(BorderLayout.CENTER, tablaRepresentantes);
-        add(BorderLayout.SOUTH,  botonera);
+        /**
+         * Configuracion de Vista
+         */
+        add(BorderLayout.NORTH, panelTop);
+        add(BorderLayout.CENTER,tablaRepresentantes);
+        add(BorderLayout.SOUTH, panelBottom);
         
         setSize(400,400);
         pack();
         setVisible(true);
     }
-    
-    /*
-    // Objeto  que contiene los metodos de consulta para la tabla de representantes
-    Representante representante = new Representante();
-    Object resultados = representante.consultarRepresentantes();
-    while(resultados.next()){
-        String cadena = resultados.getString(1)+" "+  //R.getString(cedula) + " " +
-                        resultados.getString(2)+" "+  //R.getString(nombre) + " " +
-                        resultados.getString(3); //R.getString(genero) + " ";
-        System.out.print(cadena);
-    }
-    */
 
     @Override
     public void incluir() {
@@ -87,9 +124,36 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
     public void modificar() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public void eliminar() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tablaRepresentantes.tabla.getSelectedRow()>=0){
+            
+            String stringRepresentante; // debo convertirlo a int para pasarlo al metodo y a la base de datos
+            int cedulaRepresentante;            
+            
+            stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0); //string 
+            cedulaRepresentante=Integer.parseInt(stringRepresentante);    //   int
+            
+            if (representante.eliminar(cedulaRepresentante)) {
+                tablaRepresentantes.tablaModelo.removeRow(tablaRepresentantes.tabla.getSelectedRow()); //elimina de la tabla 
+            }
+        }
+    }
+    
+    @Override
+    public void listar() { // consulta todos
+        ResultSet resultadoListar = representante.consultarRepresentantes();
+        tablaRepresentantes.cargarTabla(resultadoListar);
+    }
+    
+    @Override
+    public void consultar() { // consulta uno
+        
+        String stringCedula = cedula.obtenerContenido(); //falta generalizar
+        int cedulaRepresentante=Integer.parseInt(stringCedula);    //   int
+        
+        ResultSet resultadoConsulta = representante.consultarRepresentante(cedulaRepresentante);
+        tablaRepresentantes.cargarTabla(resultadoConsulta);
     }
 }

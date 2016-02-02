@@ -14,12 +14,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Tabla extends DefaultTableModel{
     
-    private ArrayList <Object> data;
-    private Object[] nombreColumnas;
-    private Object[] claseColumnas;
+    private final ArrayList <Object> data;
+    private final Object[] nombreColumnas;
+    private final Object[] claseColumnas;
     
-    public Tabla(Object[] nombresCampos, Object[] claseColumnas){
+    public Tabla(Object[] nombresCampos, Object[] claseCampos){
         nombreColumnas = nombresCampos;
+        claseColumnas = claseCampos;
         data = new ArrayList<>();
         setColumnIdentifiers(nombreColumnas);
     }

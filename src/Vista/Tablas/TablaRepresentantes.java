@@ -9,6 +9,7 @@ import Vista.Formatos.Tabla;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
@@ -26,15 +27,14 @@ import javax.swing.table.TableColumn;
 public class TablaRepresentantes extends JPanel{
     
     //private ModeloDeTablaAlumnos tablaModelo;
-    private Tabla tablaModelo;
-    private Object[] nombreColumnas,claseColumnas,datos = new Object[6];
-    private JTable tabla;
+    public Tabla tablaModelo;
+    private Object[] nombreColumnas,claseColumnas,datos = new Object[9];
+    public JTable tabla;
     private TableColumn colCedula,colNombre,colApellido,colTelefono,colDireccion,colCorreo,colParentesco,colFecha,colGenero;
     private JTextField campo;
     private ResultSet resultado;
 
     public TablaRepresentantes(){
-        
         setLayout(new FlowLayout());
         setBorder(BorderFactory.createTitledBorder("Representantes"));
         setOpaque(false);
@@ -42,99 +42,118 @@ public class TablaRepresentantes extends JPanel{
     }
     
     final void crearTabla(){
-        
-        //Object[] nombreColumnas = {"Cedula","Nombre","Apellido","Telefono","Direccion","Correo","Parentesco","Fecha de Nacimiento","Genero"};
-        Object[] nombreColumnas = {"Cedula","Nombre","Apellido","Telefono","Correo","Parentesco"};
-        //Object[] claseColumnas  = {new String(),new String(),new String(),new String(),new String(),new String(),new String(),new String(),new String()};
-        Object[] claseColumnas  = {new String(),new String(),new String(),new String(),new String()};
+        Object[] nombreColumnas = {"Cedula","Nombre","Apellido","Telefono","Dirección","Correo","Parentesco","Fecha Nacimiento","Genero"};
+        Object[] claseColumnas  = {0,new String(),new String(),new String(),new String(),new String(),new String(),new String(),new String()};
+        //Object[] nombreColumnas = {"Cedula","Nombre","Apellido","Telefono","Correo","Parentesco"};
+        //Object[] claseColumnas  = {new String(),new String(),new String(),new String(),new String()};
         
         tablaModelo = new Tabla(nombreColumnas,claseColumnas);
         campo = new JTextField();
         campo.setEditable(false);
 
         tabla = new JTable(tablaModelo);
-        tabla.setPreferredScrollableViewportSize(new Dimension(950,200));
+        tabla.setPreferredScrollableViewportSize(new Dimension(1200,250));
         tabla.setFillsViewportHeight(false);
         colCedula       = tabla.getColumnModel().getColumn(0);
         colNombre       = tabla.getColumnModel().getColumn(1);
         colApellido     = tabla.getColumnModel().getColumn(2);
         colTelefono     = tabla.getColumnModel().getColumn(3);
-        colParentesco   = tabla.getColumnModel().getColumn(4);
-        colCorreo       = tabla.getColumnModel().getColumn(5);
-        /*
         colDireccion    = tabla.getColumnModel().getColumn(4);
         colCorreo       = tabla.getColumnModel().getColumn(5);
         colParentesco   = tabla.getColumnModel().getColumn(6);
         colFecha        = tabla.getColumnModel().getColumn(7);
         colGenero       = tabla.getColumnModel().getColumn(8);
-        */
-        colCedula.setMinWidth(125);
-        colCedula.setMaxWidth(125);
-        colCedula.setCellEditor(new DefaultCellEditor(campo));
         
-        colNombre.setMinWidth(200);
-        colNombre.setMaxWidth(200);
-        colNombre.setCellEditor(new DefaultCellEditor(campo));
+        colCedula.setMinWidth(100);     colCedula.setMaxWidth(100);     colCedula.setCellEditor(new DefaultCellEditor(campo));
+        colNombre.setMinWidth(150);     colNombre.setMaxWidth(150);     colNombre.setCellEditor(new DefaultCellEditor(campo));
+        colApellido.setMinWidth(150);   colApellido.setMaxWidth(150);   colApellido.setCellEditor(new DefaultCellEditor(campo));
+        colTelefono.setMinWidth(100);   colTelefono.setMaxWidth(100);   colTelefono.setCellEditor(new DefaultCellEditor(campo));
+        colDireccion.setMinWidth(200);  colDireccion.setMaxWidth(200);  colDireccion.setCellEditor(new DefaultCellEditor(campo));        
+        colCorreo.setMinWidth(225);     colCorreo.setMaxWidth(225);     colCorreo.setCellEditor(new DefaultCellEditor(campo));
+        colParentesco.setMinWidth(100); colParentesco.setMaxWidth(100); colParentesco.setCellEditor(new DefaultCellEditor(campo));
+        colFecha.setMinWidth(125);      colFecha.setMaxWidth(125);      colFecha.setCellEditor(new DefaultCellEditor(campo));
+        colGenero.setMinWidth(50);      colGenero.setMaxWidth(50);      colGenero.setCellEditor(new DefaultCellEditor(campo));
         
-        colApellido.setMinWidth(200);
-        colApellido.setMaxWidth(200);
-        colApellido.setCellEditor(new DefaultCellEditor(campo));
-        
-        colTelefono.setMinWidth(125);
-        colTelefono.setMaxWidth(125);
-        colTelefono.setCellEditor(new DefaultCellEditor(campo));
-        /*
-        colDireccion.setMinWidth(50);
-        colDireccion.setMaxWidth(50);
-        colDireccion.setCellEditor(new DefaultCellEditor(campo));
-        */
-        colParentesco.setMinWidth(100);
-        colParentesco.setMaxWidth(100);
-        colParentesco.setCellEditor(new DefaultCellEditor(campo));
-        
-        colCorreo.setMinWidth(200);
-        colCorreo.setMaxWidth(200);
-        colCorreo.setCellEditor(new DefaultCellEditor(campo));
-        /*
-        colFecha.setMinWidth(200);
-        colFecha.setMaxWidth(200);
-        colFecha.setCellEditor(new DefaultCellEditor(campo));
-        
-        colGenero.setMinWidth(200);
-        colGenero.setMaxWidth(200);
-        colGenero.setCellEditor(new DefaultCellEditor(campo));
-        */
         JScrollPane scrollPanel = new JScrollPane(tabla);
         add(scrollPanel);
     }
     
     /**
-     * Carga la JTable con los datos iniciales.
+     * Carga la JTable con los datos
+     * @param entrada
      */
-    public void cargarTabla(){
-        int filas = tabla.getRowCount();
-        /**
-         * El siguiente for borra los registros previamente cargados.
-         */ 
-        for (int i = 0; i < filas; i++)
-            tablaModelo.removeRow(0);
+    public void cargarTabla(ResultSet entrada){
         
-        datos[0] = "Carga inicial";
-        datos[1] = "0";
-        tablaModelo.addRow(datos);
+        //Limpia la tabla de registros, sirve para prepararla para otras consultas
+        int filas = tabla.getRowCount();
+        for (int i = 0; i < filas; i++){
+            tablaModelo.removeRow(0);
+        }
+        
+        try{
+            while (entrada.next()){
+                /*
+                int f=1;
+                for (int i = 0; i < filas; i++) {
+                    if (f!=filas) {
+                        datos[i] = entrada.getString(f); //columnas
+                        System.out.println(datos[i]);
+                        f++;
+                    } else {
+                        tablaModelo.addRow(datos);
+                    }
+                }
+                */
+                datos[0]= entrada.getString(1); //colCedula
+                datos[1]= entrada.getString(2); //colNombre
+                datos[2]= entrada.getString(3); //colApellido
+                datos[3]= entrada.getString(4); //colTelefono
+                datos[4]= entrada.getString(5); //colDireccion
+                datos[5]= entrada.getString(6); //colCorreo
+                datos[6]= entrada.getString(7); //colParentesco
+                datos[7]= entrada.getString(8); //colFecha
+                datos[8]= entrada.getString(9); //colGenero
+                tablaModelo.addRow(datos);
+            }
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "ERROR EN SENTENCIA SQL /n" + error);
+        }
     } 
+    
     /**
      * 
-     * @param fila
-     * @return 
+     * Agrega una nueva fila a la tabla
+     * @param entrada
      */
-    public boolean agregarFila(String fila){
-        boolean todoBien = false;
+    public boolean agregarFila(ResultSet entrada){
+        /*
+        boolean status = false;
         datos[0] = fila;
         datos[1] = "0";
         todoBien = true;
         tablaModelo.addRow(datos);
-        return todoBien;
+        return status;
+        */
+        boolean status = true;
+        
+        try{
+            while(entrada.next()) {
+                datos[0]= entrada.getString(1); //colCedula
+                datos[1]= entrada.getString(2); //colNombre
+                datos[2]= entrada.getString(3); //colApellido
+                datos[3]= entrada.getString(4); //colTelefono
+                datos[4]= entrada.getString(5); //colDireccion
+                datos[5]= entrada.getString(6); //colCorreo
+                datos[6]= entrada.getString(7); //colParentesco
+                datos[7]= entrada.getString(8); //colFecha
+                datos[8]= entrada.getString(9); //colGenero
+                tablaModelo.addRow(datos);
+            }
+        } catch (SQLException error) {
+           status = false;
+           JOptionPane.showMessageDialog(null, "ERROR EN SENTENCIA SQL /n" + error);
+        }
+        return status;
     }
     
     /**
@@ -172,6 +191,10 @@ public class TablaRepresentantes extends JPanel{
         return todoBien;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public String obtenerDescripcion(){
         int fila = tabla.getSelectedRow();
         if (fila >= 0)
@@ -180,11 +203,19 @@ public class TablaRepresentantes extends JPanel{
             return null;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public String obtenerId(){
         int fila = tabla.getSelectedRow();
         if (fila >= 0)
             return (String)tabla.getValueAt(fila, 1);
         else
             return null;
+    }
+
+    public int getSelectedRow() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

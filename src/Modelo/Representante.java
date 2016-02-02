@@ -34,9 +34,9 @@ public class Representante {
             }
         } 
     }
-    public final ResultSet consultarRepresentante(int cedula){
+    public final ResultSet consultarRepresentante(int consultarCedula){
         try{
-            consulta = "SELECT * FROM representante WHERE cedula_rp = '"+cedula+"';";
+            consulta = "SELECT * FROM representante WHERE cedula_rp = '"+consultarCedula+"';";
             resultados = instruccionSql.executeQuery(consulta); 
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
@@ -58,13 +58,13 @@ public class Representante {
         return resultados;
     }
     
-    public final boolean incluir(int cedula, String nombre, String apellido,
+    public final boolean incluir(int incluirCedula, String nombre, String apellido,
                                 String telefono, String direccion, String correo,
                                 String parentesco, String fechaNacimiento, String sexo){
         boolean inserccionOk = false;
         try{
             consulta="INSERT INTO persona SET "
-                    +"cedula_rp = '"+cedula+"', "
+                    +"cedula_rp = '"+incluirCedula+"', "
                     +"nombre_rp = '"+nombre+"', "
                     +"apellido_rp = '"+apellido+"', "
                     +"telefono_rp = '"+telefono+"', "
@@ -91,10 +91,11 @@ public class Representante {
         return inserccionOk;
     }
 
-    public final boolean eliminar(String eliminarCedula){
+    // elimina solo cuando no existen estudiantes con llave foranea
+    public final boolean eliminar(int eliminarCedula){
         boolean inserccionOk = false;
-        try{  
-            consulta="DELETE FROM representante WHERE cedule_rp = '" +eliminarCedula+"';";
+        try{
+            consulta="DELETE FROM representante WHERE cedula_rp = '"+eliminarCedula+"';";
             instruccionSql.executeUpdate(consulta);
             inserccionOk = true;
         }catch(SQLException error){
@@ -104,7 +105,7 @@ public class Representante {
         return inserccionOk;
     }
 
-    public final boolean modificar(int cedula, String nombre, String apellido,
+    public final boolean modificar(int modificarCedula, String nombre, String apellido,
                                    String telefono, String direccion, String correo,
                                    String parentesco, String fechaNacimiento, String sexo){
         boolean inserccionOk = false;
@@ -118,7 +119,7 @@ public class Representante {
                     +"parentesco = '"+parentesco+"' ,"
                     +"fecha_nac_rp = '"+fechaNacimiento+"' ,"
                     +"sexo_rp = '"+sexo+"' ,"
-                    +"where cedula_rp = "+cedula+";";
+                    +"where cedula_rp = "+modificarCedula+";";
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
             instruccionSql.executeUpdate("COMMIT;");
