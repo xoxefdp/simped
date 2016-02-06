@@ -124,14 +124,15 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
     public void eliminar() {
         if (tablaAlumnos.tabla.getSelectedRow()>=0){
             
-            String stringRepresentante; // debo convertirlo a int para pasarlo al metodo y a la base de datos
-            int cedulaRepresentante;            
+            String stringEstudiante; // debo convertirlo a int para pasarlo al metodo y a la base de datos
+            int codigoEstudiante;            
             
-            stringRepresentante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 0); //string 
-            cedulaRepresentante=Integer.parseInt(stringRepresentante);    //   int
+            stringEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 0); //string 
+            codigoEstudiante=Integer.parseInt(stringEstudiante);    //   int
             
-            if (alumno.eliminar(cedulaRepresentante)) {
-                tablaAlumnos.tablaModelo.removeRow(tablaAlumnos.tabla.getSelectedRow()); //elimina de la tabla 
+            // si confirma elimina de la base de datos
+            if (tablaAlumnos.eliminarFila()) {
+                alumno.eliminar(codigoEstudiante);
             }
         }
     }

@@ -55,7 +55,7 @@ public class TablaAlumnos extends JPanel{
         campo.setEditable(false);
 
         tabla = new JTable(tablaModelo);
-        tabla.setPreferredScrollableViewportSize(new Dimension(950,200));
+        tabla.setPreferredScrollableViewportSize(new Dimension(805,250));
         tabla.setFillsViewportHeight(false);
         colCodigo       = tabla.getColumnModel().getColumn(0);
         colNombre       = tabla.getColumnModel().getColumn(1);
@@ -64,12 +64,12 @@ public class TablaAlumnos extends JPanel{
         colGenero       = tabla.getColumnModel().getColumn(4);
         colRepresentante= tabla.getColumnModel().getColumn(5);
         
-        colCodigo.setMinWidth(200);         colCodigo.setMaxWidth(200);         colCodigo.setCellEditor(new DefaultCellEditor(campo));        
+        colCodigo.setMinWidth(100);         colCodigo.setMaxWidth(100);         colCodigo.setCellEditor(new DefaultCellEditor(campo));        
         colNombre.setMinWidth(200);         colNombre.setMaxWidth(200);         colNombre.setCellEditor(new DefaultCellEditor(campo));        
         colApellido.setMinWidth(200);       colApellido.setMaxWidth(200);       colApellido.setCellEditor(new DefaultCellEditor(campo));        
-        colFecha.setMinWidth(100);          colFecha.setMaxWidth(100);          colFecha.setCellEditor(new DefaultCellEditor(campo));        
+        colFecha.setMinWidth(150);          colFecha.setMaxWidth(150);          colFecha.setCellEditor(new DefaultCellEditor(campo));        
         colGenero.setMinWidth(50);          colGenero.setMaxWidth(50);          colGenero.setCellEditor(new DefaultCellEditor(campo));        
-        colRepresentante.setMinWidth(200);  colRepresentante.setMaxWidth(200);  colRepresentante.setCellEditor(new DefaultCellEditor(campo));        
+        colRepresentante.setMinWidth(100);  colRepresentante.setMaxWidth(100);  colRepresentante.setCellEditor(new DefaultCellEditor(campo));        
         JScrollPane scrollPanel = new JScrollPane(tabla);
         add(scrollPanel);
     }
@@ -113,16 +113,47 @@ public class TablaAlumnos extends JPanel{
     } 
     /**
      * Agrega un fila a la JTable con los datos pasados por parametros.
+     * @param entrada
      * @param 
      * @return Verdadero si la inclusion fue exitosa, falso en caso contrario.
      */
-    public boolean agregarFila(String nombreLaboratorio){
-        boolean todoBien = false;
+    public boolean agregarFila(ResultSet entrada){
+        /*
+        boolean status = false;
         datos[0] = nombreLaboratorio;
         datos[1] = "0";
-        todoBien = true;
+        status = true;
         tablaModelo.addRow(datos);
-        return todoBien;
+        return status;
+        */
+        boolean status = false;
+        try{
+            while (entrada.next()){
+                /*
+                int f=1;
+                for (int i = 0; i < filas; i++) {
+                    if (f!=filas) {
+                        datos[i] = entrada.getString(f); //columnas
+                        System.out.println(datos[i]);
+                        f++;
+                    } else {
+                        tablaModelo.addRow(datos);
+                    }
+                }
+                */
+                datos[0]= entrada.getString(1);
+                datos[1]= entrada.getString(2);
+                datos[2]= entrada.getString(3);
+                datos[3]= entrada.getString(4);
+                datos[4]= entrada.getString(5);
+                datos[5]= entrada.getString(6);
+                tablaModelo.addRow(datos);
+            }
+            status = true;
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "ERROR EN SENTENCIA SQL /n" + error);
+        }
+        return status;
     }
     /**
      * Modifica una fila a la JTable con los datos pasados por parametros.
@@ -130,15 +161,15 @@ public class TablaAlumnos extends JPanel{
      * @return Verdadero si la modificacion fue exitosa,falso en caso contrario.
      */
     public boolean modificarFila(String nombreLaboratorio){
-        boolean todoBien = false;
+        boolean status = false;
         int fila = tabla.getSelectedRow();
         
         if (fila >= 0){
             datos[0] = nombreLaboratorio;
             tablaModelo.setValueAt(nombreLaboratorio, fila, 0);
-            todoBien = true;
+            status = true;
         }
-        return todoBien;
+        return status;
     }  
     /**
      * Elimina la fila que este seleccionada en la JTable.
@@ -146,17 +177,17 @@ public class TablaAlumnos extends JPanel{
      */
     public boolean eliminarFila(){
         int fila = tabla.getSelectedRow();
-        boolean todoBien = false;
+        boolean status = false;
         if (fila >= 0){
             int respuesta = JOptionPane.showConfirmDialog(this,
                                                "¿Seguro quiere eliminar a: "+
                                                tablaModelo.getValueAt(fila, 0));
             if (respuesta == JOptionPane.OK_OPTION){
                 tablaModelo.removeRow(fila);
-                todoBien = true;
+                status = true;
             }   
         }
-        return todoBien;
+        return status;
     }
     
     public String obtenerDescripcion(){

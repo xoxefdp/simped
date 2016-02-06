@@ -103,7 +103,7 @@ public class Alumno {
                                  String sexo, int cedulaRepresentante){
         boolean inserccionOk = false;
         try{  
-            consulta="UPDATE representante SET "
+            consulta="UPDATE alumno SET "
                     +"nombre_al = '"+nombre+"', "
                     +"apellido_al = '"+apellido+"', "
                     +"fecha_nac_alum = '"+fechaNacimiento+"', "

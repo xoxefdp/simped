@@ -26,7 +26,6 @@ import javax.swing.table.TableColumn;
  */
 public class TablaRepresentantes extends JPanel{
     
-    //private ModeloDeTablaAlumnos tablaModelo;
     public Tabla tablaModelo;
     private Object[] nombreColumnas,claseColumnas,datos = new Object[9];
     public JTable tabla;
@@ -64,7 +63,7 @@ public class TablaRepresentantes extends JPanel{
         colFecha        = tabla.getColumnModel().getColumn(7);
         colGenero       = tabla.getColumnModel().getColumn(8);
         
-        colCedula.setMinWidth(100);     colCedula.setMaxWidth(100);     colCedula.setCellEditor(new DefaultCellEditor(campo));
+        colCedula.setMinWidth(75);     colCedula.setMaxWidth(75);     colCedula.setCellEditor(new DefaultCellEditor(campo));
         colNombre.setMinWidth(150);     colNombre.setMaxWidth(150);     colNombre.setCellEditor(new DefaultCellEditor(campo));
         colApellido.setMinWidth(150);   colApellido.setMaxWidth(150);   colApellido.setCellEditor(new DefaultCellEditor(campo));
         colTelefono.setMinWidth(100);   colTelefono.setMaxWidth(100);   colTelefono.setCellEditor(new DefaultCellEditor(campo));
@@ -124,6 +123,7 @@ public class TablaRepresentantes extends JPanel{
      * 
      * Agrega una nueva fila a la tabla
      * @param entrada
+     * @return 
      */
     public boolean agregarFila(ResultSet entrada){
         /*
@@ -134,7 +134,7 @@ public class TablaRepresentantes extends JPanel{
         tablaModelo.addRow(datos);
         return status;
         */
-        boolean status = true;
+        boolean status = false;
         
         try{
             while(entrada.next()) {
@@ -149,8 +149,8 @@ public class TablaRepresentantes extends JPanel{
                 datos[8]= entrada.getString(9); //colGenero
                 tablaModelo.addRow(datos);
             }
+            status = true;
         } catch (SQLException error) {
-           status = false;
            JOptionPane.showMessageDialog(null, "ERROR EN SENTENCIA SQL /n" + error);
         }
         return status;
@@ -162,15 +162,15 @@ public class TablaRepresentantes extends JPanel{
      * @return 
      */
     public boolean modificarFila(String modFila){
-        boolean todoBien = false;
+        boolean status = false;
         int fila = tabla.getSelectedRow();
         
         if (fila >= 0){
             datos[0] = modFila;
             tablaModelo.setValueAt(modFila, fila, 0);
-            todoBien = true;
+            status = true;
         }
-        return todoBien;
+        return status;
     }  
     /**
      * Elimina la fila que este seleccionada en la JTable.
@@ -178,17 +178,17 @@ public class TablaRepresentantes extends JPanel{
      */
     public boolean eliminarFila(){
         int fila = tabla.getSelectedRow();
-        boolean todoBien = false;
+        boolean status = false;
         if (fila >= 0){
-            int respuesta = JOptionPane.showConfirmDialog(this,
-                                               "¿Seguro quiere eliminar a: "+
-                                               tablaModelo.getValueAt(fila, 0));
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro quiere eliminar a: "
+                +tablaModelo.getValueAt(fila, 0));
+            
             if (respuesta == JOptionPane.OK_OPTION){
                 tablaModelo.removeRow(fila);
-                todoBien = true;
+                status = true;
             }   
         }
-        return todoBien;
+        return status;
     }
     
     /**
@@ -213,9 +213,5 @@ public class TablaRepresentantes extends JPanel{
             return (String)tabla.getValueAt(fila, 1);
         else
             return null;
-    }
-
-    public int getSelectedRow() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

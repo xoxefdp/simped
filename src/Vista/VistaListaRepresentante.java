@@ -135,8 +135,9 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
             stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0); //string 
             cedulaRepresentante=Integer.parseInt(stringRepresentante);    //   int
             
-            if (representante.eliminar(cedulaRepresentante)) {
-                tablaRepresentantes.tablaModelo.removeRow(tablaRepresentantes.tabla.getSelectedRow()); //elimina de la tabla 
+            // si confirma elimina de la base de datos
+            if (tablaRepresentantes.eliminarFila()) {
+                representante.eliminar(cedulaRepresentante);
             }
         }
     }

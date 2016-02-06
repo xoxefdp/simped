@@ -58,7 +58,7 @@ public class Profesor {
         return resultados;
     }
     
-    public final boolean incluir(String cedula, String nombre, String apellido, 
+    public final boolean incluir(int cedula, String nombre, String apellido, 
                                 String fechaNacimiento, String direccion, String telefono,
                                 String correo, String titulo, String sexo){
         boolean inserccionOk = false;
@@ -91,7 +91,7 @@ public class Profesor {
         return inserccionOk;
     }
 
-    public final boolean eliminar(String cedula){
+    public final boolean eliminar(int cedula){
         boolean inserccionOk = false;
         try{  
             consulta="DELETE FROM profesor WHERE cedula_pr = '" +cedula+"';";
@@ -104,7 +104,7 @@ public class Profesor {
         return inserccionOk;
     }
 
-    public final boolean modificar(String cedula, String nombre, String apellido, 
+    public final boolean modificar(int cedula, String nombre, String apellido, 
                                    String fechaNacimiento, String direccion, String telefono,
                                    String correo, String titulo, String sexo){
         boolean inserccionOk = false;
