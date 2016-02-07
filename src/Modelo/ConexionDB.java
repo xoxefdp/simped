@@ -1,5 +1,6 @@
 package Modelo;
 
+import Controlador.Configuraciones;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -7,17 +8,18 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Hector Alvarez
+ * @author josediaz
  */
-public class ConexionDB implements ConstantesDB{
+public class ConexionDB{
     
     public static Connection conectarDB(){
+        Configuraciones config = new Configuraciones();
         Connection conexion = null;
         String mensaje;
         
         try{
-            Class.forName(DRIVER);
-            conexion = DriverManager.getConnection(URL_CONEXION,LOGIN,CLAVE);
+            Class.forName(config.getDBController());
+            conexion = DriverManager.getConnection(config.getConnectionURL(),config.getUserName(),config.getDBPassWord());
         }
 	catch(ClassNotFoundException error){
             mensaje = "Driver errado o no existe. " + error.getMessage();

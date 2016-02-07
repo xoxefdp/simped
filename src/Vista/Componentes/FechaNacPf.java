@@ -6,7 +6,6 @@
 package Vista.Componentes;
 
 import java.awt.Label;
-import java.awt.TextArea;
 import java.awt.TextField;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;

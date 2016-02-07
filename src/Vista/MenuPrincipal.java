@@ -7,6 +7,7 @@ package Vista;
 
 import Controlador.CerrarVentana;
 import Vista.Componentes.FondoPrincipal;
+import Vista.Componentes.Minutero;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,29 +23,31 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
  * @author José Diaz
  */
 public class MenuPrincipal extends JFrame implements ActionListener, CerrarVentana{
-    private JMenuBar barraDeNavegacion;
-    private JMenu listado, balance, emitir, sistema;
-    private JMenuItem admisionEstudiante, admisionRepresentante, admisionProfesor, balanceEstudiante, balanceProfesor, constanciaEstudio, reporteInscripciones, cerrarSistema;
+    private final JMenuBar barraDeNavegacion;
+    private final JMenu listado, balance, emitir, sistema;
+    private final JMenuItem admisionEstudiante, admisionRepresentante, admisionProfesor, balanceEstudiante, balanceProfesor, constanciaEstudio, reporteInscripciones, cerrarSistema, manual, acercade;
+    private Minutero tiempo;
         
     public MenuPrincipal(){
         super("Sistema Informatico para Manejo de Población Estudiantil y Docente");
-        setLayout(new BorderLayout()); 
+        setLayout(new BorderLayout());
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         barraDeNavegacion = new JMenuBar(); // se crea la barra de menus        
         setJMenuBar(barraDeNavegacion);
         
-            listado = new JMenu("Listados y manejadores"); //crea un elemento del menu
+            listado = new JMenu("Listado"); //crea un elemento del menu
             barraDeNavegacion.add(listado);
             
-                admisionEstudiante = new JMenuItem("Estudiante"); // se crea una opcion
+                admisionEstudiante = new JMenuItem("Estudiantes"); // se crea una opcion
                 admisionEstudiante.addActionListener(this);
                 listado.add(admisionEstudiante); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
                 
-                admisionRepresentante = new JMenuItem("Representante"); // se crea una opcion
+                admisionRepresentante = new JMenuItem("Representantes"); // se crea una opcion
                 admisionRepresentante.addActionListener(this);
                 listado.add(admisionRepresentante); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
                 
-                admisionProfesor = new JMenuItem("Profesor"); // se crea una opcion
+                admisionProfesor = new JMenuItem("Profesores"); // se crea una opcion
                 admisionProfesor.addActionListener(this);
                 listado.add(admisionProfesor); // se agrega la opcion docente al elemento admision de la barra de navegacion
             
@@ -73,12 +76,23 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
             sistema = new JMenu("Sistema"); //crea un elemento del menu
             barraDeNavegacion.add(sistema);
 
+                acercade = new JMenuItem("Acerca De"); // se crea una opcion
+                acercade.addActionListener(this);
+                sistema.add(acercade); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
+                
+                manual = new JMenuItem("Manual"); // se crea una opcion
+                manual.addActionListener(this);
+                sistema.add(manual); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
+                
                 cerrarSistema = new JMenuItem("Cerrar Sistema"); // se crea una opcion
                 cerrarSistema.addActionListener(this);
                 sistema.add(cerrarSistema); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
   
+        tiempo = new Minutero();
+                
         add(BorderLayout.NORTH, barraDeNavegacion);
-        setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        add(BorderLayout.SOUTH, tiempo);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
         formWindowOpened(null);
     }
@@ -95,27 +109,22 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == admisionEstudiante) {
-            new VistaListaEstudiante();
-            //new VistaAdmisionEstudiante();
+            VistaListaEstudiante vistaListaEstudiante = new VistaListaEstudiante();
         }
         
         if (e.getSource() == admisionRepresentante) {
-            //new VistaListaProfesor();
-            new VistaListaRepresentante();
+            VistaListaRepresentante vistaListaRepresentante = new VistaListaRepresentante();
         }
         
         if (e.getSource() == admisionProfesor) {
-            //new VistaListaProfesor();
-            new VistaListaProfesor();
+            VistaListaProfesor vistaListaProfesor = new VistaListaProfesor();
         }
         
         if (e.getSource() == balanceEstudiante) {
-            //new VistaListaEstudiantes();
-            new VistaBalanceEstudiante();
+            VistaBalanceEstudiante vistaBalanceEstudiante = new VistaBalanceEstudiante();
         }
         if (e.getSource() == balanceProfesor) {
-            //new VistaListaProfesor();
-            new VistaBalanceProfesor();
+            VistaBalanceProfesor vistaBalanceProfesor = new VistaBalanceProfesor();
         }
         
         if (e.getSource() == constanciaEstudio) {
@@ -125,6 +134,14 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
         if (e.getSource() == reporteInscripciones) {
             //new VistaListaEstudiantes();
             //new VistaAdmisionProfesor();
+        }
+        
+        if (e.getSource() == manual) {
+            //cerrarVentana();
+        }
+        
+        if (e.getSource() == acercade) {
+            acercade();
         }
         
         if (e.getSource() == cerrarSistema) {
@@ -138,11 +155,14 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
         int confirmarSalida = JOptionPane.showConfirmDialog(null, "Desea salir del sistema?", "Saliendo...", YES_NO_OPTION);
         if (confirmarSalida == JOptionPane.OK_OPTION){
             System.out.print("si");
-            System.exit(0);            
+            System.exit(0);
         }else{
             System.out.print("no");
-            this.dispose();
         }
+    }
+    
+    public void acercade(){
+        JOptionPane.showMessageDialog(this,"Aplicación Orientada al sector educativo \n Desarrollada por: \n José Francisco Diaz Perez \n Yonalix Garcia \n Meibert Hernandez");
     }
 
     public static void main(String[] args) {
