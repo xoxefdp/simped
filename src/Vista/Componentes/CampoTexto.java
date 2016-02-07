@@ -60,6 +60,15 @@ public class CampoTexto extends JPanel{
     }
     
     /**
+     * Actualiza el contenido del campo de texto.
+     * @param <error>
+     * @param contenido con el que se actualizara el campo de texto.
+     */
+    public void cambiarTipografia(String contenido, int estilo, int tamaño){
+        campo.setFont(new java.awt.Font(contenido, estilo, tamaño));
+    }
+    
+    /**
      * Devuelve un valor int con la longuitud del contenido del campo de texto.
      * @return longuitud del campo de texto.
      */
