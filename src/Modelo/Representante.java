@@ -60,7 +60,7 @@ public class Representante {
     
     public final boolean incluir(int incluirCedula, String nombre, String apellido,
                                 String telefono, String direccion, String correo,
-                                String parentesco, String fechaNacimiento, String sexo){
+                                String fechaNacimiento, String sexo){
         boolean inserccionOk = false;
         try{
             consulta="INSERT INTO persona SET "
@@ -70,7 +70,6 @@ public class Representante {
                     +"telefono_rp = '"+telefono+"', "
                     +"direccion_rp = '"+direccion+"', "
                     +"correo_rp = '"+correo+"', "
-                    +"parentesco = '"+parentesco+"', "
                     +"fecha_nac_rp = '"+fechaNacimiento+"', "
                     +"sexo_rp = '"+sexo+"';";
             
@@ -107,7 +106,7 @@ public class Representante {
 
     public final boolean modificar(int modificarCedula, String nombre, String apellido,
                                    String telefono, String direccion, String correo,
-                                   String parentesco, String fechaNacimiento, String sexo){
+                                   String fechaNacimiento, String sexo){
         boolean inserccionOk = false;
         try{  
             consulta="UPDATE representante SET "
@@ -116,7 +115,6 @@ public class Representante {
                     +"telefono_rp = '"+telefono+"' ,"
                     +"direccion_rp = '"+direccion+"' ,"
                     +"correo_rp = '"+correo+"' ,"
-                    +"parentesco = '"+parentesco+"' ,"
                     +"fecha_nac_rp = '"+fechaNacimiento+"' ,"
                     +"sexo_rp = '"+sexo+"' ,"
                     +"where cedula_rp = "+modificarCedula+";";

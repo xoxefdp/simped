@@ -27,9 +27,9 @@ import javax.swing.table.TableColumn;
 public class TablaRepresentantes extends JPanel{
     
     public Tabla tablaModelo;
-    private Object[] nombreColumnas,claseColumnas,datos = new Object[9];
+    private Object[] nombreColumnas,claseColumnas,datos = new Object[8];
     public JTable tabla;
-    private TableColumn colCedula,colNombre,colApellido,colTelefono,colDireccion,colCorreo,colParentesco,colFecha,colGenero;
+    private TableColumn colCedula,colNombre,colApellido,colTelefono,colDireccion,colCorreo,colFecha,colGenero;
     private JTextField campo;
     private ResultSet resultado;
 
@@ -41,8 +41,8 @@ public class TablaRepresentantes extends JPanel{
     }
     
     final void crearTabla(){
-        Object[] nombreColumnas = {"Cedula","Nombre","Apellido","Telefono","Dirección","Correo","Parentesco","Fecha Nacimiento","Genero"};
-        Object[] claseColumnas  = {0,new String(),new String(),new String(),new String(),new String(),new String(),new String(),new String()};
+        Object[] nombreColumnas = {"Cedula","Nombre","Apellido","Telefono","Dirección","Correo","Fecha Nacimiento","Genero"};
+        Object[] claseColumnas  = {0,new String(),new String(),new String(),new String(),new String(),new String(),new String()};
         //Object[] nombreColumnas = {"Cedula","Nombre","Apellido","Telefono","Correo","Parentesco"};
         //Object[] claseColumnas  = {new String(),new String(),new String(),new String(),new String()};
         
@@ -51,7 +51,7 @@ public class TablaRepresentantes extends JPanel{
         campo.setEditable(false);
 
         tabla = new JTable(tablaModelo);
-        tabla.setPreferredScrollableViewportSize(new Dimension(1200,250));
+        tabla.setPreferredScrollableViewportSize(new Dimension(1205,250));
         tabla.setFillsViewportHeight(false);
         colCedula       = tabla.getColumnModel().getColumn(0);
         colNombre       = tabla.getColumnModel().getColumn(1);
@@ -59,19 +59,17 @@ public class TablaRepresentantes extends JPanel{
         colTelefono     = tabla.getColumnModel().getColumn(3);
         colDireccion    = tabla.getColumnModel().getColumn(4);
         colCorreo       = tabla.getColumnModel().getColumn(5);
-        colParentesco   = tabla.getColumnModel().getColumn(6);
-        colFecha        = tabla.getColumnModel().getColumn(7);
-        colGenero       = tabla.getColumnModel().getColumn(8);
+        colFecha        = tabla.getColumnModel().getColumn(6);
+        colGenero       = tabla.getColumnModel().getColumn(7);
         
-        colCedula.setMinWidth(75);     colCedula.setMaxWidth(75);     colCedula.setCellEditor(new DefaultCellEditor(campo));
+        colCedula.setMinWidth(100);     colCedula.setMaxWidth(100);     colCedula.setCellEditor(new DefaultCellEditor(campo));
         colNombre.setMinWidth(150);     colNombre.setMaxWidth(150);     colNombre.setCellEditor(new DefaultCellEditor(campo));
         colApellido.setMinWidth(150);   colApellido.setMaxWidth(150);   colApellido.setCellEditor(new DefaultCellEditor(campo));
         colTelefono.setMinWidth(100);   colTelefono.setMaxWidth(100);   colTelefono.setCellEditor(new DefaultCellEditor(campo));
-        colDireccion.setMinWidth(200);  colDireccion.setMaxWidth(200);  colDireccion.setCellEditor(new DefaultCellEditor(campo));        
+        colDireccion.setMinWidth(250);  colDireccion.setMaxWidth(250);  colDireccion.setCellEditor(new DefaultCellEditor(campo));        
         colCorreo.setMinWidth(225);     colCorreo.setMaxWidth(225);     colCorreo.setCellEditor(new DefaultCellEditor(campo));
-        colParentesco.setMinWidth(100); colParentesco.setMaxWidth(100); colParentesco.setCellEditor(new DefaultCellEditor(campo));
         colFecha.setMinWidth(125);      colFecha.setMaxWidth(125);      colFecha.setCellEditor(new DefaultCellEditor(campo));
-        colGenero.setMinWidth(50);      colGenero.setMaxWidth(50);      colGenero.setCellEditor(new DefaultCellEditor(campo));
+        colGenero.setMinWidth(100);      colGenero.setMaxWidth(100);      colGenero.setCellEditor(new DefaultCellEditor(campo));
         
         JScrollPane scrollPanel = new JScrollPane(tabla);
         add(scrollPanel);
@@ -109,9 +107,8 @@ public class TablaRepresentantes extends JPanel{
                 datos[3]= entrada.getString(4); //colTelefono
                 datos[4]= entrada.getString(5); //colDireccion
                 datos[5]= entrada.getString(6); //colCorreo
-                datos[6]= entrada.getString(7); //colParentesco
-                datos[7]= entrada.getString(8); //colFecha
-                datos[8]= entrada.getString(9); //colGenero
+                datos[6]= entrada.getString(7); //colFecha
+                datos[7]= entrada.getString(8); //colGenero
                 tablaModelo.addRow(datos);
             }
         } catch (SQLException error) {
@@ -144,9 +141,8 @@ public class TablaRepresentantes extends JPanel{
                 datos[3]= entrada.getString(4); //colTelefono
                 datos[4]= entrada.getString(5); //colDireccion
                 datos[5]= entrada.getString(6); //colCorreo
-                datos[6]= entrada.getString(7); //colParentesco
-                datos[7]= entrada.getString(8); //colFecha
-                datos[8]= entrada.getString(9); //colGenero
+                datos[6]= entrada.getString(7); //colFecha
+                datos[7]= entrada.getString(8); //colGenero
                 tablaModelo.addRow(datos);
             }
             status = true;
