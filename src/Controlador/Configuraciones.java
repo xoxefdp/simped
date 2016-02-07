@@ -12,13 +12,16 @@ import java.util.Properties;
 public class Configuraciones {
     Properties configuraciones;
     private final String rutaConfiguraciones="config.properties";
+    // Variables de configuracion para la base de datos
     private String BASE_DE_DATOS,USUARIO_BASE_DE_DATOS,CLAVE_USUARIO,URL_DEL_SERVIDOR,DRIVER,URL_CONEXION;
-    //AGREGAR LAS QUE CONSIDERE NECESARIAS
+    // Variable de configuracion para la emision de reportes
+    private String RUTA_REPORTES;
 
     public Configuraciones(){
         configuraciones = new Properties();
     }
     
+    /************METODOS DE CONFIGURACION PARA LA BASE DE DATOS****************/    
     /**
      * Retorna el nombre de la base de datos
      * @return 
@@ -36,7 +39,6 @@ public class Configuraciones {
         }
        return DBName;
     }  
-       
     /**
      * Retorna el usuario de la base de datos
      * @return 
@@ -54,7 +56,6 @@ public class Configuraciones {
         }
         return UserName;
     }
-   
     /**
      * Retorna la contraseña del usuario
      * @return 
@@ -72,7 +73,6 @@ public class Configuraciones {
         }
         return PassWord;
     }
-
     /**
      * Retorna la url del servidor de base de datos
      * @return 
@@ -90,9 +90,8 @@ public class Configuraciones {
         }
         return ServerURL;
     }
-
     /**
-     * Retorna el Nombre del driver de sql
+     * Retorna el controlador a utilizar para establecer la conexion con la base de datos
      * @return 
      */ 
     public String getDBController(){
@@ -108,7 +107,6 @@ public class Configuraciones {
         }
         return Controller;
     }
-
     /**
      * Retorna el enlace de conexion con la base de datos
      * @return 
@@ -125,5 +123,24 @@ public class Configuraciones {
             System.out.println("Error, No se puede leer el archivo");
         }
         return ConnectionURL;
+    }
+    /**************************************************************************/
+    
+    /**
+     * Retorna la ruta de archivos para la emisión de reportes
+     * @return 
+     */
+    public String getReportRoute(){
+        String ReportRoute = null;
+        try {
+            configuraciones.load(new FileInputStream(rutaConfiguraciones));
+            RUTA_REPORTES = configuraciones.getProperty("RUTA_REPORTES"); 
+            ReportRoute=RUTA_REPORTES;
+        } catch (FileNotFoundException e) {
+            System.out.println("Error, No existe el archivo");
+        } catch (IOException e) {
+            System.out.println("Error, No se puede leer el archivo");
+        }
+       return ReportRoute;
     }
 }
