@@ -26,6 +26,7 @@ public final class Minutero extends CampoTexto implements Runnable{
      */
     public Minutero() {
         setBorder(BorderFactory.createTitledBorder("Tiempo Actual"));
+        alinearTexto("CENTER");
         cambiarTipografia("Brush Script MT",3, 20); //propiedad de campo tiempo
         hacerEditable(false); //propiedad de campo tiempo
         hilo = new Thread(this);

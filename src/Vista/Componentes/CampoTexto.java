@@ -60,12 +60,13 @@ public class CampoTexto extends JPanel{
     }
     
     /**
-     * Actualiza el contenido del campo de texto.
-     * @param <error>
-     * @param contenido con el que se actualizara el campo de texto.
+     * Modifica la tipografia del contenido del campo de texto
+     * @param tipografia
+     * @param estilo
+     * @param tamaño
      */
-    public void cambiarTipografia(String contenido, int estilo, int tamaño){
-        campo.setFont(new java.awt.Font(contenido, estilo, tamaño));
+    public void cambiarTipografia(String tipografia, int estilo, int tamaño){
+        campo.setFont(new java.awt.Font(tipografia, estilo, tamaño));
     }
     
     /**
@@ -77,10 +78,25 @@ public class CampoTexto extends JPanel{
     }
     
     /**
-     * Devuelve un valor int con la longuitud del contenido del campo de texto.
+     * Habilita la edición del contenido del campo de texto
      * @param onOff true el campo es editable, false es no editable.
      */
     public void hacerEditable(boolean onOff){
         campo.setEditable(onOff);
+    }
+    
+    /**
+     * Ajusta el alineamiento del texto contenido en el campo de texto
+     * @param alineamiento
+     */
+    public void alinearTexto(String alineamiento){
+        switch(alineamiento) {
+            case "TOP": campo.setHorizontalAlignment((int) TOP_ALIGNMENT); break;
+            case "BOTTOM": campo.setHorizontalAlignment((int) BOTTOM_ALIGNMENT); break;
+            case "CENTER": campo.setHorizontalAlignment((int) CENTER_ALIGNMENT); break;
+            case "RIGHT": campo.setHorizontalAlignment((int) RIGHT_ALIGNMENT); break;
+            case "LEFT": campo.setHorizontalAlignment((int) LEFT_ALIGNMENT); break;
+            default: /**/; break;
+        }
     }
 }
