@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista.Componentes;
+package Vista.Formatos;
 
 import java.awt.FlowLayout;
 import javax.swing.BorderFactory;
@@ -11,9 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * Panel con borde que contiene un campo de texto y que puede incluir o no un
- * titulo.
- * @author Hector Alvarez
+ * 
+ * @author josediaz
  */
 public class CampoTexto extends JPanel{
     private JTextField campo;
@@ -23,14 +22,14 @@ public class CampoTexto extends JPanel{
      * Crea un panel con título en el borde, con un campo de texto dentro de
      * ancho visible igual al parametro ancho.
      * 
-     * @param nombre titulo a colocar en el borde del panel
+     * @param titulo titulo a colocar en el borde del panel
      * @param ancho ancho visible del campo de texto incluido en el panel
      */
-    public CampoTexto(String nombre, int ancho){
+    public CampoTexto(String titulo, int ancho){
         setLayout(new FlowLayout());
         campo = new JTextField(ancho);
         panelIn.setLayout(new FlowLayout());
-        panelIn.setBorder(BorderFactory.createTitledBorder(nombre));
+        panelIn.setBorder(BorderFactory.createTitledBorder(titulo));
         panelIn.add(campo);
         add(panelIn);
     }

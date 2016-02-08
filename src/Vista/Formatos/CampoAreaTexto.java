@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista.Componentes;
+package Vista.Formatos;
 
 import java.awt.FlowLayout;
 import javax.swing.BorderFactory;
@@ -11,8 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
- * Panel con borde que contiene un campo de texto de area y que puede incluir o no un
- * titulo.
+ * 
  * @author josediaz
  */
 public class CampoAreaTexto extends JPanel{
