@@ -15,14 +15,16 @@ import Controlador.OyenteIncluir;
 import Controlador.OyenteListar;
 import Controlador.OyenteModificar;
 import Modelo.Representante;
-import Vista.Componentes.CampoTexto;
+import Vista.Formatos.CampoTexto;
 import Vista.Formatos.Botonera;
 import Vista.Tablas.TablaRepresentantes;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -41,11 +43,11 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
     private final String[] DE = {"Detallar"};
     private final Representante representante = new Representante();
     private ResultSet resultado;
+    
     /**
      * Crea la interface de la clase.
      */
     public VistaListaRepresentante(){
-        
         crearGui();
     }
     
@@ -71,6 +73,9 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
         botoneraDE = new Botonera(1,DE);
+        botoneraDE.adherirEscucha(0, (ActionEvent e) -> {
+            detallar();
+        });
         
         panelTop =new JPanel();
         panelTop.setLayout(new GridLayout(1,3)); 
@@ -78,7 +83,6 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
         panelTop.add(panelBusqueda);
         panelTop.add(botoneraLI);
         panelTop.add(botoneraDE);
-
         
         /**
          * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
@@ -108,12 +112,39 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
         add(BorderLayout.NORTH, panelTop);
         add(BorderLayout.CENTER,tablaRepresentantes);
         add(BorderLayout.SOUTH, panelBottom);
-        
-        setSize(400,400);
+
         pack();
         setVisible(true);
     }
 
+    public void detallar() {
+        if (tablaRepresentantes.tabla.getSelectedRow()>=0){
+            
+            String stringCedRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0); //string
+            int cedulaRepresentante=Integer.parseInt(stringCedRepresentante);    //   int
+
+            String stringNomRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 1); //string
+            String stringApeRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 2); //string
+            String stringTelRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 3); //string
+            String stringDirRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 4); //string            
+            String stringCorRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 5); //string
+            String stringFecRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 6); //string
+            String stringSexRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 7); //string
+            
+            JOptionPane.showMessageDialog(this,"Datos Representante \n\n"
+                                            +  "Cedula: "+cedulaRepresentante+"\n"
+                                            +  "Nombres: "+stringNomRepresentante+"\n"
+                                            +  "Apellidos: "+stringApeRepresentante+"\n"
+                                            +  "Telefono: "+stringTelRepresentante+"\n"
+                                            +  "Dirección: "+stringDirRepresentante+"\n"
+                                            +  "Correo: "+stringCorRepresentante+"\n"
+                                            +  "Fecha de Nacimiento: "+stringFecRepresentante+"\n"
+                                            +  "Sexo: "+stringSexRepresentante+"\n");
+        } else {
+            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el representante a detallar");
+        }
+    }
+    
     @Override
     public void incluir() {
         VistaAdmisionRepresentante vistaAdmisionRepresentante = new VistaAdmisionRepresentante();
@@ -139,6 +170,8 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
             if (tablaRepresentantes.eliminarFila()) {
                 representante.eliminar(cedulaRepresentante);
             }
+        } else {
+            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el representante a eliminar");
         }
     }
     
@@ -150,11 +183,14 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
     
     @Override
     public void consultar() { // consulta uno
-        
-        String stringCedula = cedula.obtenerContenido(); //falta generalizar
-        int cedulaRepresentante=Integer.parseInt(stringCedula);    //   int
-        
-        ResultSet resultadoConsulta = representante.consultarRepresentante(cedulaRepresentante);
-        tablaRepresentantes.cargarTabla(resultadoConsulta);
+        if (cedula.obtenerContenido().length() != 0) {
+            String stringCedula = cedula.obtenerContenido(); //falta generalizar
+            int cedulaRepresentante=Integer.parseInt(stringCedula);    //   int
+
+            ResultSet resultadoConsulta = representante.consultarRepresentante(cedulaRepresentante);
+            tablaRepresentantes.cargarTabla(resultadoConsulta);
+        } else {
+            JOptionPane.showMessageDialog(this,"Escriba la cedula a consultar");   
+        }
     }
 }

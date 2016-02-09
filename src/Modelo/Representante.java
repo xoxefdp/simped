@@ -63,7 +63,7 @@ public class Representante {
                                 String fechaNacimiento, String sexo){
         boolean inserccionOk = false;
         try{
-            consulta="INSERT INTO persona SET "
+            consulta="INSERT INTO representante SET "
                     +"cedula_rp = '"+incluirCedula+"', "
                     +"nombre_rp = '"+nombre+"', "
                     +"apellido_rp = '"+apellido+"', "

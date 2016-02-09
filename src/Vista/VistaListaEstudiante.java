@@ -15,14 +15,17 @@ import Controlador.OyenteIncluir;
 import Controlador.OyenteListar;
 import Controlador.OyenteModificar;
 import Modelo.Alumno;
-import Vista.Componentes.CampoTexto;
+import Modelo.Representante;
+import Vista.Formatos.CampoTexto;
 import Vista.Formatos.Botonera;
 import Vista.Tablas.TablaAlumnos;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 /**
  * 
@@ -69,6 +72,9 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
         botoneraDE = new Botonera(1,DE);
+        botoneraDE.adherirEscucha(0, (ActionEvent e) -> {
+            detallar();
+        });
         
         panelTop =new JPanel();
         panelTop.setLayout(new GridLayout(1,3)); 
@@ -104,25 +110,61 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         add(BorderLayout.CENTER,tablaAlumnos);
         add(BorderLayout.SOUTH,panelBottom);
         
-        setSize(400,400);
         pack();
         setVisible(true);
+    }
+
+    public void detallar() {
+        if (tablaAlumnos.tabla.getSelectedRow()>=0){
+            
+            String stringCodEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 0); //string
+            int codigoEstudiante=Integer.parseInt(stringCodEstudiante);    //   int
+
+            String stringNomEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 1); //string
+            String stringApeEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 2); //string
+            String stringFecEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 3); //string
+            String stringSexEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 4); //string
+            
+            String stringRepEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 5); //string
+            int cedulaRepEstudiante=Integer.parseInt(stringRepEstudiante);    //   int
+            
+            Representante representante = new Representante();
+            representante.consultarRepresentante(cedulaRepEstudiante);
+            
+            JOptionPane.showMessageDialog(this,"Datos Estudiante \n\n"
+                                            +  "Codigo Estudiante: "+codigoEstudiante+"\n"
+                                            +  "Nombres: "+stringNomEstudiante+"\n"
+                                            +  "Apellidos: "+stringApeEstudiante+"\n"
+                                            +  "Fecha de Nacimiento: "+stringFecEstudiante+"\n"
+                                            +  "Sexo: "+stringSexEstudiante+"\n\n"
+                                            +  "Representante: "+cedulaRepEstudiante+"\n"
+                                            +  "Cedula Representante: "+cedulaRepEstudiante+"\n");
+        } else {
+            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el estudiante a detallar");
+        }
     }
 
     @Override
     public void incluir() {
         VistaAdmisionEstudiante vistaAdmisionEstudiante = new VistaAdmisionEstudiante();
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void modificar() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tablaAlumnos.tabla.getSelectedRow()>=0){
+            
+            String stringEstudiante; // debo convertirlo a int para pasarlo al metodo y a la base de datos
+            int codigoEstudiante;            
+            
+            stringEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 0); //string 
+            codigoEstudiante=Integer.parseInt(stringEstudiante);    //   int
+            VistaActualizarEstudiante vistaActualizarEstudiante = new VistaActualizarEstudiante(codigoEstudiante);
+        }
     }
     
     @Override
     public void eliminar() {
-        if (tablaAlumnos.tabla.getSelectedRow()>=0){
+        if (tablaAlumnos.tabla.getSelectedRow() >= 0){
             
             String stringEstudiante; // debo convertirlo a int para pasarlo al metodo y a la base de datos
             int codigoEstudiante;            
@@ -134,6 +176,8 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
             if (tablaAlumnos.eliminarFila()) {
                 alumno.eliminar(codigoEstudiante);
             }
+        } else {
+            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el estudiante a eliminar");
         }
     }
     
@@ -145,11 +189,14 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
     
     @Override
     public void consultar() { // consulta uno
-        
-        String stringCodigo = codigo.obtenerContenido(); //falta generalizar
-        int codigoAlumno=Integer.parseInt(stringCodigo);    //   int
-        
-        ResultSet resultadoConsulta = alumno.consultarAlumno(codigoAlumno);
-        tablaAlumnos.cargarTabla(resultadoConsulta);
+        if (codigo.obtenerContenido().length() != 0) {
+            String stringCodigo = codigo.obtenerContenido(); //falta generalizar
+            int codigoAlumno=Integer.parseInt(stringCodigo);    //   int
+
+            ResultSet resultadoConsulta = alumno.consultarAlumno(codigoAlumno);
+            tablaAlumnos.cargarTabla(resultadoConsulta);
+        } else {
+            JOptionPane.showMessageDialog(this,"Escriba el codigo a consultar");
+        }
     }
 }

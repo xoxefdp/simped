@@ -5,6 +5,7 @@
  */
 package Vista.Componentes;
 
+import Vista.Formatos.CampoTexto;
 import java.util.Calendar; 
 import java.util.Date; 
 import java.util.GregorianCalendar; 
@@ -25,10 +26,11 @@ public final class Minutero extends CampoTexto implements Runnable{
      * Monitorea y muestra el tiempo actual
      */
     public Minutero() {
+        super(null,31);
         setBorder(BorderFactory.createTitledBorder("Tiempo Actual"));
         alinearTexto("CENTER");
-        cambiarTipografia("Brush Script MT",3, 20); //propiedad de campo tiempo
-        hacerEditable(false); //propiedad de campo tiempo
+        cambiarTipografia("Monospaced",1, 20);
+        hacerEditable(false);
         hilo = new Thread(this);
         hilo.start();
         run();
@@ -49,6 +51,13 @@ public final class Minutero extends CampoTexto implements Runnable{
         segundo = calendario.get(Calendar.SECOND) > 9 ? "" + calendario.get(Calendar.SECOND) : "0" + calendario.get(Calendar.SECOND);
     }
 
+    public String getYear(){
+        tiempoActual = new Date();
+        calendario.setTime(tiempoActual);
+        ano = calendario.get(Calendar.YEAR) > 9 ? "" + calendario.get(Calendar.YEAR) : "0" + calendario.get(Calendar.YEAR);
+        return ano;
+    }
+    
     @ Override
     public void run() {
         

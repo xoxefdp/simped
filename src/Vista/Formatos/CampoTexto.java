@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 /**
  * 
- * @author josediaz
+ * @author yonalix
  */
 public class CampoTexto extends JPanel{
     private JTextField campo;

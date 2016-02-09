@@ -8,15 +8,23 @@ package Vista;
 import Controlador.CerrarVentana;
 import Vista.Componentes.FondoPrincipal;
 import Vista.Componentes.Minutero;
+import com.sun.jndi.toolkit.url.Uri;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 /**
  *
@@ -26,7 +34,11 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
     private final JMenuBar barraDeNavegacion;
     private final JMenu listado, balance, emitir, sistema;
     private final JMenuItem admisionEstudiante, admisionRepresentante, admisionProfesor, balanceEstudiante, balanceProfesor, constanciaEstudio, reporteInscripciones, cerrarSistema, manual, acercade;
-    private Minutero tiempo;
+    private final Minutero tiempo;
+     //URI fuente = new URI("http://java.sun.com");
+    // URI licencia = new URI("http://java.sun.com");
+    
+    
         
     public MenuPrincipal(){
         super("Sistema Informatico para Manejo de Población Estudiantil y Docente");
@@ -101,10 +113,8 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
         FondoPrincipal fondoPrincipal = new FondoPrincipal();
         add(fondoPrincipal, BorderLayout.CENTER);
         fondoPrincipal.repaint();
-    }         
+    }
 
-    
-    /*verificar si puedo generar una estructura que pueda reutilizarse para el evento de apertura de ventanas*/
     @Override
     public void actionPerformed(ActionEvent e) {
         
@@ -151,18 +161,69 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
 
     @Override
     public void cerrarVentana() {
-        //JOptionPane.showConfirmDialog(null, "Desea salir del sistema de farmacia?", "Salir de sistema farmacia", WIDTH);
         int confirmarSalida = JOptionPane.showConfirmDialog(null, "Desea salir del sistema?", "Saliendo...", YES_NO_OPTION);
         if (confirmarSalida == JOptionPane.OK_OPTION){
-            System.out.print("si");
             System.exit(0);
         }else{
-            System.out.print("no");
+            //
         }
     }
-    
-    public void acercade(){
-        JOptionPane.showMessageDialog(this,"Aplicación Orientada al sector educativo \n Desarrollada por: \n José Francisco Diaz Perez \n Yonalix Garcia \n Meibert Hernandez");
+
+    public void acercade() {
+        /*
+        // html content
+        JEditorPane ep = new JEditorPane("text/html", "<html><body style=\"" + style + "\">" //
+                + "some text, and <a href=\"http://google.com/\">a link</a>" //
+                + "</body></html>");
+
+        // handle link events
+        ep.addHyperlinkListener(new HyperlinkListener()
+        {
+            @Override
+            public void hyperlinkUpdate(HyperlinkEvent e)
+            {
+                if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED))
+                    ProcessHandler.launchUrl(e.getURL().toString()); // roll your own link launcher or use Desktop if J6+
+            }
+        });
+        ep.setEditable(false);
+        ep.setBackground(label.getBackground());
+        */
+        
+        /*
+        Uri sourceUri = new Uri("<!DOCTYPE html><html><body><a href=\"https://github.com/xoxefdp/simped\">https://github.com/xoxefdp/simped</a></body><html>");
+        JEditorPane source = new JEditorPane("text/html", "<!DOCTYPE html><html><body><a href=\"https://github.com/xoxefdp/simped\">https://github.com/xoxefdp/simped</a></body><html>");
+        source.addHyperlinkListener((HyperlinkEvent e) -> {
+            if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
+                ProcessHandler.launchUrl(e.getURL().toString());
+            }
+        });
+        source.setEditable(false);
+        */
+        
+        /*
+        Uri licenseUri = new Uri("<!DOCTYPE html><html><body><a href=\"https://github.com/xoxefdp/simped/blob/master/LICENSE\">https://github.com/xoxefdp/simped/blob/master/LICENSE</a></body><html>");
+        JEditorPane license = new JEditorPane("text/html", "<!DOCTYPE html><html><body><a href=\"https://github.com/xoxefdp/simped/blob/master/LICENSE\">https://github.com/xoxefdp/simped/blob/master/LICENSE</a></body><html>");
+        license.addHyperlinkListener((HyperlinkEvent e) -> {
+            if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
+                ProcessHandler.launchUrl(e.getURL().toString());
+            }
+        });
+        license.setEditable(false);
+        */
+
+        String sourceLink = "https://github.com/xoxefdp/simped";
+        String licenseLink = "https://github.com/xoxefdp/simped/blob/master/LICENSE";
+        
+        JOptionPane.showMessageDialog(this,"Aplicación Orientada al sector educativo \n"
+                                        + "Desarrollada por: \n\n"
+                                        + " José Francisco Diaz Perez \n"
+                                        + " Yonalix Garcia \n"
+                                        + " Meibert Hernandez \n\n"
+                                        + "Source Code \n"
+                                        + " "+sourceLink+"\n\n"
+                                        + "License GPL "+tiempo.getYear()+" \n"
+                                        + " "+licenseLink+"\n\n");
     }
 
     public static void main(String[] args) {

@@ -5,6 +5,7 @@
  */
 package Vista.Componentes;
 
+import Vista.Formatos.CampoTexto;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;

@@ -11,71 +11,105 @@ import Controlador.CerrarVentana;
 import Controlador.OyenteAceptar;
 import Controlador.OyenteCancelar;
 import Modelo.Representante;
-import Vista.Componentes.CampoAreaTexto;
-import Vista.Componentes.CampoTexto;
 import Vista.Formatos.Botonera;
+import Vista.Formatos.CampoAreaTexto;
+import Vista.Formatos.CampoCombo;
+import Vista.Formatos.CampoTexto;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.sql.ResultSet;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
  *
- * @author yonalix
+ * @author josediaz
  */
-public class VistaAdmisionRepresentante extends JFrame implements Aceptar, Cancelar, CerrarVentana{
-    CampoTexto cedula,nombres,apellidos,telefono,fechanac,correo;
-    CampoAreaTexto direccion;
-    JPanel panel1,panel2,panel3;
-    Botonera boton;
-    String[] AC = {"Aceptar","Cancelar"};
-    
+public final class VistaAdmisionRepresentante extends JFrame implements Aceptar, Cancelar, CerrarVentana{
+    private final CampoTexto cedula,nombres,apellidos,telefono,correo,fechanac;
+    private final CampoAreaTexto direccion;
+    private final CampoCombo sexo;
+    private final JPanel panelTop;
+    private final Botonera boton;
+    private final String[] AC = {"Aceptar","Cancelar"};
+    private final String[] opcSexo = {"","Masculino","Femenino"};
+
     public VistaAdmisionRepresentante(){
-        setTitle("Datos Representante");
+        setTitle("Ingreso de Representante");
+        setResizable(false);
         setLayout(new BorderLayout());
-        setSize(500,700);
-        cedula=new CampoTexto("Cedula",15);
-        nombres=new CampoTexto("Nombres",15);
-        apellidos=new CampoTexto("Apellidos",15);
-        panel1 = new JPanel();
-        panel1.setLayout(new FlowLayout());
-        panel1.add(cedula);
-        panel1.add(nombres);
-        panel1.add(apellidos);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        /**
+         * Elementos del panel superior
+         */
+        cedula = new CampoTexto("Cedula",20);
+        nombres = new CampoTexto("Nombres",20);
+        apellidos = new CampoTexto("Apellidos",20);
+        telefono = new CampoTexto("Telefono",20);
+        direccion = new CampoAreaTexto("Dirección",20,2);
+        correo = new CampoTexto("Correo",20);
+        fechanac = new CampoTexto("Fecha de Nacimiento",20);
+        sexo = new CampoCombo("Sexo",opcSexo);
+
+        panelTop = new JPanel();
+        panelTop.setLayout(new GridLayout(3,3));
+        panelTop.add(cedula);
+        panelTop.add(nombres);
+        panelTop.add(apellidos);
+        panelTop.add(telefono);
+        panelTop.add(direccion);
+        panelTop.add(correo);
+        panelTop.add(fechanac);
+        panelTop.add(sexo);
         
-        telefono=new CampoTexto("Telefono",15);
-        fechanac=new CampoTexto("Fecha de nacimiento",15);
-        correo=new CampoTexto("Correo Electronico",15);
-        panel2 = new JPanel();
-        panel2.setLayout(new FlowLayout());
-        panel2.add(telefono);
-        panel2.add(fechanac);
-        panel2.add(correo);
-        
-        direccion=new CampoAreaTexto("Dirección",15);
+        /**
+         * Elementos inferiores
+         */
         boton=new Botonera(2,AC);
         boton.adherirEscucha(0, new OyenteAceptar(this));
         boton.adherirEscucha(1, new OyenteCancelar(this));
-        panel3 = new JPanel();
-        panel3.setLayout(new FlowLayout());
-        panel3.add(direccion);
-        panel3.add(boton);
-               
-        add(BorderLayout.NORTH,panel1);
-        add(BorderLayout.CENTER,panel2);
-        add(BorderLayout.SOUTH,panel3);
+
+        /**
+         * Configuracion de Vista
+         */
+        add(BorderLayout.NORTH,panelTop);
+        add(BorderLayout.SOUTH,boton);
+        pack();
         setVisible(true);
     }
 
     @Override
     public void aceptar() {
         Representante representante = new Representante();
-        /*
-        representante.incluir(int cedula, String nombre, String apellido,
-                                String telefono, String direccion, String correo,
-                                String parentesco, String fechaNacimiento, String sexo);
-        */
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (cedula.obtenerContenido().length() != 0 && nombres.obtenerContenido().length() != 0 &&
+        apellidos.obtenerContenido().length() != 0 && telefono.obtenerContenido().length() != 0 &&
+        direccion.obtenerContenido().length() != 0 && correo.obtenerContenido().length() != 0 &&
+        fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0) {
+            
+            String strCedulaRep = cedula.obtenerContenido();
+            int cedulaRep = Integer.parseInt(strCedulaRep);
+            
+            String nombreRep = nombres.obtenerContenido();
+            String apellidoRep = apellidos.obtenerContenido();
+            String telefonoRep = telefono.obtenerContenido();
+            String direccionRep = direccion.obtenerContenido();
+            String correoRep = correo.obtenerContenido();
+            String fechaNacRep = fechanac.obtenerContenido();
+            String sexoRep = sexo.obtenerSeleccion().toString();
+            
+            if (representante.incluir(cedulaRep, nombreRep, apellidoRep, telefonoRep, direccionRep, correoRep, fechaNacRep, sexoRep)) {
+                cerrarVentana();
+            } else {
+                JOptionPane.showMessageDialog(this,"Error al insertar");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,"Existen campos vacios");
+        }
     }
 
     @Override
@@ -87,6 +121,4 @@ public class VistaAdmisionRepresentante extends JFrame implements Aceptar, Cance
     public void cerrarVentana() {
         this.dispose();
     }
-    
-    
 }

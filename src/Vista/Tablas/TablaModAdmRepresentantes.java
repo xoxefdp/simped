@@ -20,11 +20,10 @@ import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 
 /**
- * 
- * tabla Representantes
+ *
  * @author josediaz
  */
-public class TablaRepresentantes extends JPanel{
+public class TablaModAdmRepresentantes extends JPanel{
     
     public Tabla tablaModelo;
     private Object[] nombreColumnas,claseColumnas;
@@ -34,7 +33,7 @@ public class TablaRepresentantes extends JPanel{
     private JTextField campo;
     private ResultSet resultado;
 
-    public TablaRepresentantes(){
+    public TablaModAdmRepresentantes(){
         setLayout(new FlowLayout());
         setBorder(BorderFactory.createTitledBorder("Representantes"));
         setOpaque(false);
@@ -50,7 +49,7 @@ public class TablaRepresentantes extends JPanel{
         campo.setEditable(false);
 
         tabla = new JTable(tablaModelo);
-        tabla.setPreferredScrollableViewportSize(new Dimension(1200,250));
+        tabla.setPreferredScrollableViewportSize(new Dimension(400,75));
         tabla.setFillsViewportHeight(false);
         colCedula       = tabla.getColumnModel().getColumn(0);
         colNombre       = tabla.getColumnModel().getColumn(1);
@@ -64,11 +63,11 @@ public class TablaRepresentantes extends JPanel{
         colCedula.setMinWidth(100);     colCedula.setMaxWidth(100);     colCedula.setCellEditor(new DefaultCellEditor(campo));
         colNombre.setMinWidth(150);     colNombre.setMaxWidth(150);     colNombre.setCellEditor(new DefaultCellEditor(campo));
         colApellido.setMinWidth(150);   colApellido.setMaxWidth(150);   colApellido.setCellEditor(new DefaultCellEditor(campo));
-        colTelefono.setMinWidth(100);   colTelefono.setMaxWidth(100);   colTelefono.setCellEditor(new DefaultCellEditor(campo));
-        colDireccion.setMinWidth(250);  colDireccion.setMaxWidth(250);  colDireccion.setCellEditor(new DefaultCellEditor(campo));        
-        colCorreo.setMinWidth(210);     colCorreo.setMaxWidth(210);     colCorreo.setCellEditor(new DefaultCellEditor(campo));
-        colFecha.setMinWidth(125);      colFecha.setMaxWidth(125);      colFecha.setCellEditor(new DefaultCellEditor(campo));
-        colGenero.setMinWidth(100);      colGenero.setMaxWidth(100);      colGenero.setCellEditor(new DefaultCellEditor(campo));
+        colTelefono.setMinWidth(0);     colTelefono.setMaxWidth(0);     colTelefono.setCellEditor(new DefaultCellEditor(campo));
+        colDireccion.setMinWidth(0);    colDireccion.setMaxWidth(0);    colDireccion.setCellEditor(new DefaultCellEditor(campo));        
+        colCorreo.setMinWidth(0);       colCorreo.setMaxWidth(0);       colCorreo.setCellEditor(new DefaultCellEditor(campo));
+        colFecha.setMinWidth(0);        colFecha.setMaxWidth(0);        colFecha.setCellEditor(new DefaultCellEditor(campo));
+        colGenero.setMinWidth(0);      colGenero.setMaxWidth(0);        colGenero.setCellEditor(new DefaultCellEditor(campo));
         
         JScrollPane scrollPanel = new JScrollPane(tabla);
         add(scrollPanel);

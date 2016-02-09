@@ -27,7 +27,8 @@ import javax.swing.table.TableColumn;
 public class TablaProfesores extends JPanel{
     
     public Tabla tablaModelo;
-    private Object[] nombreColumnas,claseColumnas,datos = new Object[9];
+    private Object[] nombreColumnas,claseColumnas;
+    private final Object[] datos = new Object[9];
     public JTable tabla;
     private TableColumn colCedula,colNombre,colApellido,colFecha,colDireccion,colCorreo,colTelefono,colGenero,colTitulo;
     private JTextField campo;
@@ -48,8 +49,6 @@ public class TablaProfesores extends JPanel{
         
         Object[] nombreColumnas = {"Cedula","Nombre","Apellido","Fecha Nacimiento","Dirección","Correo","Telefono","Genero","Titulo"};
         Object[] claseColumnas  = {0,new String(),new String(),new String(),new String(),new String(),new String(),new String(),new String()};
-        //Object[] nombreColumnas = {"Cedula","Nombre","Apellido","Telefono","Correo","Genero"};
-        //Object[] claseColumnas  = {0,new String(),new String(),new String(),new String(),new String()};
         
         tablaModelo = new Tabla(nombreColumnas,claseColumnas);
         campo = new JTextField();

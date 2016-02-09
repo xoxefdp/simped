@@ -28,7 +28,8 @@ public class TablaAlumnos extends JPanel{
     
     //private ModeloDeTablaAlumnos tablaModelo;
     public Tabla tablaModelo;
-    private Object[] nombreColumnas,claseColumnas,datos = new Object[6];
+    private Object[] nombreColumnas,claseColumnas;
+    private final Object[] datos = new Object[6];
     public JTable tabla;
     private TableColumn colNombre,colCodigo,colApellido,colFecha,colGenero,colRepresentante;
     private JTextField campo;
@@ -55,7 +56,7 @@ public class TablaAlumnos extends JPanel{
         campo.setEditable(false);
 
         tabla = new JTable(tablaModelo);
-        tabla.setPreferredScrollableViewportSize(new Dimension(805,250));
+        tabla.setPreferredScrollableViewportSize(new Dimension(800,250));
         tabla.setFillsViewportHeight(false);
         colCodigo       = tabla.getColumnModel().getColumn(0);
         colNombre       = tabla.getColumnModel().getColumn(1);

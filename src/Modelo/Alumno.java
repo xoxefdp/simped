@@ -67,7 +67,7 @@ public class Alumno {
                     +"apellido_al = '"+apellido+"', "
                     +"fecha_nac_alum = '"+fechaNacimiento+"', "
                     +"representante_cedula_rp = '"+cedulaRepresentante+"', "
-                    +"sexo_rp = '"+sexo+"';";
+                    +"sexo = '"+sexo+"';";
             
             /*
             consulta="INSERT INTO representante ("

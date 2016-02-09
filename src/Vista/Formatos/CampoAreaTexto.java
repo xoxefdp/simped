@@ -6,30 +6,28 @@
 package Vista.Formatos;
 
 import java.awt.FlowLayout;
+import java.awt.TextArea;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 /**
  * 
  * @author josediaz
  */
 public class CampoAreaTexto extends JPanel{
-    private JTextArea campo;
+    private TextArea campo;
     private JPanel panelIn;
        
     /**
      * Crea un panel con título en el borde, con un campo de texto dentro de
      * ancho visible igual al parametro ancho.
-     * 
      * @param nombre titulo a colocar en el borde del panel
      * @param ancho ancho visible del campo de texto incluido en el panel
+     * @param alto alto visible del campo de texto incluido en el panel
      */
-    public CampoAreaTexto(String nombre, int ancho){
+    public CampoAreaTexto(String nombre, int ancho, int alto){
         setLayout(new FlowLayout());
-        campo = new JTextArea();
-        campo.getScrollableTracksViewportHeight();
-        campo.setColumns(ancho);
+        campo = new TextArea(null,alto,ancho);
         panelIn  = new JPanel();
         panelIn.setLayout(new FlowLayout());
         panelIn.setBorder(BorderFactory.createTitledBorder(nombre));
@@ -39,9 +37,10 @@ public class CampoAreaTexto extends JPanel{
     
     /**
      * crea un campo de texto de area sin titulo y con 20 de longitud
+     * @param nombre
      */
-    public CampoAreaTexto(){
-        this(null, 20);
+    public CampoAreaTexto(String nombre){
+        this(nombre, 20,3);
     }
     
     /**

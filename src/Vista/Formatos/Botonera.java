@@ -1,20 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Vista.Formatos;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
 /**
  *
  * @author José Diaz
-
 */
-//public class Botonera extends JPanel{
 public class Botonera extends JPanel{
-    JButton[] botones;
-    JPanel cuadroBotonera;
-    String[] nombresBotones;
+    private final JButton[] botones;
+    private final JPanel cuadroBotonera;
+    private String[] nombresBotones;
     
+    /**
+     * Genera una botonera con las caracteristicas de los parametros de entrada
+     * @param numeroBotones cantidad de botones a generar
+     * @param nombresBotones  nombre identificador de los botones
+     */
     public Botonera(int numeroBotones, String[] nombresBotones){
     
         cuadroBotonera = new JPanel();
@@ -28,70 +37,12 @@ public class Botonera extends JPanel{
         add(cuadroBotonera);
     }
     
-    // revisar oyentes
+    /**
+     * Adiciona escuchas de eventos a los botones
+     * @param posBoton posicion del boton en la botonera generada
+     * @param escucha  oyente adherido al boton
+     */
     public void adherirEscucha(int posBoton, ActionListener escucha){
-        
         botones[posBoton].addActionListener(escucha);
-        /*
-        if (posBoton >= 0 && posBoton < botones.length) {
-            botones[posBoton].addActionListener(escucha);
-        }
-        */
-    }
-
-}
-
-/*
-    //public Botonera(int botonesBotonera){
-        if (botonesBotonera == 1) {
-            botones = new JButton[botonesBotonera];
-            botones[0] = new JButton("Aceptar");
-            cuadroBotonera.add(botones[0]);
-        }
-            
-        if (botonesBotonera == 2) {
-            botones = new JButton[botonesBotonera];
-            botones[0] = new JButton("Aceptar");
-            cuadroBotonera.add(botones[0]);
-            botones[1] = new JButton("Cancelar");
-            cuadroBotonera.add(botones[1]);
-        }
-        if (botonesBotonera == 3) {
-            botones = new JButton[botonesBotonera];
-            botones[0] = new JButton("Incluir");
-            cuadroBotonera.add(botones[0]);
-            botones[1] = new JButton("Modificar");
-            cuadroBotonera.add(botones[1]);
-            botones[2] = new JButton("Eliminar");
-            cuadroBotonera.add(botones[2]);
-        }
-        add(cuadroBotonera);
-    }
-
-    public void adherirEscucha(int posBoton, ActionListener escucha){
-        if (posBoton >= 0 && posBoton <= 2){
-            botones[posBoton].addActionListener(escucha);
-        }
-        if (posBoton >= 0 && posBoton <= 1){
-            botones[posBoton].addActionListener(escucha);
-        }
-    }
-    */
-
-/*
-public class Botonera extends JPanel{
-    JButton [] botones;
-    
-    public Botonera(String [] nombres){
-        botones = new JButton[nombres.length];
-        for (int i = 0; i < nombres.length; i++){
-            botones[i] = new JButton(nombres[i]);
-            add(botones[i]);
-        }
-    }
-    public void asignarOyente(int boton, ActionListener oyente){
-        if (boton >= 0 && boton < botones.length)
-            botones[boton].addActionListener(oyente);
     }
 }
-*/

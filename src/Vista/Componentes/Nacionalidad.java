@@ -5,6 +5,7 @@
  */
 package Vista.Componentes;
 
+import Vista.Formatos.CampoTexto;
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 import java.awt.FlowLayout;

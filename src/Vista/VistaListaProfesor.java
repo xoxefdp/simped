@@ -15,14 +15,16 @@ import Controlador.OyenteIncluir;
 import Controlador.OyenteListar;
 import Controlador.OyenteModificar;
 import Modelo.Profesor;
-import Vista.Componentes.CampoTexto;
+import Vista.Formatos.CampoTexto;
 import Vista.Formatos.Botonera;
 import Vista.Tablas.TablaProfesores;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -71,6 +73,9 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
         botoneraDE = new Botonera(1,DE);
+        botoneraDE.adherirEscucha(0, (ActionEvent e) -> {
+            detallar();
+        });
         
         panelTop =new JPanel();
         panelTop.setLayout(new GridLayout(1,3)); 
@@ -108,12 +113,41 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
         add(BorderLayout.NORTH, panelTop);
         add(BorderLayout.CENTER,tablaProfesores);
         add(BorderLayout.SOUTH, panelBottom);
-        
-        setSize(400,400);
+
         pack();
         setVisible(true);
     }
 
+    public void detallar() {
+        if (tablaProfesores.tabla.getSelectedRow()>=0){
+            
+            String stringCedProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 0); //string
+            int cedulaProfesor=Integer.parseInt(stringCedProfesor);    //   int
+
+            String stringNomProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 1); //string
+            String stringApeProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 2); //string
+            String stringFecProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 3); //string
+            String stringDirProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 4); //string            
+            String stringCorProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 5); //string
+            String stringTelProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 6); //string
+            String stringSexProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 7); //string
+            String stringTitProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 8); //string
+            
+            JOptionPane.showMessageDialog(this,"Datos Profesor \n\n"
+                                            +  "Cedula: "+cedulaProfesor+"\n"
+                                            +  "Nombres: "+stringNomProfesor+"\n"
+                                            +  "Apellidos: "+stringApeProfesor+"\n"
+                                            +  "Fecha de Nacimiento: "+stringFecProfesor+"\n"
+                                            +  "Dirección: "+stringDirProfesor+"\n"
+                                            +  "Correo: "+stringCorProfesor+"\n"
+                                            +  "Telefono: "+stringTelProfesor+"\n"
+                                            +  "Sexo: "+stringSexProfesor+"\n"
+                                            +  "Titulo: "+stringTitProfesor+"\n");
+        } else {
+            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el profesor a detallar");
+        }
+    }
+    
     @Override
     public void incluir() {
         VistaAdmisionProfesor vistaAdmisionProfesor = new VistaAdmisionProfesor();
@@ -139,6 +173,8 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
             if (tablaProfesores.eliminarFila()) {
                 profesor.eliminar(cedulaProfesor);
             }
+        } else {
+            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el profesor a eliminar");
         }
     }
     
@@ -150,11 +186,14 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
     
     @Override
     public void consultar() { // consulta uno
-        
-        String stringCedula = cedula.obtenerContenido(); //falta generalizar
-        int cedulaProfesor=Integer.parseInt(stringCedula);    //   int
-        
-        ResultSet resultadoConsulta = profesor.consultarProfesor(cedulaProfesor);
-        tablaProfesores.cargarTabla(resultadoConsulta);
+        if (cedula.obtenerContenido().length() != 0) {
+            String stringCedula = cedula.obtenerContenido(); //falta generalizar
+            int cedulaProfesor=Integer.parseInt(stringCedula);    //   int
+
+            ResultSet resultadoConsulta = profesor.consultarProfesor(cedulaProfesor);
+            tablaProfesores.cargarTabla(resultadoConsulta);
+        } else {
+            JOptionPane.showMessageDialog(this,"Escriba la cedula a consultar");   
+        }
     }
 }
