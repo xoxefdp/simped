@@ -8,6 +8,8 @@ package Vista.Tablas;
 import Vista.Formatos.Tabla;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
@@ -156,6 +158,7 @@ public class TablaAlumnos extends JPanel{
         }
         return status;
     }
+    
     /**
      * Modifica una fila a la JTable con los datos pasados por parametros.
      * @param 
@@ -171,7 +174,8 @@ public class TablaAlumnos extends JPanel{
             status = true;
         }
         return status;
-    }  
+    }
+    
     /**
      * Elimina la fila que este seleccionada en la JTable.
      * @return Verdadero si la eliminación fue exitosa, falso en caso contrario.
@@ -191,6 +195,10 @@ public class TablaAlumnos extends JPanel{
         return status;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public String obtenerDescripcion(){
         int fila = tabla.getSelectedRow();
         if (fila >= 0)
@@ -199,11 +207,35 @@ public class TablaAlumnos extends JPanel{
             return null;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public String obtenerId(){
         int fila = tabla.getSelectedRow();
         if (fila >= 0)
             return (String)tabla.getValueAt(fila, 1);
         else
             return null;
+    }
+    
+    /**
+     * Preselecciona un campo en la tabla
+     * @param entrada
+     *
+     */
+    public void seleccionarFila(int entrada){
+        int fila = 0;
+        try {
+            fila = entrada;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        if (fila < 0 || fila >= tabla.getRowCount()) {
+            JOptionPane.showMessageDialog(tabla, "Selección fuera de rango de tabla!");
+        } else {
+            tabla.setRowSelectionInterval(fila, fila);
+        }
     }
 }

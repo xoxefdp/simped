@@ -208,4 +208,24 @@ public class TablaModAdmRepresentantes extends JPanel{
         else
             return null;
     }
+    
+        /**
+     * Preselecciona un campo en la tabla
+     * @param cedRepresentante
+     *
+     */
+    public void seleccionarFila(int entrada){
+        int fila = 0;
+        try {
+            fila = entrada;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        if (fila < 0 || fila >= tabla.getRowCount()) {
+            JOptionPane.showMessageDialog(tabla, "Selección fuera de rango de tabla!");
+        } else {
+            tabla.setRowSelectionInterval(fila, fila);
+        }
+    }
 }

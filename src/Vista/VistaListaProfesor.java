@@ -151,12 +151,19 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
     @Override
     public void incluir() {
         VistaAdmisionProfesor vistaAdmisionProfesor = new VistaAdmisionProfesor();
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void modificar() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tablaProfesores.tabla.getSelectedRow()>=0){
+            
+            String stringProfesor; // debo convertirlo a int para pasarlo al metodo y a la base de datos
+            int cedulaProfesor;
+            
+            stringProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 0); //string 
+            cedulaProfesor=Integer.parseInt(stringProfesor);    //   int
+            VistaActualizarProfesor vistaActualizarProfesor = new VistaActualizarProfesor(cedulaProfesor);
+        }
     }
     
     @Override

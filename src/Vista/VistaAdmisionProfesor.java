@@ -11,7 +11,6 @@ import Controlador.CerrarVentana;
 import Controlador.OyenteAceptar;
 import Controlador.OyenteCancelar;
 import Modelo.Profesor;
-import Modelo.Representante;
 import Vista.Formatos.Botonera;
 import Vista.Formatos.CampoAreaTexto;
 import Vista.Formatos.CampoCombo;

@@ -38,4 +38,12 @@ public class CampoCombo extends JPanel{
     public Object obtenerSeleccion(){
         return campocombo.getSelectedItem();
     }
+    
+    /**
+     * Ubica el elemento preseleccionado al pasado en parametros
+     * @param elemento 
+     */
+    public void seleccionarElemento(Object elemento){
+        campocombo.setSelectedItem(elemento);
+    }
 }
