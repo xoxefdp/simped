@@ -72,15 +72,15 @@ public final class VistaActualizarProfesor extends JFrame implements Aceptar, Ca
         profesor = new Profesor();
         resultadoPr = profesor.consultarProfesor(cedulaEntrada);
         try{
-            cedula.cambiarContenido(resultadoPr.getString(0));
-            nombres.cambiarContenido(resultadoPr.getString(1));
-            apellidos.cambiarContenido(resultadoPr.getString(2));
-            fechanac.cambiarContenido(resultadoPr.getString(3));
-            direccion.cambiarContenido(resultadoPr.getString(4));
-            correo.cambiarContenido(resultadoPr.getString(5));
-            telefono.cambiarContenido(resultadoPr.getString(6));
-            sexo.seleccionarElemento(resultadoPr.getObject(7));
-            titulo.cambiarContenido(resultadoPr.getString(8));   
+            cedula.cambiarContenido(resultadoPr.getString(1));
+            nombres.cambiarContenido(resultadoPr.getString(2));
+            apellidos.cambiarContenido(resultadoPr.getString(3));
+            fechanac.cambiarContenido(resultadoPr.getString(4));
+            direccion.cambiarContenido(resultadoPr.getString(5));
+            correo.cambiarContenido(resultadoPr.getString(6));
+            telefono.cambiarContenido(resultadoPr.getString(7));
+            sexo.seleccionarElemento(resultadoPr.getObject(8));
+            titulo.cambiarContenido(resultadoPr.getString(9));   
         } catch (SQLException ex) {
             Logger.getLogger(VistaActualizarEstudiante.class.getName()).log(Level.SEVERE, null, ex);
         }

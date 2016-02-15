@@ -22,6 +22,7 @@ import Vista.Tablas.TablaAlumnos;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -72,8 +73,15 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
         botoneraDE = new Botonera(1,DE);
+        /*
         botoneraDE.adherirEscucha(0, (ActionEvent e) -> {
             detallar();
+        });
+        */
+        botoneraDE.adherirEscucha(0, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                detallar();
+            }
         });
         
         panelTop =new JPanel();
