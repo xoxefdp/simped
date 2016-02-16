@@ -80,6 +80,7 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
         });
         */
         botoneraDE.adherirEscucha(0, new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 detallar();
             }
@@ -156,12 +157,19 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
     @Override
     public void incluir() {
         VistaAdmisionRepresentante vistaAdmisionRepresentante = new VistaAdmisionRepresentante();
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void modificar() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tablaRepresentantes.tabla.getSelectedRow()>=0){
+            
+            String stringRepresentante; // debo convertirlo a int para pasarlo al metodo y a la base de datos
+            int codigoRepresentante;            
+            
+            stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0); //string 
+            codigoRepresentante=Integer.parseInt(stringRepresentante);    //   int
+            VistaActualizarRepresentante vistaActualizarRepresentante = new VistaActualizarRepresentante(codigoRepresentante);
+        }
     }
     
     @Override

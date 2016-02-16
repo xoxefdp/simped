@@ -14,6 +14,7 @@ import Controlador.OyenteCancelar;
 import Controlador.OyenteConsultar;
 import Controlador.OyenteListar;
 import Modelo.Alumno;
+import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Representante;
 import Vista.Formatos.Botonera;
 import Vista.Formatos.CampoCombo;
@@ -22,10 +23,9 @@ import Vista.Tablas.TablaModAdmRepresentantes;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -46,7 +46,7 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
     private Alumno alumno = new Alumno();
     private int codigoAlumno;
 
-    private final Representante representanteModelo;
+    private final Representante representanteModelo =new Representante();
     private final TablaModAdmRepresentantes tablaRepresentantes;
     private final String[] BU = {"Buscar"};
     private final String[] LI = {"Listar Todos"};
@@ -88,8 +88,11 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
         botoneraDE = new Botonera(1,DE);
-        botoneraDE.adherirEscucha(0, (ActionEvent e) -> {
-            detallar();
+        botoneraDE.adherirEscucha(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                detallar();
+            }
         });
         
         panelRepresentante = new JPanel();
@@ -98,7 +101,6 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
         panelRepresentante.add(botoneraLI);
         panelRepresentante.add(botoneraDE);
         
-        representanteModelo = new Representante();
         resultadoRep = representanteModelo.consultarRepresentantes();
         tablaRepresentantes = new TablaModAdmRepresentantes();
         tablaRepresentantes.cargarTabla(resultadoRep);
@@ -109,13 +111,16 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
         codigoAlumno = codigoEstudiante;
         resultadoAl = alumno.consultarAlumno(codigoAlumno);
         try {
-            nombres.cambiarContenido(resultadoAl.getString(1));
-            apellidos.cambiarContenido(resultadoAl.getString(2));
-            fechanac.cambiarContenido(resultadoAl.getString(3));
-            sexo.seleccionarElemento(resultadoAl.getObject(4));
-            tablaRepresentantes.seleccionarFila(resultadoAl.getInt(5));
-        } catch (SQLException ex) {
-            Logger.getLogger(VistaActualizarEstudiante.class.getName()).log(Level.SEVERE, null, ex);
+            while(resultadoAl.next()){
+                nombres.cambiarContenido(resultadoAl.getString(1));
+                apellidos.cambiarContenido(resultadoAl.getString(2));
+                fechanac.cambiarContenido(resultadoAl.getString(3));
+                sexo.seleccionarElemento(resultadoAl.getObject(4));
+                tablaRepresentantes.seleccionarFila(resultadoAl.getInt(5));
+            }
+        } catch(SQLException error){
+            String mensaje = errorSQL(error.getSQLState());
+            JOptionPane.showMessageDialog(null, mensaje);
         }
         
         panelCenter = new JPanel();

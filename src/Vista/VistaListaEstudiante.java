@@ -28,6 +28,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 /**
  * 
  * @author josediaz
@@ -79,6 +80,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         });
         */
         botoneraDE.adherirEscucha(0, new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 detallar();
             }

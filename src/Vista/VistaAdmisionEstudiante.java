@@ -39,7 +39,7 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
     private final Botonera boton,botoneraBU,botoneraLI,botoneraDE;
     private final String[] AC = {"Aceptar","Cancelar"};
     private final String[] opcSexo = {"","Masculino","Femenino"};
-    private Alumno alumno = new Alumno();
+    private final Alumno alumno = new Alumno();
 
     private final Representante representanteModelo;
     private final TablaModAdmRepresentantes tablaRepresentantes;

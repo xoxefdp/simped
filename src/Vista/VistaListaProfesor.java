@@ -80,6 +80,7 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
         });
         */
         botoneraDE.adherirEscucha(0, new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 detallar();
             }

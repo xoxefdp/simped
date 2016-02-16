@@ -69,14 +69,6 @@ public class Alumno {
                     +"representante_cedula_rp = '"+cedulaRepresentante+"', "
                     +"sexo = '"+sexo+"';";
             
-            /*
-            consulta="INSERT INTO representante ("
-            + "cedula_rp, nombre_rp, apellido_rp, telefono_rp, direccion_rp, correo_rp,"
-            + " parentesco, fecha_nac_rp, sexo_rp) VALUES ('"+cedula+"', '"+nombre+"', '"+apellido+"', '"
-            +telefono+"', '"+direccion+"', '"+correo+"', '"+parentesco+"', '"+fechaNacimiento+"', '"
-            +sexo+"');";
-            */
-            
             instruccionSql.executeUpdate(consulta);
             inserccionOk = true;
         }catch(SQLException error){
@@ -107,9 +99,9 @@ public class Alumno {
                     +"nombre_al = '"+nombre+"', "
                     +"apellido_al = '"+apellido+"', "
                     +"fecha_nac_alum = '"+fechaNacimiento+"', "
-                    +"sexo_rp = '"+sexo+"', "
+                    +"sexo = '"+sexo+"', "
                     +"representante_cedula_rp = '"+cedulaRepresentante+"', "
-                    +"where cod_al = "+codigo+";";
+                    +"WHERE cod_al = '"+codigo+"';";
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
             instruccionSql.executeUpdate("COMMIT;");

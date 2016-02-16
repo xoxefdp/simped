@@ -2,32 +2,24 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ */ 
 package Vista;
 
 import Controlador.Aceptar;
 import Controlador.Cancelar;
 import Controlador.CerrarVentana;
-import Controlador.ConsultarListar;
 import Controlador.OyenteAceptar;
 import Controlador.OyenteCancelar;
-import Controlador.OyenteConsultar;
-import Controlador.OyenteListar;
-import Modelo.Alumno;
+import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Profesor;
-import Modelo.Representante;
 import Vista.Formatos.Botonera;
+import Vista.Formatos.CampoAreaTexto;
 import Vista.Formatos.CampoCombo;
 import Vista.Formatos.CampoTexto;
-import Vista.Tablas.TablaModAdmRepresentantes;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -38,7 +30,8 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  * @author josediaz
  */
 public final class VistaActualizarProfesor extends JFrame implements Aceptar, Cancelar, CerrarVentana{
-    private final CampoTexto cedula,nombres,apellidos,fechanac,direccion,correo,telefono,titulo;
+    private final CampoTexto cedula,nombres,apellidos,fechanac,correo,telefono,titulo;
+    private final CampoAreaTexto direccion;
     private final CampoCombo sexo;
     private final JPanel panelTop;
     private final Botonera boton;
@@ -52,44 +45,47 @@ public final class VistaActualizarProfesor extends JFrame implements Aceptar, Ca
         setResizable(false);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+
         /**
          * Elementos del panel superior
          */
-        cedula = new CampoTexto("Cedula", 20);
+        cedula = new CampoTexto("Cedula",20);
         nombres = new CampoTexto("Nombres",20);
         apellidos = new CampoTexto("Apellidos",20);
         fechanac = new CampoTexto("Fecha de Nacimiento",20);
-        direccion  = new CampoTexto("Dirección", 20);
-        correo  = new CampoTexto("Correo", 20);
-        telefono  = new CampoTexto("Telefono", 20);
+        direccion = new CampoAreaTexto("Dirección",20,2);
+        correo = new CampoTexto("Correo",20);
+        telefono = new CampoTexto("Telefono",20);
         sexo = new CampoCombo("Sexo",opcSexo);
-        titulo  = new CampoTexto("Titulo o cargo", 20);
-
+        titulo = new CampoTexto("Titulo",20);        
+        
         /**
          * Llenado de campos
          */
         profesor = new Profesor();
         resultadoPr = profesor.consultarProfesor(cedulaEntrada);
         try{
-            cedula.cambiarContenido(resultadoPr.getString(1));
-            nombres.cambiarContenido(resultadoPr.getString(2));
-            apellidos.cambiarContenido(resultadoPr.getString(3));
-            fechanac.cambiarContenido(resultadoPr.getString(4));
-            direccion.cambiarContenido(resultadoPr.getString(5));
-            correo.cambiarContenido(resultadoPr.getString(6));
-            telefono.cambiarContenido(resultadoPr.getString(7));
-            sexo.seleccionarElemento(resultadoPr.getObject(8));
-            titulo.cambiarContenido(resultadoPr.getString(9));   
-        } catch (SQLException ex) {
-            Logger.getLogger(VistaActualizarEstudiante.class.getName()).log(Level.SEVERE, null, ex);
+            while(resultadoPr.next()){
+                cedula.cambiarContenido(resultadoPr.getString(1));
+                nombres.cambiarContenido(resultadoPr.getString(2));
+                apellidos.cambiarContenido(resultadoPr.getString(3));
+                fechanac.cambiarContenido(resultadoPr.getString(4));
+                direccion.cambiarContenido(resultadoPr.getString(5));
+                correo.cambiarContenido(resultadoPr.getString(6));
+                telefono.cambiarContenido(resultadoPr.getString(7));
+                sexo.seleccionarElemento(resultadoPr.getObject(8));
+                titulo.cambiarContenido(resultadoPr.getString(9));
+            }
+        } catch(SQLException error){
+            String mensaje = errorSQL(error.getSQLState());
+            JOptionPane.showMessageDialog(null, mensaje);
         }
         
         panelTop = new JPanel();
         panelTop.setLayout(new GridLayout(3,3));
         panelTop.add(cedula);
         panelTop.add(nombres);
-        panelTop.add(apellidos);        
+        panelTop.add(apellidos);
         panelTop.add(fechanac);
         panelTop.add(direccion);
         panelTop.add(correo);
@@ -107,7 +103,6 @@ public final class VistaActualizarProfesor extends JFrame implements Aceptar, Ca
         /**
          * Configuracion de Vista
          */
-        add(boton);
         add(BorderLayout.NORTH,panelTop);
         add(BorderLayout.SOUTH,boton);
         pack();
@@ -116,25 +111,24 @@ public final class VistaActualizarProfesor extends JFrame implements Aceptar, Ca
 
     @Override
     public void aceptar() {
-        if (cedula.obtenerContenido().length() != 0 && nombres.obtenerContenido().length() != 0 && 
-        apellidos.obtenerContenido().length() != 0 && fechanac.obtenerContenido().length() != 0 && 
-        direccion.obtenerContenido().length() != 0 && correo.obtenerContenido().length() != 0 && 
-        telefono.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0 && 
-        titulo.obtenerContenido().length() != 0) {
+        if (cedula.obtenerContenido().length() != 0 && nombres.obtenerContenido().length() != 0 &&
+        apellidos.obtenerContenido().length() != 0 && telefono.obtenerContenido().length() != 0 &&
+        direccion.obtenerContenido().length() != 0 && correo.obtenerContenido().length() != 0 &&
+        fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0) {
             
-            String cedulaPr = cedula.obtenerContenido();
-            int cedulaProfesor = Integer.parseInt(cedulaPr);
+            String strCedulaProf = cedula.obtenerContenido();
+            int cedulaProf = Integer.parseInt(strCedulaProf);
             
-            String nombrePr = nombres.obtenerContenido();
-            String apellidoPr = apellidos.obtenerContenido();
-            String fechaNacPr = fechanac.obtenerContenido();
-            String direccionPr = direccion.obtenerContenido();
-            String correoPr = correo.obtenerContenido();
-            String telefonoPr = telefono.obtenerContenido();
-            String sexoPr = sexo.obtenerSeleccion().toString();
-            String tituloPr  = titulo.obtenerContenido();
+            String nombreProf = nombres.obtenerContenido();
+            String apellidoProf = apellidos.obtenerContenido();
+            String fechaNacProf = fechanac.obtenerContenido();
+            String direccionProf = direccion.obtenerContenido();
+            String correoProf = correo.obtenerContenido();
+            String telefonoProf = telefono.obtenerContenido();
+            String sexoProf = (String) sexo.obtenerSeleccion();
+            String tituloProf = titulo.obtenerContenido();
             
-            if (profesor.modificar(cedulaProfesor, nombrePr, apellidoPr, fechaNacPr, direccionPr, telefonoPr, correoPr, tituloPr, sexoPr)) {
+            if (profesor.modificar(cedulaProf, nombreProf, apellidoProf, fechaNacProf, direccionProf, telefonoProf, correoProf, tituloProf, sexoProf)){
                 cerrarVentana();
             } else {
                 JOptionPane.showMessageDialog(this,"Error al insertar");

@@ -74,14 +74,6 @@ public class Profesor {
                     +"titulo_prof = '"+titulo+"', "
                     +"sexo_pr = '"+sexo+"';";
             
-            /*
-            consulta="INSERT INTO representante ("
-            + "cedula_rp, nombre_rp, apellido_rp, telefono_rp, direccion_rp, correo_rp,"
-            + " parentesco, fecha_nac_rp, sexo_rp) VALUES ('"+cedula+"', '"+nombre+"', '"+apellido+"', '"
-            +telefono+"', '"+direccion+"', '"+correo+"', '"+parentesco+"', '"+fechaNacimiento+"', '"
-            +sexo+"');";
-            */
-            
             instruccionSql.executeUpdate(consulta);
             inserccionOk = true;
         }catch(SQLException error){
@@ -118,7 +110,7 @@ public class Profesor {
                     +"correo_pr = '"+correo+"', "
                     +"titulo_prof = '"+titulo+"', "
                     +"sexo_pr = '"+sexo+"', "
-                    +"where cedula_pr = "+cedula+";";
+                    +"where cedula_pr = '"+cedula+"';";
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
             instruccionSql.executeUpdate("COMMIT;");

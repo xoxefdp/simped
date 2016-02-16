@@ -211,7 +211,7 @@ public class TablaModAdmRepresentantes extends JPanel{
     
         /**
      * Preselecciona un campo en la tabla
-     * @param cedRepresentante
+     * @param entrada
      *
      */
     public void seleccionarFila(int entrada){
