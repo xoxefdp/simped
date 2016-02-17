@@ -22,6 +22,7 @@ import Vista.Tablas.TablaModAdmRepresentantes;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -83,8 +84,11 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
         botoneraDE = new Botonera(1,DE);
-        botoneraDE.adherirEscucha(0, (ActionEvent e) -> {
-            detallar();
+        botoneraDE.adherirEscucha(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                detallar();
+            }
         });
         
         panelRepresentante = new JPanel();
