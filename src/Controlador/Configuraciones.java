@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Controlador;
 
 import java.io.FileInputStream;
@@ -33,9 +38,9 @@ public class Configuraciones {
             BASE_DE_DATOS = configuraciones.getProperty("BASE_DE_DATOS"); 
             DBName=BASE_DE_DATOS;
         } catch (FileNotFoundException e) {
-            System.out.println("Error, No existe el archivo");
+            System.out.println("Error 10, No existe el archivo");
         } catch (IOException e) {
-            System.out.println("Error, No se puede leer el archivo");
+            System.out.println("Error 10, No se puede leer el archivo");
         }
        return DBName;
     }  
@@ -50,9 +55,9 @@ public class Configuraciones {
             USUARIO_BASE_DE_DATOS = configuraciones.getProperty("USUARIO_BASE_DE_DATOS"); 
             UserName=USUARIO_BASE_DE_DATOS;
         } catch (FileNotFoundException e) {
-            System.out.println("Error, No existe el archivo");
+            System.out.println("Error 20, No existe el archivo");
         } catch (IOException e) {
-            System.out.println("Error, No se puede leer el archivo");
+            System.out.println("Error 20, No se puede leer el archivo");
         }
         return UserName;
     }
@@ -67,9 +72,9 @@ public class Configuraciones {
             CLAVE_USUARIO = configuraciones.getProperty("CLAVE_USUARIO"); 
             PassWord=CLAVE_USUARIO;
         } catch (FileNotFoundException e) {
-            System.out.println("Error, No existe el archivo");
+            System.out.println("Error 30, No existe el archivo");
         } catch (IOException e) {
-            System.out.println("Error, No se puede leer el archivo");
+            System.out.println("Error 30, No se puede leer el archivo");
         }
         return PassWord;
     }
@@ -84,9 +89,9 @@ public class Configuraciones {
             URL_DEL_SERVIDOR = configuraciones.getProperty("URL_DEL_SERVIDOR"); 
             ServerURL=URL_DEL_SERVIDOR;
         } catch (FileNotFoundException e) {
-            System.out.println("Error, No existe el archivo");
+            System.out.println("Error 40, No existe el archivo");
         } catch (IOException e) {
-            System.out.println("Error, No se puede leer el archivo");
+            System.out.println("Error 40, No se puede leer el archivo");
         }
         return ServerURL;
     }
@@ -101,9 +106,9 @@ public class Configuraciones {
             DRIVER = configuraciones.getProperty("DRIVER"); 
             Controller=DRIVER;
         } catch (FileNotFoundException e) {
-            System.out.println("Error, No existe el archivo");
+            System.out.println("Error 50, No existe el archivo");
         } catch (IOException e) {
-            System.out.println("Error, No se puede leer el archivo");
+            System.out.println("Error 50, No se puede leer el archivo");
         }
         return Controller;
     }
@@ -118,9 +123,9 @@ public class Configuraciones {
             URL_CONEXION = configuraciones.getProperty("URL_CONEXION"); 
             ConnectionURL=URL_CONEXION + getServerURL() +"/" + getDBName();
         } catch (FileNotFoundException e) {
-            System.out.println("Error, No existe el archivo");
+            System.out.println("Error 60, No existe el archivo");
         } catch (IOException e) {
-            System.out.println("Error, No se puede leer el archivo");
+            System.out.println("Error 60, No se puede leer el archivo");
         }
         return ConnectionURL;
     }
@@ -137,9 +142,9 @@ public class Configuraciones {
             RUTA_REPORTES = configuraciones.getProperty("RUTA_REPORTES"); 
             ReportRoute=RUTA_REPORTES;
         } catch (FileNotFoundException e) {
-            System.out.println("Error, No existe el archivo");
+            System.out.println("Error 70, No existe el archivo");
         } catch (IOException e) {
-            System.out.println("Error, No se puede leer el archivo");
+            System.out.println("Error 70, No se puede leer el archivo");
         }
        return ReportRoute;
     }
