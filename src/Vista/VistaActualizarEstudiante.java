@@ -126,13 +126,15 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
         /**
          * Ejecuta eventos de selección en tabla
          */
-        tablaRepresentantes.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){ 
+        tablaRepresentantes.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int row = tablaRepresentantes.tabla.getSelectedRow();
-                cedula.cambiarContenido((String)tablaRepresentantes.tabla.getValueAt(row, 0));
+                if (row >= 0) {
+                    cedula.cambiarContenido((String)tablaRepresentantes.tabla.getValueAt(row, 0));
+                }
             }
-        });      
+        });
         
         /**
          * Llenado de campos con datos

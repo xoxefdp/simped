@@ -26,8 +26,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -124,11 +122,13 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         /**
          * Ejecuta eventos de selección en tabla
          */
-        tablaRepresentantes.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){ 
+        tablaRepresentantes.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int row = tablaRepresentantes.tabla.getSelectedRow();
-                cedula.cambiarContenido((String)tablaRepresentantes.tabla.getValueAt(row, 0));
+                if (row >= 0) {
+                    cedula.cambiarContenido((String)tablaRepresentantes.tabla.getValueAt(row, 0));
+                }
             }
         });
         

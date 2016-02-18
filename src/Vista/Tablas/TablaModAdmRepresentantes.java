@@ -80,8 +80,6 @@ public class TablaModAdmRepresentantes extends JPanel{
      */
     public void cargarTabla(ResultSet entrada){
         
-        //elimina cualquier seleccion en la tabla
-        tabla.clearSelection();
         //Limpia la tabla de registros, sirve para prepararla para otras consultas
         int filas = tabla.getRowCount();
         for (int i = 0; i < filas; i++){
