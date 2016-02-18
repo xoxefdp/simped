@@ -96,7 +96,7 @@ public class Representante {
         return inserccionOk;
     }
 
-    public final boolean modificar(int modificarCedula, String nombre, String apellido,
+    public final boolean modificar(int cedulaRep, String nombre, String apellido,
                                    String telefono, String direccion, String correo,
                                    String fechaNacimiento, String sexo){
         boolean inserccionOk = false;
@@ -108,8 +108,8 @@ public class Representante {
                     +"direccion_rp = '"+direccion+"' ,"
                     +"correo_rp = '"+correo+"' ,"
                     +"fecha_nac_rp = '"+fechaNacimiento+"' ,"
-                    +"sexo_rp = '"+sexo+"' ,"
-                    +"where cedula_rp = '"+modificarCedula+"';";
+                    +"sexo_rp = '"+sexo+"' "
+                    +"WHERE cedula_rp = '"+cedulaRep+"';";
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
             instruccionSql.executeUpdate("COMMIT;");

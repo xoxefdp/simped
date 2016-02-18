@@ -114,7 +114,8 @@ public final class VistaActualizarProfesor extends JFrame implements Aceptar, Ca
         if (cedula.obtenerContenido().length() != 0 && nombres.obtenerContenido().length() != 0 &&
         apellidos.obtenerContenido().length() != 0 && telefono.obtenerContenido().length() != 0 &&
         direccion.obtenerContenido().length() != 0 && correo.obtenerContenido().length() != 0 &&
-        fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0) {
+        fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0 &&
+        titulo.obtenerContenido().length() != 0) {
             
             String strCedulaProf = cedula.obtenerContenido();
             int cedulaProf = Integer.parseInt(strCedulaProf);
@@ -131,7 +132,7 @@ public final class VistaActualizarProfesor extends JFrame implements Aceptar, Ca
             if (profesor.modificar(cedulaProf, nombreProf, apellidoProf, fechaNacProf, direccionProf, telefonoProf, correoProf, tituloProf, sexoProf)){
                 cerrarVentana();
             } else {
-                JOptionPane.showMessageDialog(this,"Error al insertar");
+                JOptionPane.showMessageDialog(this,"Error al modificar");
             }
         } else {
             JOptionPane.showMessageDialog(this,"Existen campos vacios");

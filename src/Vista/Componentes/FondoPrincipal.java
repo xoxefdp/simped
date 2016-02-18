@@ -8,12 +8,13 @@ package Vista.Componentes;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 /**
  *
  * @author José Diaz
  */
-public class FondoPrincipal extends javax.swing.JPanel{
+public class FondoPrincipal extends JPanel{
     
     public FondoPrincipal(){
         
