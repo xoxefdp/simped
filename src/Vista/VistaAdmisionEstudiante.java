@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Calendario.Calendario;
 import Controlador.Aceptar;
 import Controlador.Cancelar;
 import Controlador.CerrarVentana;
@@ -23,6 +24,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -66,6 +69,18 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         apellidos = new CampoTexto("Apellidos",20);
         fechanac = new CampoTexto("Fecha de Nacimiento",20);
         sexo = new CampoCombo("Sexo",opcSexo);
+        
+        /**
+         * Invoca calendario al enfocar
+         */
+        fechanac.campo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (fechanac.obtenerContenido().length() == 0) {
+                    Calendario calendario = new Calendario(fechanac.campo);
+                }
+            }
+        });
 
         panelTop = new JPanel();
         panelTop.setLayout(new GridLayout(2,3));

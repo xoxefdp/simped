@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Calendario.Calendario;
 import Controlador.Aceptar;
 import Controlador.Cancelar;
 import Controlador.CerrarVentana;
@@ -17,6 +18,12 @@ import Vista.Formatos.CampoCombo;
 import Vista.Formatos.CampoTexto;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javafx.scene.control.DatePicker;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,8 +34,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  * @author josediaz
  */
 public final class VistaAdmisionRepresentante extends JFrame implements Aceptar, Cancelar, CerrarVentana{
-    private final CampoTexto cedula,nombres,apellidos,telefono,correo;
-    CampoTexto fechanac;
+    private final CampoTexto cedula,nombres,apellidos,telefono,correo,fechanac;
     private final CampoAreaTexto direccion;
     private final CampoCombo sexo;
     private final JPanel panelTop;
@@ -53,7 +59,19 @@ public final class VistaAdmisionRepresentante extends JFrame implements Aceptar,
         correo = new CampoTexto("Correo",20);
         fechanac = new CampoTexto("Fecha de Nacimiento",20);
         sexo = new CampoCombo("Sexo",opcSexo);
-
+        
+        /**
+         * Invoca calendario al enfocar
+         */
+        fechanac.campo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (fechanac.obtenerContenido().length() == 0) {
+                    Calendario calendario = new Calendario(fechanac.campo);
+                }
+            }
+        });
+        
         panelTop = new JPanel();
         panelTop.setLayout(new GridLayout(3,3));
         panelTop.add(cedula);

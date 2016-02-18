@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Calendario.Calendario;
 import Controlador.Aceptar;
 import Controlador.Cancelar;
 import Controlador.CerrarVentana;
@@ -31,6 +32,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static Modelo.MensajesDeError.errorSQL;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -70,6 +73,18 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
         fechanac = new CampoTexto("Fecha de Nacimiento",20);
         sexo = new CampoCombo("Sexo",opcSexo);        
 
+        /**
+         * Invoca calendario al enfocar
+         */
+        fechanac.campo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (fechanac.obtenerContenido().length() == 0) {
+                    Calendario calendario = new Calendario(fechanac.campo);
+                }
+            }
+        });
+        
         panelTop = new JPanel();
         panelTop.setLayout(new GridLayout(2,3));
         panelTop.add(nombres);

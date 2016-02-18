@@ -5,6 +5,7 @@
  */ 
 package Vista;
 
+import Calendario.Calendario;
 import Controlador.Aceptar;
 import Controlador.Cancelar;
 import Controlador.CerrarVentana;
@@ -18,6 +19,8 @@ import Vista.Formatos.CampoCombo;
 import Vista.Formatos.CampoTexto;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
@@ -58,6 +61,18 @@ public final class VistaActualizarProfesor extends JFrame implements Aceptar, Ca
         telefono = new CampoTexto("Telefono",20);
         sexo = new CampoCombo("Sexo",opcSexo);
         titulo = new CampoTexto("Titulo",20);        
+        
+        /**
+         * Invoca calendario al enfocar
+         */
+        fechanac.campo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (fechanac.obtenerContenido().length() == 0) {
+                    Calendario calendario = new Calendario(fechanac.campo);
+                }
+            }
+        });
         
         /**
          * Llenado de campos

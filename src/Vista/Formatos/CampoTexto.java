@@ -15,7 +15,7 @@ import javax.swing.JTextField;
  * @author yonalix
  */
 public class CampoTexto extends JPanel{
-    private JTextField campo;
+    public JTextField campo;
     private JPanel panelIn = new JPanel();
        
     /**
