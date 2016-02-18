@@ -27,7 +27,8 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  * @author josediaz
  */
 public final class VistaAdmisionRepresentante extends JFrame implements Aceptar, Cancelar, CerrarVentana{
-    private final CampoTexto cedula,nombres,apellidos,telefono,correo,fechanac;
+    private final CampoTexto cedula,nombres,apellidos,telefono,correo;
+    CampoTexto fechanac;
     private final CampoAreaTexto direccion;
     private final CampoCombo sexo;
     private final JPanel panelTop;

@@ -23,6 +23,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import javafx.scene.control.DatePicker;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -157,6 +158,7 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
     @Override
     public void incluir() {
         VistaAdmisionRepresentante vistaAdmisionRepresentante = new VistaAdmisionRepresentante();
+        DatePicker selectorFecha = new DatePicker(vistaAdmisionRepresentante.fechanac.);
     }
 
     @Override
