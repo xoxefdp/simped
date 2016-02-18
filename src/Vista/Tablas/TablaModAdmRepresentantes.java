@@ -5,6 +5,7 @@
  */
 package Vista.Tablas;
 
+import static Modelo.MensajesDeError.errorSQL;
 import Vista.Formatos.Tabla;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -79,6 +80,8 @@ public class TablaModAdmRepresentantes extends JPanel{
      */
     public void cargarTabla(ResultSet entrada){
         
+        //elimina cualquier seleccion en la tabla
+        tabla.clearSelection();
         //Limpia la tabla de registros, sirve para prepararla para otras consultas
         int filas = tabla.getRowCount();
         for (int i = 0; i < filas; i++){
@@ -109,8 +112,9 @@ public class TablaModAdmRepresentantes extends JPanel{
                 datos[7]= entrada.getString(8); //colGenero
                 tablaModelo.addRow(datos);
             }
-        } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "ERROR EN SENTENCIA SQL /n" + error);
+        }catch(SQLException error){
+            String mensaje = errorSQL(error.getSQLState());
+            JOptionPane.showMessageDialog(null,mensaje);
         }
     } 
     

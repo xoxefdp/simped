@@ -14,7 +14,6 @@ import Controlador.OyenteCancelar;
 import Controlador.OyenteConsultar;
 import Controlador.OyenteListar;
 import Modelo.Alumno;
-import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Representante;
 import Vista.Formatos.Botonera;
 import Vista.Formatos.CampoCombo;
@@ -31,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static Modelo.MensajesDeError.errorSQL;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -53,7 +53,8 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
     private final String[] BU = {"Buscar"};
     private final String[] LI = {"Listar Todos"};
     private final String[] DE = {"Detallar"};
-    private final ResultSet resultadoAl,resultadoRep;
+    private ResultSet resultadoAl,resultadoRep,consultaRep;
+    private String mensaje;
 
     public VistaActualizarEstudiante(int codigoEstudiante){
         setTitle("Actualizar Datos de Alumno");
@@ -67,9 +68,7 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
         nombres = new CampoTexto("Nombres",20);
         apellidos = new CampoTexto("Apellidos",20);
         fechanac = new CampoTexto("Fecha de Nacimiento",20);
-        sexo = new CampoCombo("Sexo",opcSexo);
-        
-        
+        sexo = new CampoCombo("Sexo",opcSexo);        
 
         panelTop = new JPanel();
         panelTop.setLayout(new GridLayout(2,3));
@@ -108,20 +107,17 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
         resultadoRep = representanteModelo.consultarRepresentantes();
         tablaRepresentantes = new TablaModAdmRepresentantes();
         tablaRepresentantes.cargarTabla(resultadoRep);
-        
-        /*
-        tablaRepresentantes .getSelectionModel().addListSelectionListener(new ListSelectionListener(){ 
+
+        /**
+         * Ejecuta eventos de selección en tabla
+         */
+        tablaRepresentantes.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){ 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                int i = table.getSelectedRow();
-                JT_id.setText((String)model.getValueAt(i, 0));
-                JT_fname.setText((String)model.getValueAt(i, 1));
-                JT_lname.setText((String)model.getValueAt(i, 2));
-                JT_age.setText((String)model.getValueAt(i, 3));
+                int row = tablaRepresentantes.tabla.getSelectedRow();
+                cedula.cambiarContenido((String)tablaRepresentantes.tabla.getValueAt(row, 0));
             }
-        });
-        
-        */        
+        });      
         
         /**
          * Llenado de campos con datos
@@ -199,19 +195,28 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
     public void aceptar() {
         if (nombres.obtenerContenido().length() != 0 && apellidos.obtenerContenido().length() != 0 &&
         fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0 &&
-        tablaRepresentantes.tabla.getSelectedRow() >= 0) {
+        cedula.obtenerContenido().length() != 0) {
             String nombreAl = nombres.obtenerContenido();
             String apellidoAl = apellidos.obtenerContenido();
             String fechaNacAl = fechanac.obtenerContenido();
             String sexoAl = sexo.obtenerSeleccion().toString();
+            int cedulaRep = cedula.obtenerContenido().length();
+
+            consultaRep = representanteModelo.consultarRepresentante(cedulaRep);
             
-            String stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0);
-            int cedulaRepresentante=Integer.parseInt(stringRepresentante);
-            
-            if (alumno.modificar(codigoAlumno, nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRepresentante)) {
-                cerrarVentana();
-            } else {
-                JOptionPane.showMessageDialog(this,"Error al modificar");
+            try {
+                if (!consultaRep.next()){
+                    JOptionPane.showMessageDialog(this,"La cedula de representante intoducida no existe, busquela en la tabla");
+                } else {
+                    if (alumno.modificar(codigoAlumno, nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRep)) {
+                        cerrarVentana();
+                    } else {
+                        JOptionPane.showMessageDialog(this,"Error al modificar");
+                    }
+                }
+            } catch(SQLException error){
+                mensaje = errorSQL(error.getSQLState());
+                JOptionPane.showMessageDialog(null,mensaje);
             }
         } else {
             JOptionPane.showMessageDialog(this,"Existen campos vacios");

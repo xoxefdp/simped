@@ -30,6 +30,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -104,19 +106,16 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         tablaRepresentantes = new TablaModAdmRepresentantes();
         tablaRepresentantes.cargarTabla(resultado);
         
-        
-        tablaRepresentantes.addMouseListener(new MouseAdapter() {
+        /**
+         * Ejecuta eventos de selección en tabla
+         */
+        tablaRepresentantes.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){ 
             @Override
-            public void mouseClicked(MouseEvent evt) {
-                int col = tablaRepresentantes.tabla.getSelectedColumn();
+            public void valueChanged(ListSelectionEvent e) {
                 int row = tablaRepresentantes.tabla.getSelectedRow();
-                cedula.cambiarContenido((String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0));
-                System.out.println((String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0));
+                cedula.cambiarContenido((String)tablaRepresentantes.tabla.getValueAt(row, 0));
             }
         });
-        
-        
-        
         
         panelCenter = new JPanel();
         panelCenter.setLayout(new GridLayout(2,1));
