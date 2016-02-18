@@ -8,15 +8,23 @@ package Vista;
 import Controlador.CerrarVentana;
 import Vista.Componentes.FondoPrincipal;
 import Vista.Componentes.Minutero;
+import com.sun.jndi.toolkit.url.Uri;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 /**
  *
@@ -25,10 +33,7 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
 public class MenuPrincipal extends JFrame implements ActionListener, CerrarVentana{
     private final JMenuBar barraDeNavegacion;
     private final JMenu listado, balance, emitir, sistema;
-    private final JMenuItem admisionEstudiante, admisionRepresentante, 
-            admisionProfesor, balanceEstudiante, balanceProfesor, 
-            constanciaEstudio, reporteInscripciones, 
-            cerrarSistema, manual, acercade;
+    private final JMenuItem admisionEstudiante, admisionRepresentante, admisionProfesor, balanceEstudiante, balanceProfesor, constanciaEstudio, reporteInscripciones, cerrarSistema, manual, acercade;
     private final Minutero tiempo;
      //URI fuente = new URI("http://java.sun.com");
     // URI licencia = new URI("http://java.sun.com");

@@ -31,6 +31,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -46,7 +48,7 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
     private Alumno alumno = new Alumno();
     private int codigoAlumno;
 
-    private final Representante representanteModelo =new Representante();
+    private final Representante representanteModelo = new Representante();
     private final TablaModAdmRepresentantes tablaRepresentantes;
     private final String[] BU = {"Buscar"};
     private final String[] LI = {"Listar Todos"};
@@ -66,6 +68,8 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
         apellidos = new CampoTexto("Apellidos",20);
         fechanac = new CampoTexto("Fecha de Nacimiento",20);
         sexo = new CampoCombo("Sexo",opcSexo);
+        
+        
 
         panelTop = new JPanel();
         panelTop.setLayout(new GridLayout(2,3));
@@ -105,6 +109,20 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
         tablaRepresentantes = new TablaModAdmRepresentantes();
         tablaRepresentantes.cargarTabla(resultadoRep);
         
+        /*
+        tablaRepresentantes .getSelectionModel().addListSelectionListener(new ListSelectionListener(){ 
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int i = table.getSelectedRow();
+                JT_id.setText((String)model.getValueAt(i, 0));
+                JT_fname.setText((String)model.getValueAt(i, 1));
+                JT_lname.setText((String)model.getValueAt(i, 2));
+                JT_age.setText((String)model.getValueAt(i, 3));
+            }
+        });
+        
+        */        
+        
         /**
          * Llenado de campos con datos
          */
@@ -112,11 +130,11 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
         resultadoAl = alumno.consultarAlumno(codigoAlumno);
         try {
             while(resultadoAl.next()){
-                nombres.cambiarContenido(resultadoAl.getString(1));
-                apellidos.cambiarContenido(resultadoAl.getString(2));
-                fechanac.cambiarContenido(resultadoAl.getString(3));
-                sexo.seleccionarElemento(resultadoAl.getObject(4));
-                tablaRepresentantes.seleccionarFila(resultadoAl.getInt(5));
+                nombres.cambiarContenido(resultadoAl.getString(2));
+                apellidos.cambiarContenido(resultadoAl.getString(3));
+                fechanac.cambiarContenido(resultadoAl.getString(4));
+                sexo.seleccionarElemento(resultadoAl.getObject(5));
+                cedula.cambiarContenido(resultadoAl.getString(6));
             }
         } catch(SQLException error){
             String mensaje = errorSQL(error.getSQLState());
@@ -193,7 +211,7 @@ public final class VistaActualizarEstudiante extends JFrame implements Aceptar, 
             if (alumno.modificar(codigoAlumno, nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRepresentante)) {
                 cerrarVentana();
             } else {
-                JOptionPane.showMessageDialog(this,"Error al insertar");
+                JOptionPane.showMessageDialog(this,"Error al modificar");
             }
         } else {
             JOptionPane.showMessageDialog(this,"Existen campos vacios");

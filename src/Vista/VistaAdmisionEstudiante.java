@@ -23,6 +23,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -101,6 +103,20 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         resultado = representanteModelo.consultarRepresentantes();
         tablaRepresentantes = new TablaModAdmRepresentantes();
         tablaRepresentantes.cargarTabla(resultado);
+        
+        
+        tablaRepresentantes.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                int col = tablaRepresentantes.tabla.getSelectedColumn();
+                int row = tablaRepresentantes.tabla.getSelectedRow();
+                cedula.cambiarContenido((String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0));
+                System.out.println((String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0));
+            }
+        });
+        
+        
+        
         
         panelCenter = new JPanel();
         panelCenter.setLayout(new GridLayout(2,1));
