@@ -100,7 +100,7 @@ public class Alumno {
                     +"apellido_al = '"+apellido+"', "
                     +"fecha_nac_alum = '"+fechaNacimiento+"', "
                     +"sexo = '"+sexo+"', "
-                    +"representante_cedula_rp = '"+cedulaRepresentante+"', "
+                    +"representante_cedula_rp = '"+cedulaRepresentante+"' "
                     +"WHERE cod_al = '"+codigo+"';";
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);

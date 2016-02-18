@@ -126,7 +126,7 @@ public final class VistaActualizarRepresentante extends JFrame implements Acepta
             if (representante.modificar(cedulaRep, nombreRep, apellidoRep, telefonoRep, direccionRep, correoRep, fechaNacRep, sexoRep)) {
                 cerrarVentana();
             } else {
-                JOptionPane.showMessageDialog(this,"Error al insertar");
+                JOptionPane.showMessageDialog(this,"Error al modificar");
             }
         } else {
             JOptionPane.showMessageDialog(this,"Existen campos vacios");

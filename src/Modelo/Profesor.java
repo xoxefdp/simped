@@ -96,7 +96,7 @@ public class Profesor {
         return inserccionOk;
     }
 
-    public final boolean modificar(int cedula, String nombre, String apellido, 
+    public final boolean modificar(int cedulaProf, String nombre, String apellido, 
                                    String fechaNacimiento, String direccion, String telefono,
                                    String correo, String titulo, String sexo){
         boolean inserccionOk = false;
@@ -109,8 +109,8 @@ public class Profesor {
                     +"telefono_pr = '"+telefono+"', "
                     +"correo_pr = '"+correo+"', "
                     +"titulo_prof = '"+titulo+"', "
-                    +"sexo_pr = '"+sexo+"', "
-                    +"where cedula_pr = '"+cedula+"';";
+                    +"sexo_pr = '"+sexo+"' "
+                    +"WHERE cedula_pr = '"+cedulaProf+"';";
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
             instruccionSql.executeUpdate("COMMIT;");

@@ -89,7 +89,8 @@ public final class VistaAdmisionProfesor extends JFrame implements Aceptar, Canc
         if (cedula.obtenerContenido().length() != 0 && nombres.obtenerContenido().length() != 0 &&
         apellidos.obtenerContenido().length() != 0 && telefono.obtenerContenido().length() != 0 &&
         direccion.obtenerContenido().length() != 0 && correo.obtenerContenido().length() != 0 &&
-        fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0) {
+        fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0 &&
+        titulo.obtenerContenido().length() != 0) {
             
             String strCedulaProf = cedula.obtenerContenido();
             int cedulaProf = Integer.parseInt(strCedulaProf);
