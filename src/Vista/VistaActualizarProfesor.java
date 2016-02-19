@@ -32,7 +32,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  *
  * @author josediaz
  */
-public final class VistaActualizarProfesor extends JFrame implements Aceptar, Cancelar, CerrarVentana{
+public class VistaActualizarProfesor extends JFrame implements Aceptar, Cancelar, CerrarVentana{
     private final CampoTexto cedula,nombres,apellidos,fechanac,correo,telefono,titulo;
     private final CampoAreaTexto direccion;
     private final CampoCombo sexo;

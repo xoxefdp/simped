@@ -41,7 +41,7 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author josediaz
  */
-public final class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancelar, CerrarVentana, ConsultarListar{
+public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancelar, CerrarVentana, ConsultarListar{
     private final CampoTexto nombres,apellidos,fechanac,cedula;
     private final CampoCombo sexo;
     private final JPanel panelTop,panelBusqueda,panelRepresentante,panelCenter;

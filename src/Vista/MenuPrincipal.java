@@ -12,6 +12,9 @@ import com.sun.jndi.toolkit.url.Uri;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.logging.Level;
@@ -43,7 +46,7 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
     public MenuPrincipal(){
         super("Sistema Informatico para Manejo de Población Estudiantil y Docente");
         setLayout(new BorderLayout());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         
         barraDeNavegacion = new JMenuBar(); // se crea la barra de menus        
         setJMenuBar(barraDeNavegacion);
@@ -164,8 +167,6 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
         int confirmarSalida = JOptionPane.showConfirmDialog(null, "Desea salir del sistema?", "Saliendo...", YES_NO_OPTION);
         if (confirmarSalida == JOptionPane.OK_OPTION){
             System.exit(0);
-        }else{
-            //
         }
     }
 
