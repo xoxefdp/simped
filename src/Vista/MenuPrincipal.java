@@ -141,8 +141,8 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
         }
         
         if (e.getSource() == constanciaEstudio) {
-            //new VistaListaEstudiantes();
-            //new VistaAdmisionEstudiante();
+            new VistaConsultaEstudiante();
+           
         }
         if (e.getSource() == reporteInscripciones) {
             //new VistaListaEstudiantes();
