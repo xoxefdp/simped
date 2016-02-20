@@ -33,22 +33,22 @@ import javax.swing.JPanel;
  * 
  * @author josediaz
  */
-public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, Eliminar, ConsultarListar{
+public class VistaConsultaEstudiante extends JFrame implements Incluir, ConsultarListar{
     private TablaAlumnos tablaAlumnos;
     private Botonera botoneraME,botoneraBU,botoneraDE,botoneraIC,botoneraLI;
     private CampoTexto codigo;
     private JPanel panelBusqueda,panelTop, panelBottom;
-    private final String[] IC = {"Incluir"};
-    private final String[] ME = {"Modificar","Eliminar"};
+    private final String[] IC = {"imprimir"};
+    //private final String[] ME = {"Modificar","Eliminar"};
     private final String[] BU = {"Buscar"};
     private final String[] LI = {"Listar Todos"};
-    private final String[] DE = {"Detallar"};
+    //private final String[] DE = {"Detallar"};
     private final Alumno alumno = new Alumno();
     private ResultSet resultado;
     /**
      * Crea la interface de la clase.
      */
-    public VistaListaEstudiante(){
+    public VistaConsultaEstudiante(){
         crearGui();
     }
     
@@ -73,25 +73,25 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         botoneraLI = new Botonera(1,LI);
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
-        botoneraDE = new Botonera(1,DE);
+        //botoneraDE = new Botonera(1,DE);
         /*
         botoneraDE.adherirEscucha(0, (ActionEvent e) -> {
             detallar();
         });
         */
-        botoneraDE.adherirEscucha(0, new ActionListener() {
+        /*botoneraDE.adherirEscucha(0, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 detallar();
             }
-        });
+        });*/
         
         panelTop =new JPanel();
         panelTop.setLayout(new GridLayout(1,3)); 
         panelTop.setBorder(BorderFactory.createTitledBorder("Filtrar / Listar / Detallar"));
         panelTop.add(panelBusqueda);
         panelTop.add(botoneraLI);
-        panelTop.add(botoneraDE);
+        //panelTop.add(botoneraDE);
         
         /**
          * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
@@ -106,15 +106,15 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         
         botoneraIC = new Botonera(1,IC);
         botoneraIC.adherirEscucha(0,new OyenteIncluir(this));
-        
+        /*
         botoneraME = new Botonera(2,ME);
         botoneraME.adherirEscucha(0,new OyenteModificar(this));
         botoneraME.adherirEscucha(1,new OyenteEliminar(this));
-        
+        */
         panelBottom =new JPanel();
         panelBottom.setBorder(BorderFactory.createTitledBorder("Operaciones"));
         panelBottom.add(botoneraIC);
-        panelBottom.add(botoneraME);        
+        //panelBottom.add(botoneraME);        
         
         add(BorderLayout.NORTH,panelTop);
         add(BorderLayout.CENTER,tablaAlumnos);
@@ -123,7 +123,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         pack();
         setVisible(true);
     }
-
+/*
     public void detallar() {
         if (tablaAlumnos.tabla.getSelectedRow()>=0){
             
@@ -153,44 +153,14 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
             JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el estudiante a detallar");
         }
     }
-
+*/
     @Override
     public void incluir() {
         VistaAdmisionEstudiante vistaAdmisionEstudiante = new VistaAdmisionEstudiante();
     }
 
-    @Override
-    public void modificar() {
-        if (tablaAlumnos.tabla.getSelectedRow()>=0){
-            
-            String stringEstudiante; // debo convertirlo a int para pasarlo al metodo y a la base de datos
-            int codigoEstudiante;            
-            
-            stringEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 0); //string 
-            codigoEstudiante=Integer.parseInt(stringEstudiante);    //   int
-            VistaActualizarEstudiante vistaActualizarEstudiante = new VistaActualizarEstudiante(codigoEstudiante);
-        }
-    }
-    
-    @Override
-    public void eliminar() {
-        if (tablaAlumnos.tabla.getSelectedRow() >= 0){
-            
-            String stringEstudiante; // debo convertirlo a int para pasarlo al metodo y a la base de datos
-            int codigoEstudiante;            
-            
-            stringEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 0); //string 
-            codigoEstudiante=Integer.parseInt(stringEstudiante);    //   int
-            
-            // si confirma elimina de la base de datos
-            if (tablaAlumnos.eliminarFila()) {
-                alumno.eliminar(codigoEstudiante);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el estudiante a eliminar");
-        }
-    }
-    
+   
+   
     @Override
     public void listar() { // consulta todos
         ResultSet resultadoListar = alumno.consultarAlumnos();
@@ -208,5 +178,8 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         } else {
             JOptionPane.showMessageDialog(this,"Escriba el codigo a consultar");
         }
+    }
+    public static void main(String[] args) {
+        new VistaConsultaEstudiante();
     }
 }
