@@ -35,14 +35,14 @@ import javax.swing.JPanel;
  */
 public class VistaConsultaEstudiante extends JFrame implements Incluir, ConsultarListar{
     private TablaAlumnos tablaAlumnos;
-    private Botonera botoneraME,botoneraBU,botoneraDE,botoneraIC,botoneraLI;
+    private Botonera botoneraBU,botoneraIC,botoneraLI;
     private CampoTexto codigo;
     private JPanel panelBusqueda,panelTop, panelBottom;
     private final String[] IC = {"imprimir"};
-    //private final String[] ME = {"Modificar","Eliminar"};
+   
     private final String[] BU = {"Buscar"};
     private final String[] LI = {"Listar Todos"};
-    //private final String[] DE = {"Detallar"};
+ 
     private final Alumno alumno = new Alumno();
     private ResultSet resultado;
     /**
@@ -179,7 +179,5 @@ public class VistaConsultaEstudiante extends JFrame implements Incluir, Consulta
             JOptionPane.showMessageDialog(this,"Escriba el codigo a consultar");
         }
     }
-    public static void main(String[] args) {
-        new VistaConsultaEstudiante();
-    }
+    
 }

@@ -1,0 +1,11 @@
+# To change this license header, choose License Headers in Project Properties.
+# To change this template file, choose Tools | Templates
+# and open the template in the editor.
+
+BASE_DE_DATOS=simped
+DRIVER=com.mysql.jdbc.Driver
+URL_CONEXION=jdbc:mysql://
+URL_DEL_SERVIDOR=localhost
+USUARIO_BASE_DE_DATOS=root
+CLAVE_USUARIO=16126834
+RUTA_REPORTES=/home/josediaz/Desktop/
