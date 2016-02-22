@@ -27,6 +27,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * 
@@ -44,11 +46,11 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
     private final String[] DE = {"Detallar"};
     private final Profesor profesor = new Profesor();
     private ResultSet resultado;
+    
     /**
      * Crea la interface de la clase.
      */
     public VistaListaProfesor(){
-        
         crearGui();
     }
     
@@ -92,7 +94,6 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
         panelTop.add(panelBusqueda);
         panelTop.add(botoneraLI);
         panelTop.add(botoneraDE);
-
         
         /**
          * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
@@ -101,6 +102,19 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
         tablaProfesores = new TablaProfesores();
         tablaProfesores.cargarTabla(resultado);
    
+        /**
+         * Ejecuta eventos de selección en tabla
+         */
+        tablaProfesores.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int row = tablaProfesores.tabla.getSelectedRow();
+                if (row >= 0) {
+                    cedula.cambiarContenido((String)tablaProfesores.tabla.getValueAt(row, 0));
+                }
+            }
+        });        
+        
         /**
          * Elementos del panel inferior
          */
@@ -172,6 +186,8 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
             stringProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 0); //string 
             cedulaProfesor=Integer.parseInt(stringProfesor);    //   int
             VistaActualizarProfesor vistaActualizarProfesor = new VistaActualizarProfesor(cedulaProfesor);
+        } else {
+            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el profesor a modificar");
         }
     }
     

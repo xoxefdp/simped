@@ -196,8 +196,11 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
             String fechaNacAl = fechanac.obtenerContenido();
             String sexoAl = sexo.obtenerSeleccion().toString();
             
-            String stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0);
-            int cedulaRepresentante=Integer.parseInt(stringRepresentante);
+            //String stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0);
+            
+            int cedulaRepresentante = Integer.parseInt(cedula.obtenerContenido());
+            // chequear cedula antes de cambiar en registro
+            //int cedulaRepresentante=Integer.parseInt(stringRepresentante);
             
             if (alumno.incluir(nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRepresentante)) {
                 cerrarVentana();

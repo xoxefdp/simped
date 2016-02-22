@@ -217,23 +217,15 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
             String apellidoAl = apellidos.obtenerContenido();
             String fechaNacAl = fechanac.obtenerContenido();
             String sexoAl = sexo.obtenerSeleccion().toString();
-            int cedulaRep = cedula.obtenerContenido().length();
+            int cedulaRep = Integer.parseInt(cedula.obtenerContenido());
 
+            // chequear cedula antes de cambiar en registro
             consultaRep = representanteModelo.consultarRepresentante(cedulaRep);
             
-            try {
-                if (!consultaRep.next()){
-                    JOptionPane.showMessageDialog(this,"La cedula de representante intoducida no existe, busquela en la tabla");
-                } else {
-                    if (alumno.modificar(codigoAlumno, nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRep)) {
-                        cerrarVentana();
-                    } else {
-                        JOptionPane.showMessageDialog(this,"Error al modificar");
-                    }
-                }
-            } catch(SQLException error){
-                mensaje = errorSQL(error.getSQLState());
-                JOptionPane.showMessageDialog(null,mensaje);
+            if (alumno.modificar(codigoAlumno, nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRep)) {
+                cerrarVentana();
+            } else {
+                JOptionPane.showMessageDialog(this,"Error al modificar");
             }
         } else {
             JOptionPane.showMessageDialog(this,"Existen campos vacios");

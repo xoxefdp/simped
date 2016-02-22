@@ -27,6 +27,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * 
@@ -101,6 +103,19 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
         tablaRepresentantes.cargarTabla(resultado);
    
         /**
+         * Ejecuta eventos de selección en tabla
+         */
+        tablaRepresentantes.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int row = tablaRepresentantes.tabla.getSelectedRow();
+                if (row >= 0) {
+                    cedula.cambiarContenido((String)tablaRepresentantes.tabla.getValueAt(row, 0));
+                }
+            }
+        });
+        
+        /**
          * Elementos del panel inferior
          */
         botoneraIC = new Botonera(1,IC);
@@ -169,6 +184,8 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
             stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0); //string 
             codigoRepresentante=Integer.parseInt(stringRepresentante);    //   int
             VistaActualizarRepresentante vistaActualizarRepresentante = new VistaActualizarRepresentante(codigoRepresentante);
+        } else {
+            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el representante a modificar");
         }
     }
     
