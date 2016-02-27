@@ -18,13 +18,16 @@ public class Botonera extends JPanel{
     private final JButton[] botones;
     private final JPanel cuadroBotonera;
     private String[] nombresBotones;
+    private int numeroBotones;
     
     /**
      * Genera una botonera con las caracteristicas de los parametros de entrada
      * @param numeroBotones cantidad de botones a generar
      * @param nombresBotones  nombre identificador de los botones
      */
-    public Botonera(int numeroBotones, String[] nombresBotones){
+    public Botonera(String[] nombresBotones){
+        
+        numeroBotones = nombresBotones.length;
     
         cuadroBotonera = new JPanel();
         cuadroBotonera.setLayout(new FlowLayout());

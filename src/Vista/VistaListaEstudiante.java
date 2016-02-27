@@ -64,7 +64,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
          * Elementos del panel superior
          */
         codigo=new CampoTexto("",15);
-        botoneraBU = new Botonera(1,BU);
+        botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         
         panelBusqueda = new JPanel();
@@ -72,10 +72,10 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         panelBusqueda.add(codigo);
         panelBusqueda.add(botoneraBU);
         
-        botoneraLI = new Botonera(1,LI);
+        botoneraLI = new Botonera(LI);
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
-        botoneraDE = new Botonera(1,DE);
+        botoneraDE = new Botonera(DE);
         /*
         botoneraDE.adherirEscucha(0, (ActionEvent e) -> {
             detallar();
@@ -119,10 +119,10 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
          * Elementos del panel inferior
          */
         
-        botoneraIC = new Botonera(1,IC);
+        botoneraIC = new Botonera(IC);
         botoneraIC.adherirEscucha(0,new OyenteIncluir(this));
         
-        botoneraME = new Botonera(2,ME);
+        botoneraME = new Botonera(ME);
         botoneraME.adherirEscucha(0,new OyenteModificar(this));
         botoneraME.adherirEscucha(1,new OyenteEliminar(this));
         

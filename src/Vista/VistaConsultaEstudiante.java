@@ -60,7 +60,7 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
          * Elementos del panel superior
          */
         codigo=new CampoTexto("",15);
-        botoneraBU = new Botonera(1,BU);
+        botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         
         panelBusqueda = new JPanel();
@@ -68,10 +68,10 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
         panelBusqueda.add(codigo);
         panelBusqueda.add(botoneraBU);
         
-        botoneraLI = new Botonera(1,LI);
+        botoneraLI = new Botonera(LI);
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
-        botoneraDE = new Botonera(1,DE);
+        botoneraDE = new Botonera(DE);
         botoneraDE.adherirEscucha(0, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,7 +109,7 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
         /**
          * Elementos del panel inferior
          */
-        botoneraIM = new Botonera(1,IM);
+        botoneraIM = new Botonera(IM);
         botoneraIM.adherirEscucha(0, new OyenteAceptar(this));
         
         panelBottom =new JPanel();

@@ -111,7 +111,7 @@ public class VistaActualizarProfesor extends JFrame implements Aceptar, Cancelar
         /**
          * Elementos inferiores
          */
-        boton=new Botonera(2,AC);
+        boton=new Botonera(AC);
         boton.adherirEscucha(0, new OyenteAceptar(this));
         boton.adherirEscucha(1, new OyenteCancelar(this));
 
