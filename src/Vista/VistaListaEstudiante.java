@@ -28,6 +28,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * 
@@ -62,7 +64,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
          * Elementos del panel superior
          */
         codigo=new CampoTexto("",15);
-        botoneraBU = new Botonera(1,BU);
+        botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         
         panelBusqueda = new JPanel();
@@ -70,10 +72,10 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         panelBusqueda.add(codigo);
         panelBusqueda.add(botoneraBU);
         
-        botoneraLI = new Botonera(1,LI);
+        botoneraLI = new Botonera(LI);
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
-        botoneraDE = new Botonera(1,DE);
+        botoneraDE = new Botonera(DE);
         /*
         botoneraDE.adherirEscucha(0, (ActionEvent e) -> {
             detallar();
@@ -101,13 +103,26 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         tablaAlumnos.cargarTabla(resultado);
         
         /**
+         * Ejecuta eventos de selección en tabla
+         */
+        tablaAlumnos.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int row = tablaAlumnos.tabla.getSelectedRow();
+                if (row >= 0) {
+                    codigo.cambiarContenido((String)tablaAlumnos.tabla.getValueAt(row, 0));
+                }
+            }
+        });
+        
+        /**
          * Elementos del panel inferior
          */
         
-        botoneraIC = new Botonera(1,IC);
+        botoneraIC = new Botonera(IC);
         botoneraIC.adherirEscucha(0,new OyenteIncluir(this));
         
-        botoneraME = new Botonera(2,ME);
+        botoneraME = new Botonera(ME);
         botoneraME.adherirEscucha(0,new OyenteModificar(this));
         botoneraME.adherirEscucha(1,new OyenteEliminar(this));
         
@@ -169,6 +184,8 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
             stringEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 0); //string 
             codigoEstudiante=Integer.parseInt(stringEstudiante);    //   int
             VistaActualizarEstudiante vistaActualizarEstudiante = new VistaActualizarEstudiante(codigoEstudiante);
+        } else {
+            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el estudiante a modificar");
         }
     }
     

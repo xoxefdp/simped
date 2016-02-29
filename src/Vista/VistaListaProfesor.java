@@ -27,6 +27,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * 
@@ -44,11 +46,11 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
     private final String[] DE = {"Detallar"};
     private final Profesor profesor = new Profesor();
     private ResultSet resultado;
+    
     /**
      * Crea la interface de la clase.
      */
     public VistaListaProfesor(){
-        
         crearGui();
     }
     
@@ -62,7 +64,7 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
          * Elementos del panel superior
          */
         cedula=new CampoTexto("",15);
-        botoneraBU = new Botonera(1,BU);
+        botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         
         panelBusqueda = new JPanel();
@@ -70,10 +72,10 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
         panelBusqueda.add(cedula);
         panelBusqueda.add(botoneraBU);
         
-        botoneraLI = new Botonera(1,LI);
+        botoneraLI = new Botonera(LI);
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
-        botoneraDE = new Botonera(1,DE);
+        botoneraDE = new Botonera(DE);
         /*
         botoneraDE.adherirEscucha(0, (ActionEvent e) -> {
             detallar();
@@ -92,7 +94,6 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
         panelTop.add(panelBusqueda);
         panelTop.add(botoneraLI);
         panelTop.add(botoneraDE);
-
         
         /**
          * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
@@ -102,12 +103,25 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
         tablaProfesores.cargarTabla(resultado);
    
         /**
+         * Ejecuta eventos de selección en tabla
+         */
+        tablaProfesores.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int row = tablaProfesores.tabla.getSelectedRow();
+                if (row >= 0) {
+                    cedula.cambiarContenido((String)tablaProfesores.tabla.getValueAt(row, 0));
+                }
+            }
+        });        
+        
+        /**
          * Elementos del panel inferior
          */
-        botoneraIC = new Botonera(1,IC);
+        botoneraIC = new Botonera(IC);
         botoneraIC.adherirEscucha(0,new OyenteIncluir(this));
         
-        botoneraME = new Botonera(2,ME);
+        botoneraME = new Botonera(ME);
         botoneraME.adherirEscucha(0,new OyenteModificar(this));
         botoneraME.adherirEscucha(1,new OyenteEliminar(this));
         
@@ -172,6 +186,8 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
             stringProfesor=(String)tablaProfesores.tablaModelo.getValueAt(tablaProfesores.tabla.getSelectedRow(), 0); //string 
             cedulaProfesor=Integer.parseInt(stringProfesor);    //   int
             VistaActualizarProfesor vistaActualizarProfesor = new VistaActualizarProfesor(cedulaProfesor);
+        } else {
+            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el profesor a modificar");
         }
     }
     

@@ -91,16 +91,16 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
          * Elementos del panel central
          */
         cedula = new CampoTexto("",15);
-        botoneraBU = new Botonera(1,BU);
+        botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         panelBusqueda = new JPanel();
         panelBusqueda.add(cedula);
         panelBusqueda.add(botoneraBU);
 
-        botoneraLI = new Botonera(1,LI);
+        botoneraLI = new Botonera(LI);
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
-        botoneraDE = new Botonera(1,DE);
+        botoneraDE = new Botonera(DE);
         botoneraDE.adherirEscucha(0, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -142,7 +142,7 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         /**
          * Elementos inferiores
          */
-        boton=new Botonera(2,AC);
+        boton=new Botonera(AC);
         boton.adherirEscucha(0, new OyenteAceptar(this));
         boton.adherirEscucha(1, new OyenteCancelar(this));
 
@@ -196,8 +196,11 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
             String fechaNacAl = fechanac.obtenerContenido();
             String sexoAl = sexo.obtenerSeleccion().toString();
             
-            String stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0);
-            int cedulaRepresentante=Integer.parseInt(stringRepresentante);
+            //String stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0);
+            
+            int cedulaRepresentante = Integer.parseInt(cedula.obtenerContenido());
+            // chequear cedula antes de cambiar en registro
+            //int cedulaRepresentante=Integer.parseInt(stringRepresentante);
             
             if (alumno.incluir(nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRepresentante)) {
                 cerrarVentana();
