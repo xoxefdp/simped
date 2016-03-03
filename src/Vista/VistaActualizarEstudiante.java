@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static Modelo.MensajesDeError.errorSQL;
+import java.awt.FlowLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.event.ListSelectionEvent;
@@ -44,8 +45,8 @@ import javax.swing.event.ListSelectionListener;
 public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancelar, CerrarVentana, ConsultarListar{
     private final CampoTexto nombres,apellidos,fechanac,cedula;
     private final CampoCombo sexo;
-    private final JPanel panelTop,panelBusqueda,panelRepresentante,panelCenter;
-    private final Botonera boton,botoneraBU,botoneraLI,botoneraDE;
+    private final JPanel panelTop,panelBusqueda,panelRepresentante,panelCenter,panelTabla;
+    private final Botonera boton,botoneraBU,botoneraLI,botoneraDE,botoneraMR;
     private final String[] AC = {"Aceptar","Cancelar"};
     private final String[] opcSexo = {"","Masculino","Femenino"};
     private Alumno alumno = new Alumno();
@@ -56,6 +57,7 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
     private final String[] BU = {"Buscar"};
     private final String[] LI = {"Listar Todos"};
     private final String[] DE = {"Detallar"};
+    private final String[] MR = {"Manejar Representante"};
     private ResultSet resultadoAl,resultadoRep,consultaRep;
     private String mensaje;
 
@@ -119,9 +121,22 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         panelRepresentante.add(botoneraLI);
         panelRepresentante.add(botoneraDE);
         
+        botoneraMR = new Botonera(MR);
+        botoneraMR.adherirEscucha(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                VistaListaRepresentante vistaListaRepresentante = new VistaListaRepresentante();
+            }
+        });
+        
         resultadoRep = representanteModelo.consultarRepresentantes();
         tablaRepresentantes = new TablaModAdmRepresentantes();
         tablaRepresentantes.cargarTabla(resultadoRep);
+        
+        panelTabla = new JPanel();
+        panelTabla.setLayout(new FlowLayout());
+        panelTabla.add(botoneraMR);
+        panelTabla.add(tablaRepresentantes);
 
         /**
          * Ejecuta eventos de selección en tabla
@@ -158,7 +173,7 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         panelCenter.setLayout(new GridLayout(2,1));
         panelCenter.setBorder(BorderFactory.createTitledBorder("Modulo de Seleccion de Representante"));
         panelCenter.add(panelRepresentante);
-        panelCenter.add(tablaRepresentantes);
+        panelCenter.add(panelTabla);
         panelCenter.getPreferredSize();
         
         /**

@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/Tablas/TablaAlumnos.java</file>
+            <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Modelo/Alumno.java</file>
+            <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/MenuPrincipal.java</file>
+            <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/VistaAdmisionEstudiante.java</file>
+            <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/VistaActualizarEstudiante.java</file>
+        </group>
     </open-files>
 </project-private>
