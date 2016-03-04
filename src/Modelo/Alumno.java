@@ -71,8 +71,6 @@ public class Alumno {
 	}
         return resultados;
     }
-    
-    
 
     public final ResultSet consultarAlumnos(){
         try{
