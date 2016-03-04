@@ -21,6 +21,7 @@ import Vista.Formatos.CampoCombo;
 import Vista.Formatos.CampoTexto;
 import Vista.Tablas.TablaModAdmRepresentantes;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,10 +40,10 @@ import javax.swing.event.ListSelectionListener;
  * @author josediaz
  */
 public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Cancelar, CerrarVentana, ConsultarListar{
-    private final CampoTexto nombres,apellidos,fechanac,cedula;
+    private final CampoTexto nombres,apellidos,fechanac,cedula,parentesco;
     private final CampoCombo sexo;
-    private final JPanel panelTop,panelBusqueda,panelRepresentante,panelCenter;
-    private final Botonera boton,botoneraBU,botoneraLI,botoneraDE;
+    private final JPanel panelTop,panelBusqueda,panelRepresentante,panelCenter,panelTabla;
+    private final Botonera boton,botoneraBU,botoneraLI,botoneraDE,botoneraMR;
     private final String[] AC = {"Aceptar","Cancelar"};
     private final String[] opcSexo = {"","Masculino","Femenino"};
     private final Alumno alumno = new Alumno();
@@ -52,6 +53,7 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
     private final String[] BU = {"Buscar"};
     private final String[] LI = {"Listar Todos"};
     private final String[] DE = {"Detallar"};
+    private final String[] MR = {"Manejar Representante"};
     private final ResultSet resultado;
 
     public VistaAdmisionEstudiante(){
@@ -100,6 +102,8 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         botoneraLI = new Botonera(LI);
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
+        parentesco = new CampoTexto("Parentesco",20);
+        
         botoneraDE = new Botonera(DE);
         botoneraDE.adherirEscucha(0, new ActionListener() {
             @Override
@@ -109,15 +113,28 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         });
         
         panelRepresentante = new JPanel();
-        panelRepresentante.setLayout(new GridLayout(1,3));
+        panelRepresentante.setLayout(new GridLayout(2,2));
         panelRepresentante.add(panelBusqueda);
+        panelRepresentante.add(parentesco);
         panelRepresentante.add(botoneraLI);
         panelRepresentante.add(botoneraDE);
         
+        botoneraMR = new Botonera(MR);
+        botoneraMR.adherirEscucha(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                VistaListaRepresentante vistaListaRepresentante = new VistaListaRepresentante();
+            }
+        });
         representanteModelo = new Representante();
         resultado = representanteModelo.consultarRepresentantes();
         tablaRepresentantes = new TablaModAdmRepresentantes();
         tablaRepresentantes.cargarTabla(resultado);
+        
+        panelTabla = new JPanel();
+        panelTabla.setLayout(new FlowLayout());
+        panelTabla.add(botoneraMR);
+        panelTabla.add(tablaRepresentantes);
         
         /**
          * Ejecuta eventos de selección en tabla
@@ -136,7 +153,7 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         panelCenter.setLayout(new GridLayout(2,1));
         panelCenter.setBorder(BorderFactory.createTitledBorder("Modulo de Seleccion de Representante"));
         panelCenter.add(panelRepresentante);
-        panelCenter.add(tablaRepresentantes);
+        panelCenter.add(panelTabla);
         panelCenter.getPreferredSize();
         
         /**
@@ -190,11 +207,12 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
     public void aceptar() {
         if (nombres.obtenerContenido().length() != 0 && apellidos.obtenerContenido().length() != 0 &&
         fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0 &&
-        tablaRepresentantes.tabla.getSelectedRow() >= 0) {
+        parentesco.obtenerContenido().length() != 0 && tablaRepresentantes.tabla.getSelectedRow() >= 0) {
             String nombreAl = nombres.obtenerContenido();
             String apellidoAl = apellidos.obtenerContenido();
             String fechaNacAl = fechanac.obtenerContenido();
             String sexoAl = sexo.obtenerSeleccion().toString();
+            String parentescoRep = parentesco.obtenerContenido();
             
             //String stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0);
             
@@ -202,7 +220,7 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
             // chequear cedula antes de cambiar en registro
             //int cedulaRepresentante=Integer.parseInt(stringRepresentante);
             
-            if (alumno.incluir(nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRepresentante)) {
+            if (alumno.incluir(nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRepresentante, parentescoRep)) {
                 cerrarVentana();
             } else {
                 JOptionPane.showMessageDialog(this,"Error al insertar");

@@ -24,6 +24,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -40,6 +41,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
     private Botonera botoneraME,botoneraBU,botoneraDE,botoneraIC,botoneraLI;
     private CampoTexto codigo;
     private JPanel panelBusqueda,panelTop, panelBottom;
+    private String nombreRep, apellidoRep;
     private final String[] IC = {"Incluir"};
     private final String[] ME = {"Modificar","Eliminar"};
     private final String[] BU = {"Buscar"};
@@ -98,7 +100,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         /**
          * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
          */
-        resultado = alumno.consultarAlumnos();
+        resultado = alumno.consultarAlumnosRepresentantes();
         tablaAlumnos = new TablaAlumnos();
         tablaAlumnos.cargarTabla(resultado);
         
@@ -149,12 +151,21 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
             String stringApeEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 2); //string
             String stringFecEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 3); //string
             String stringSexEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 4); //string
-            
-            String stringRepEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 5); //string
+            String stringParRepresenta=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 5); //string
+            String stringRepEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 6); //string
             int cedulaRepEstudiante=Integer.parseInt(stringRepEstudiante);    //   int
             
             Representante representante = new Representante();
-            representante.consultarRepresentante(cedulaRepEstudiante);
+            ResultSet rep = representante.consultarRepresentante(cedulaRepEstudiante);
+            
+            try{
+                while(rep.next()){
+                    nombreRep = rep.getString(2);
+                    apellidoRep = rep.getString(3);
+                }
+            }catch(SQLException error){
+                
+            }
             
             JOptionPane.showMessageDialog(this,"Datos Estudiante \n\n"
                                             +  "Codigo Estudiante: "+codigoEstudiante+"\n"
@@ -162,8 +173,9 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
                                             +  "Apellidos: "+stringApeEstudiante+"\n"
                                             +  "Fecha de Nacimiento: "+stringFecEstudiante+"\n"
                                             +  "Sexo: "+stringSexEstudiante+"\n\n"
-                                            +  "Representante: "+cedulaRepEstudiante+"\n"
-                                            +  "Cedula Representante: "+cedulaRepEstudiante+"\n");
+                                            +  "Representante: "+nombreRep+" "+apellidoRep+"\n"
+                                            +  "Cedula Representante: "+cedulaRepEstudiante+"\n"
+                                            +  "Parentesco: "+stringParRepresenta+"\n");
         } else {
             JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el estudiante a detallar");
         }
@@ -210,7 +222,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
     
     @Override
     public void listar() { // consulta todos
-        ResultSet resultadoListar = alumno.consultarAlumnos();
+        ResultSet resultadoListar = alumno.consultarAlumnosRepresentantes();
         tablaAlumnos.cargarTabla(resultadoListar);
     }
     
@@ -220,7 +232,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
             String stringCodigo = codigo.obtenerContenido(); //falta generalizar
             int codigoAlumno=Integer.parseInt(stringCodigo);    //   int
 
-            ResultSet resultadoConsulta = alumno.consultarAlumno(codigoAlumno);
+            ResultSet resultadoConsulta = alumno.consultarAlumnoRepresentante(codigoAlumno);
             tablaAlumnos.cargarTabla(resultadoConsulta);
         } else {
             JOptionPane.showMessageDialog(this,"Escriba el codigo a consultar");

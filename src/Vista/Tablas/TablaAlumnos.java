@@ -29,9 +29,9 @@ public class TablaAlumnos extends JPanel{
     //private ModeloDeTablaAlumnos tablaModelo;
     public Tabla tablaModelo;
     private Object[] nombreColumnas,claseColumnas;
-    private final Object[] datos = new Object[6];
+    private final Object[] datos = new Object[7];
     public JTable tabla;
-    private TableColumn colNombre,colCodigo,colApellido,colFecha,colGenero,colRepresentante;
+    private TableColumn colNombre,colCodigo,colApellido,colFecha,colGenero,colParentesco,colRepresentante;
     private JTextField campo;
     private ResultSet resultado;
     
@@ -48,28 +48,30 @@ public class TablaAlumnos extends JPanel{
     
     final void crearTabla(){
         
-        Object[] nombreColumnas = {"Codigo","Nombre","Apellido","Fecha de Nacimiento","Genero","Representante"};
-        Object[] claseColumnas  = {0,new String(),new String(),new String(),new String(),0};
+        Object[] nombreColumnas = {"Codigo","Nombre","Apellido","Fecha de Nacimiento","Genero","Parentesco","Representante"};
+        Object[] claseColumnas  = {0,new String(),new String(),new String(),new String(),new String(),0};
         
         tablaModelo = new Tabla(nombreColumnas,claseColumnas);
         campo = new JTextField();
         campo.setEditable(false);
 
         tabla = new JTable(tablaModelo);
-        tabla.setPreferredScrollableViewportSize(new Dimension(800,250));
+        tabla.setPreferredScrollableViewportSize(new Dimension(850,250));
         tabla.setFillsViewportHeight(false);
         colCodigo       = tabla.getColumnModel().getColumn(0);
         colNombre       = tabla.getColumnModel().getColumn(1);
         colApellido     = tabla.getColumnModel().getColumn(2);
         colFecha        = tabla.getColumnModel().getColumn(3);
         colGenero       = tabla.getColumnModel().getColumn(4);
-        colRepresentante= tabla.getColumnModel().getColumn(5);
+        colParentesco   = tabla.getColumnModel().getColumn(5);
+        colRepresentante= tabla.getColumnModel().getColumn(6);
         
         colCodigo.setMinWidth(100);         colCodigo.setMaxWidth(100);         colCodigo.setCellEditor(new DefaultCellEditor(campo));        
-        colNombre.setMinWidth(200);         colNombre.setMaxWidth(200);         colNombre.setCellEditor(new DefaultCellEditor(campo));        
-        colApellido.setMinWidth(200);       colApellido.setMaxWidth(200);       colApellido.setCellEditor(new DefaultCellEditor(campo));        
+        colNombre.setMinWidth(175);         colNombre.setMaxWidth(175);         colNombre.setCellEditor(new DefaultCellEditor(campo));        
+        colApellido.setMinWidth(175);       colApellido.setMaxWidth(175);       colApellido.setCellEditor(new DefaultCellEditor(campo));        
         colFecha.setMinWidth(150);          colFecha.setMaxWidth(150);          colFecha.setCellEditor(new DefaultCellEditor(campo));        
-        colGenero.setMinWidth(50);          colGenero.setMaxWidth(50);          colGenero.setCellEditor(new DefaultCellEditor(campo));        
+        colGenero.setMinWidth(75);          colGenero.setMaxWidth(75);          colGenero.setCellEditor(new DefaultCellEditor(campo));
+        colParentesco.setMinWidth(75);      colParentesco.setMaxWidth(75);      colParentesco.setCellEditor(new DefaultCellEditor(campo));
         colRepresentante.setMinWidth(100);  colRepresentante.setMaxWidth(100);  colRepresentante.setCellEditor(new DefaultCellEditor(campo));        
         JScrollPane scrollPanel = new JScrollPane(tabla);
         add(scrollPanel);
@@ -100,12 +102,13 @@ public class TablaAlumnos extends JPanel{
                     }
                 }
                 */
-                datos[0]= entrada.getString(1); //colCedula
+                datos[0]= entrada.getString(1); //colCodigo
                 datos[1]= entrada.getString(2); //colNombre
                 datos[2]= entrada.getString(3); //colApellido
-                datos[3]= entrada.getString(4); //colTelefono
-                datos[4]= entrada.getString(5); //colDireccion
-                datos[5]= entrada.getString(6); //colCorreo
+                datos[3]= entrada.getString(4); //colFecha
+                datos[4]= entrada.getString(5); //colGenero
+                datos[5]= entrada.getString(6); //colParentesco
+                datos[6]= entrada.getString(7); //colRepresentante
                 tablaModelo.addRow(datos);
             }
         } catch (SQLException error) {
@@ -115,7 +118,6 @@ public class TablaAlumnos extends JPanel{
     /**
      * Agrega un fila a la JTable con los datos pasados por parametros.
      * @param entrada
-     * @param 
      * @return Verdadero si la inclusion fue exitosa, falso en caso contrario.
      */
     public boolean agregarFila(ResultSet entrada){
@@ -148,6 +150,7 @@ public class TablaAlumnos extends JPanel{
                 datos[3]= entrada.getString(4);
                 datos[4]= entrada.getString(5);
                 datos[5]= entrada.getString(6);
+                datos[6]= entrada.getString(7);
                 tablaModelo.addRow(datos);
             }
             status = true;
@@ -162,13 +165,13 @@ public class TablaAlumnos extends JPanel{
      * @param 
      * @return Verdadero si la modificacion fue exitosa,falso en caso contrario.
      */
-    public boolean modificarFila(String nombreLaboratorio){
+    public boolean modificarFila(int codigoAlumno){
         boolean status = false;
         int fila = tabla.getSelectedRow();
         
         if (fila >= 0){
-            datos[0] = nombreLaboratorio;
-            tablaModelo.setValueAt(nombreLaboratorio, fila, 0);
+            datos[0] = codigoAlumno;
+            tablaModelo.setValueAt(codigoAlumno, fila, 0);
             status = true;
         }
         return status;
