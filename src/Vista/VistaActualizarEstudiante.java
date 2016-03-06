@@ -43,7 +43,7 @@ import javax.swing.event.ListSelectionListener;
  * @author josediaz
  */
 public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancelar, CerrarVentana, ConsultarListar{
-    private final CampoTexto nombres,apellidos,fechanac,cedula;
+    private final CampoTexto nombres,apellidos,fechanac,cedula,parentesco;
     private final CampoCombo sexo;
     private final JPanel panelTop,panelBusqueda,panelRepresentante,panelCenter,panelTabla;
     private final Botonera boton,botoneraBU,botoneraLI,botoneraDE,botoneraMR;
@@ -107,6 +107,8 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         botoneraLI = new Botonera(LI);
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
+        parentesco = new CampoTexto("Parentesco",20);
+        
         botoneraDE = new Botonera(DE);
         botoneraDE.adherirEscucha(0, new ActionListener() {
             @Override
@@ -116,8 +118,9 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         });
         
         panelRepresentante = new JPanel();
-        panelRepresentante.setLayout(new GridLayout(1,3));
+        panelRepresentante.setLayout(new GridLayout(2,2));
         panelRepresentante.add(panelBusqueda);
+        panelRepresentante.add(parentesco);
         panelRepresentante.add(botoneraLI);
         panelRepresentante.add(botoneraDE);
         
@@ -155,17 +158,18 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
          * Llenado de campos con datos
          */
         codigoAlumno = codigoEstudiante;
-        resultadoAl = alumno.consultarAlumno(codigoAlumno);
+        resultadoAl = alumno.consultarAlumnoRepresentante(codigoAlumno);
         try {
             while(resultadoAl.next()){
                 nombres.cambiarContenido(resultadoAl.getString(2));
                 apellidos.cambiarContenido(resultadoAl.getString(3));
                 fechanac.cambiarContenido(resultadoAl.getString(4));
                 sexo.seleccionarElemento(resultadoAl.getObject(5));
-                cedula.cambiarContenido(resultadoAl.getString(6));
+                parentesco.cambiarContenido(resultadoAl.getString(6));
+                cedula.cambiarContenido(resultadoAl.getString(7));
             }
         } catch(SQLException error){
-            String mensaje = errorSQL(error.getSQLState());
+            mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null, mensaje);
         }
         
@@ -227,17 +231,18 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
     public void aceptar() {
         if (nombres.obtenerContenido().length() != 0 && apellidos.obtenerContenido().length() != 0 &&
         fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0 &&
-        cedula.obtenerContenido().length() != 0) {
+        cedula.obtenerContenido().length() != 0 && parentesco.obtenerContenido().length() != 0) {
             String nombreAl = nombres.obtenerContenido();
             String apellidoAl = apellidos.obtenerContenido();
             String fechaNacAl = fechanac.obtenerContenido();
             String sexoAl = sexo.obtenerSeleccion().toString();
             int cedulaRep = Integer.parseInt(cedula.obtenerContenido());
+            String parentescoRep = parentesco.obtenerContenido();
 
             // chequear cedula antes de cambiar en registro
             consultaRep = representanteModelo.consultarRepresentante(cedulaRep);
             
-            if (alumno.modificar(codigoAlumno, nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRep)) {
+            if (alumno.modificar(codigoAlumno, nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRep, parentescoRep)) {
                 cerrarVentana();
             } else {
                 JOptionPane.showMessageDialog(this,"Error al modificar");
