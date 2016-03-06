@@ -175,7 +175,7 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
 
     @Override
     public void aceptar() {
-        if (tablaAlumnos.tabla.getSelectedRow()>=0){
+        /*if (tablaAlumnos.tabla.getSelectedRow()>=0){
             
             String stringCodEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 0); //string
             int codigoEstudiante=Integer.parseInt(stringCodEstudiante);    //   int
@@ -201,7 +201,7 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
                                             +  "Cedula Representante: "+cedulaRepEstudiante+"\n");
         } else {
             JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el estudiante");
-        }
+        }*/
     }
     
 }

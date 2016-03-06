@@ -187,4 +187,8 @@ public class Alumno {
             System.exit(200);
 	}
     }
+
+    public boolean modificar(int codigoAlumno, String nombreAl, String apellidoAl, String fechaNacAl, String sexoAl, int cedulaRep) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
