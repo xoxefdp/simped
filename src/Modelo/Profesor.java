@@ -41,7 +41,6 @@ public class Profesor {
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
-            System.exit(200);
 	}
         return resultados;
     }
@@ -53,7 +52,6 @@ public class Profesor {
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
-            System.exit(200);
 	}
         return resultados;
     }
@@ -127,8 +125,8 @@ public class Profesor {
             instruccionSql.close();
             conexion.close();
         }catch(SQLException error){
-            JOptionPane.showMessageDialog(null,"Error en conexion. \n"+error);
-            System.exit(200);
+            mensaje = errorSQL(error.getSQLState());
+            JOptionPane.showMessageDialog(null,mensaje);
 	}
     }
 }

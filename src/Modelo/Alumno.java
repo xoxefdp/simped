@@ -30,25 +30,23 @@ public class Alumno {
             }
             catch(SQLException error){
                 mensaje = errorSQL(error.getSQLState());
-                JOptionPane.showMessageDialog(null, mensaje);
+                JOptionPane.showMessageDialog(null,mensaje);
             }
-        } 
+        }
     }
     public final ResultSet consultarAlumno(int codigo){
         try{
-            consulta = "SELECT * FROM alumno WHERE cod_al = '"+codigo+"';";
+            consulta = "SELECT * FROM alumno WHERE cod_al = '"+codigo+"'";
             resultados = instruccionSql.executeQuery(consulta); 
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
-            System.exit(200);
 	}
         return resultados;
     }
     
     public final ResultSet consultarAlumnoRepresentante(int codigo){
         try{
-            //consulta = "SELECT * FROM alumno WHERE cod_al = '"+codigo+"';";
             consulta = "SELECT " +
                         "alumno.cod_al," +
                         "alumno.nombre_al," +
@@ -62,12 +60,11 @@ public class Alumno {
                         "INNER JOIN representante_has_alumno ON representante_has_alumno.alumno_cod_al = alumno.cod_al " +
                         "INNER JOIN representante ON representante_has_alumno.representante_cedula_rp = representante.cedula_rp " +
                         "WHERE " +
-                        "representante_has_alumno.alumno_cod_al = '"+codigo+"';";
+                        "representante_has_alumno.alumno_cod_al = '"+codigo+"'";
             resultados = instruccionSql.executeQuery(consulta); 
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
-            System.exit(200);
 	}
         return resultados;
     }
@@ -79,7 +76,6 @@ public class Alumno {
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
-            System.exit(200);
 	}
         return resultados;
     }
@@ -104,7 +100,6 @@ public class Alumno {
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
-            System.exit(200);
 	}
         return resultados;
     }
@@ -122,7 +117,7 @@ public class Alumno {
             consulta2="INSERT INTO representante_has_alumno SET "
                     +"representante_cedula_rp = '"+cedulaRepresentante+"', "
                     +"alumno_cod_al = LAST_INSERT_ID(), "
-                    +"parentesco = '"+parentesco+"';";
+                    +"parentesco = '"+parentesco+"'";
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
             instruccionSql.executeUpdate(consulta2);
@@ -138,7 +133,7 @@ public class Alumno {
     public final boolean eliminar(int codigo){
         boolean inserccionOk = false;
         try{  
-            consulta="DELETE FROM alumno WHERE cod_al = '" +codigo+"';";
+            consulta="DELETE FROM alumno WHERE cod_al = '" +codigo+"'";
             instruccionSql.executeUpdate(consulta);
             inserccionOk = true;
         }catch(SQLException error){
@@ -162,7 +157,7 @@ public class Alumno {
             consulta2="UPDATE representante_has_alumno SET "
                     +"representante_cedula_rp = '"+cedulaRepresentante+"', "
                     +"parentesco = '"+parentesco+"' "
-                    +"WHERE alumno_cod_al = '"+codigo+"';";
+                    +"WHERE alumno_cod_al = '"+codigo+"'";
             
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
@@ -170,7 +165,7 @@ public class Alumno {
             instruccionSql.executeUpdate("COMMIT;");
             inserccionOk = true;
         }catch(SQLException error){
-            mensaje = error.getSQLState();
+            mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
 	}
         return inserccionOk;
@@ -181,8 +176,8 @@ public class Alumno {
             instruccionSql.close();
             conexion.close();
         }catch(SQLException error){
-            JOptionPane.showMessageDialog(null,"Error en conexion. \n"+error);
-            System.exit(200);
+            mensaje = errorSQL(error.getSQLState());
+            JOptionPane.showMessageDialog(null,mensaje);
 	}
     }
 }
