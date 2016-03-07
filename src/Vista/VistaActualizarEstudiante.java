@@ -19,7 +19,6 @@ import Modelo.Representante;
 import Vista.Formatos.Botonera;
 import Vista.Formatos.CampoCombo;
 import Vista.Formatos.CampoTexto;
-import Vista.Tablas.TablaModAdmRepresentantes;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -32,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static Modelo.MensajesDeError.errorSQL;
+import Vista.Tablas.TablaRepresentantes;
 import java.awt.FlowLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -53,7 +53,7 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
     private int codigoAlumno;
 
     private final Representante representanteModelo = new Representante();
-    private final TablaModAdmRepresentantes tablaRepresentantes;
+    private final TablaRepresentantes tablaRepresentantes;
     private final String[] BU = {"Buscar"};
     private final String[] LI = {"Listar Todos"};
     private final String[] DE = {"Detallar"};
@@ -66,6 +66,8 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         setResizable(false);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setVisible(true);
+        setSize(750,550);
         
         /**
          * Elementos del panel superior
@@ -88,7 +90,7 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         });
         
         panelTop = new JPanel();
-        panelTop.setLayout(new GridLayout(2,3));
+        panelTop.setLayout(new GridLayout(2,2));
         panelTop.add(nombres);
         panelTop.add(apellidos);
         panelTop.add(fechanac);
@@ -97,17 +99,35 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         /**
          * Elementos del panel central
          */
-        cedula = new CampoTexto("",15);
+        cedula = new CampoTexto("Cedula",15);
         botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         panelBusqueda = new JPanel();
         panelBusqueda.add(cedula);
         panelBusqueda.add(botoneraBU);
-
-        botoneraLI = new Botonera(LI);
-        botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
         parentesco = new CampoTexto("Parentesco",20);
+
+        botoneraMR = new Botonera(MR);
+        botoneraMR.adherirEscucha(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                VistaListaRepresentante vistaListaRepresentante = new VistaListaRepresentante();
+            }
+        });
+        
+        panelRepresentante = new JPanel();
+        panelRepresentante.setLayout(new FlowLayout());
+        panelRepresentante.add(panelBusqueda);
+        panelRepresentante.add(parentesco);
+        panelRepresentante.add(botoneraMR);
+        
+        resultadoRep = representanteModelo.consultarRepresentantes();
+        tablaRepresentantes = new TablaRepresentantes(375,75);
+        tablaRepresentantes.cargarTabla(resultadoRep);
+        
+        botoneraLI = new Botonera(LI);
+        botoneraLI.adherirEscucha(0, new OyenteListar(this));
         
         botoneraDE = new Botonera(DE);
         botoneraDE.adherirEscucha(0, new ActionListener() {
@@ -117,29 +137,12 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
             }
         });
         
-        panelRepresentante = new JPanel();
-        panelRepresentante.setLayout(new GridLayout(2,2));
-        panelRepresentante.add(panelBusqueda);
-        panelRepresentante.add(parentesco);
-        panelRepresentante.add(botoneraLI);
-        panelRepresentante.add(botoneraDE);
-        
-        botoneraMR = new Botonera(MR);
-        botoneraMR.adherirEscucha(0, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                VistaListaRepresentante vistaListaRepresentante = new VistaListaRepresentante();
-            }
-        });
-        
-        resultadoRep = representanteModelo.consultarRepresentantes();
-        tablaRepresentantes = new TablaModAdmRepresentantes();
-        tablaRepresentantes.cargarTabla(resultadoRep);
-        
         panelTabla = new JPanel();
         panelTabla.setLayout(new FlowLayout());
-        panelTabla.add(botoneraMR);
+        panelTabla.setBorder(BorderFactory.createTitledBorder("Listado de Representante"));
         panelTabla.add(tablaRepresentantes);
+        panelTabla.add(botoneraLI);
+        panelTabla.add(botoneraDE);
 
         /**
          * Ejecuta eventos de selección en tabla
@@ -194,8 +197,7 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         add(BorderLayout.NORTH,panelTop);
         add(BorderLayout.CENTER,panelCenter);
         add(BorderLayout.SOUTH,boton);
-        pack();
-        setVisible(true);
+        //pack();
     }
 
     public void detallar() {
@@ -238,9 +240,6 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
             String sexoAl = sexo.obtenerSeleccion().toString();
             int cedulaRep = Integer.parseInt(cedula.obtenerContenido());
             String parentescoRep = parentesco.obtenerContenido();
-
-            // chequear cedula antes de cambiar en registro
-            consultaRep = representanteModelo.consultarRepresentante(cedulaRep);
             
             if (alumno.modificar(codigoAlumno, nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRep, parentescoRep)) {
                 cerrarVentana();

@@ -29,6 +29,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -101,7 +102,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
          * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
          */
         resultado = alumno.consultarAlumnosRepresentantes();
-        tablaAlumnos = new TablaAlumnos();
+        tablaAlumnos = new TablaAlumnos(825,250);
         tablaAlumnos.cargarTabla(resultado);
         
         /**
