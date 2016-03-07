@@ -5,6 +5,7 @@
  */
 package Vista.Tablas;
 
+import static Modelo.MensajesDeError.errorSQL;
 import Vista.Formatos.Tabla;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -27,21 +28,25 @@ import javax.swing.table.TableColumn;
 public class TablaRepresentantes extends JPanel{
     
     public Tabla tablaModelo;
-    private Object[] nombreColumnas,claseColumnas;
     private final Object[] datos = new Object[8];
     public JTable tabla;
     private TableColumn colCedula,colNombre,colApellido,colTelefono,colDireccion,colCorreo,colFecha,colGenero;
     private JTextField campo;
-    private ResultSet resultado;
+    private String mensaje;
 
-    public TablaRepresentantes(){
+    /**
+     * Construye la JTable.
+     * @param ancho
+     * @param alto
+     */
+    public TablaRepresentantes(int ancho,int alto){
         setLayout(new FlowLayout());
         setBorder(BorderFactory.createTitledBorder("Representantes"));
         setOpaque(false);
-        crearTabla();
+        crearTabla(ancho,alto);
     }
     
-    final void crearTabla(){
+    public final void crearTabla(int ancho,int alto){
         Object[] nombreColumnas = {"Cedula","Nombre","Apellido","Telefono","Dirección","Correo","Fecha Nacimiento","Genero"};
         Object[] claseColumnas  = {0,new String(),new String(),new String(),new String(),new String(),new String(),new String()};
         
@@ -50,7 +55,7 @@ public class TablaRepresentantes extends JPanel{
         campo.setEditable(false);
 
         tabla = new JTable(tablaModelo);
-        tabla.setPreferredScrollableViewportSize(new Dimension(1200,250));
+        tabla.setPreferredScrollableViewportSize(new Dimension(ancho,alto));
         tabla.setFillsViewportHeight(false);
         colCedula       = tabla.getColumnModel().getColumn(0);
         colNombre       = tabla.getColumnModel().getColumn(1);
@@ -61,14 +66,14 @@ public class TablaRepresentantes extends JPanel{
         colFecha        = tabla.getColumnModel().getColumn(6);
         colGenero       = tabla.getColumnModel().getColumn(7);
         
-        colCedula.setMinWidth(100);     colCedula.setMaxWidth(100);     colCedula.setCellEditor(new DefaultCellEditor(campo));
+        colCedula.setMinWidth(75);     colCedula.setMaxWidth(75);     colCedula.setCellEditor(new DefaultCellEditor(campo));
         colNombre.setMinWidth(150);     colNombre.setMaxWidth(150);     colNombre.setCellEditor(new DefaultCellEditor(campo));
         colApellido.setMinWidth(150);   colApellido.setMaxWidth(150);   colApellido.setCellEditor(new DefaultCellEditor(campo));
         colTelefono.setMinWidth(100);   colTelefono.setMaxWidth(100);   colTelefono.setCellEditor(new DefaultCellEditor(campo));
         colDireccion.setMinWidth(250);  colDireccion.setMaxWidth(250);  colDireccion.setCellEditor(new DefaultCellEditor(campo));        
-        colCorreo.setMinWidth(210);     colCorreo.setMaxWidth(210);     colCorreo.setCellEditor(new DefaultCellEditor(campo));
+        colCorreo.setMinWidth(150);     colCorreo.setMaxWidth(150);     colCorreo.setCellEditor(new DefaultCellEditor(campo));
         colFecha.setMinWidth(125);      colFecha.setMaxWidth(125);      colFecha.setCellEditor(new DefaultCellEditor(campo));
-        colGenero.setMinWidth(100);      colGenero.setMaxWidth(100);      colGenero.setCellEditor(new DefaultCellEditor(campo));
+        colGenero.setMinWidth(75);      colGenero.setMaxWidth(75);      colGenero.setCellEditor(new DefaultCellEditor(campo));
         
         JScrollPane scrollPanel = new JScrollPane(tabla);
         add(scrollPanel);
@@ -111,7 +116,8 @@ public class TablaRepresentantes extends JPanel{
                 tablaModelo.addRow(datos);
             }
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "ERROR EN SENTENCIA SQL /n" + error);
+            mensaje = errorSQL(error.getSQLState());
+            JOptionPane.showMessageDialog(null,mensaje);
         }
     } 
     
@@ -146,7 +152,8 @@ public class TablaRepresentantes extends JPanel{
             }
             status = true;
         } catch (SQLException error) {
-           JOptionPane.showMessageDialog(null, "ERROR EN SENTENCIA SQL /n" + error);
+           mensaje = errorSQL(error.getSQLState());
+           JOptionPane.showMessageDialog(null,mensaje);
         }
         return status;
     }
