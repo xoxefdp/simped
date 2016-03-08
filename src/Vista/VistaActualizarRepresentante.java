@@ -52,7 +52,7 @@ public final class VistaActualizarRepresentante extends JFrame implements Acepta
         /**
          * Elementos del panel superior
          */
-        cedula = new CampoTexto("Cedula",20);
+        cedula = new CampoTexto("Cedula",20); cedula.hacerEditable(false);
         nombres = new CampoTexto("Nombres",20);
         apellidos = new CampoTexto("Apellidos",20);
         telefono = new CampoTexto("Telefono",20);

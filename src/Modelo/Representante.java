@@ -30,7 +30,7 @@ public class Representante {
             }
             catch(SQLException error){
                 mensaje = errorSQL(error.getSQLState());
-                JOptionPane.showMessageDialog(null, mensaje);
+                JOptionPane.showMessageDialog(null,mensaje);
             }
         } 
     }
@@ -41,7 +41,6 @@ public class Representante {
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
-            System.exit(200);
 	}
         return resultados;
     }
@@ -53,7 +52,6 @@ public class Representante {
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
-            System.exit(200);
 	}
         return resultados;
     }
@@ -115,7 +113,7 @@ public class Representante {
             instruccionSql.executeUpdate("COMMIT;");
             inserccionOk = true;
         }catch(SQLException error){
-            mensaje = error.getSQLState();
+            mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
 	}
         return inserccionOk;
@@ -126,8 +124,8 @@ public class Representante {
             instruccionSql.close();
             conexion.close();
         }catch(SQLException error){
-            JOptionPane.showMessageDialog(null,"Error en conexion. \n"+error);
-            System.exit(200);
+            mensaje = errorSQL(error.getSQLState());
+            JOptionPane.showMessageDialog(null,mensaje);
 	}
     }
 }

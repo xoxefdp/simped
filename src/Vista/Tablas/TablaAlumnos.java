@@ -5,6 +5,7 @@
  */
 package Vista.Tablas;
 
+import static Modelo.MensajesDeError.errorSQL;
 import Vista.Formatos.Tabla;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -26,27 +27,27 @@ import javax.swing.table.TableColumn;
  */
 public class TablaAlumnos extends JPanel{
     
-    //private ModeloDeTablaAlumnos tablaModelo;
     public Tabla tablaModelo;
-    private Object[] nombreColumnas,claseColumnas;
     private final Object[] datos = new Object[7];
     public JTable tabla;
     private TableColumn colNombre,colCodigo,colApellido,colFecha,colGenero,colParentesco,colRepresentante;
     private JTextField campo;
-    private ResultSet resultado;
+    private String mensaje;
     
     /**
      * Construye la JTable.
+     * @param ancho
+     * @param alto
      */
-    public TablaAlumnos(){
+    public TablaAlumnos(int ancho, int alto){
         
         setLayout(new FlowLayout());
         setBorder(BorderFactory.createTitledBorder("Alumnos"));
         setOpaque(false);
-        crearTabla();
+        crearTabla(ancho,alto);
     }
     
-    final void crearTabla(){
+    final void crearTabla(int ancho, int alto){
         
         Object[] nombreColumnas = {"Codigo","Nombre","Apellido","Fecha de Nacimiento","Genero","Parentesco","Representante"};
         Object[] claseColumnas  = {0,new String(),new String(),new String(),new String(),new String(),0};
@@ -56,7 +57,7 @@ public class TablaAlumnos extends JPanel{
         campo.setEditable(false);
 
         tabla = new JTable(tablaModelo);
-        tabla.setPreferredScrollableViewportSize(new Dimension(850,250));
+        tabla.setPreferredScrollableViewportSize(new Dimension(ancho,alto)); // 825,250
         tabla.setFillsViewportHeight(false);
         colCodigo       = tabla.getColumnModel().getColumn(0);
         colNombre       = tabla.getColumnModel().getColumn(1);
@@ -66,7 +67,7 @@ public class TablaAlumnos extends JPanel{
         colParentesco   = tabla.getColumnModel().getColumn(5);
         colRepresentante= tabla.getColumnModel().getColumn(6);
         
-        colCodigo.setMinWidth(100);         colCodigo.setMaxWidth(100);         colCodigo.setCellEditor(new DefaultCellEditor(campo));        
+        colCodigo.setMinWidth(75);         colCodigo.setMaxWidth(75);         colCodigo.setCellEditor(new DefaultCellEditor(campo));        
         colNombre.setMinWidth(175);         colNombre.setMaxWidth(175);         colNombre.setCellEditor(new DefaultCellEditor(campo));        
         colApellido.setMinWidth(175);       colApellido.setMaxWidth(175);       colApellido.setCellEditor(new DefaultCellEditor(campo));        
         colFecha.setMinWidth(150);          colFecha.setMaxWidth(150);          colFecha.setCellEditor(new DefaultCellEditor(campo));        
@@ -112,7 +113,8 @@ public class TablaAlumnos extends JPanel{
                 tablaModelo.addRow(datos);
             }
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "ERROR EN SENTENCIA SQL /n" + error);
+            mensaje = errorSQL(error.getSQLState());
+            JOptionPane.showMessageDialog(null,mensaje);
         }
     } 
     /**
@@ -155,7 +157,8 @@ public class TablaAlumnos extends JPanel{
             }
             status = true;
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "ERROR EN SENTENCIA SQL /n" + error);
+            mensaje = errorSQL(error.getSQLState());
+            JOptionPane.showMessageDialog(null,mensaje);
         }
         return status;
     }

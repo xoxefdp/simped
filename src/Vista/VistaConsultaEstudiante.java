@@ -89,8 +89,8 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
         /**
          * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
          */
-        resultado = alumno.consultarAlumnos();
-        tablaAlumnos = new TablaAlumnos();
+        resultado = alumno.consultarAlumnosRepresentantes();
+        tablaAlumnos = new TablaAlumnos(825,250);
         tablaAlumnos.cargarTabla(resultado);
         
         /**

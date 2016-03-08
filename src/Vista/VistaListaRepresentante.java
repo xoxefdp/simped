@@ -99,7 +99,7 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
          * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
          */
         resultado = representante.consultarRepresentantes();
-        tablaRepresentantes = new TablaRepresentantes();
+        tablaRepresentantes = new TablaRepresentantes(1075,250);
         tablaRepresentantes.cargarTabla(resultado);
    
         /**

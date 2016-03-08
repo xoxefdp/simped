@@ -19,7 +19,7 @@ import Modelo.Representante;
 import Vista.Formatos.Botonera;
 import Vista.Formatos.CampoCombo;
 import Vista.Formatos.CampoTexto;
-import Vista.Tablas.TablaModAdmRepresentantes;
+import Vista.Tablas.TablaRepresentantes;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -49,7 +49,7 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
     private final Alumno alumno = new Alumno();
 
     private final Representante representanteModelo;
-    private final TablaModAdmRepresentantes tablaRepresentantes;
+    private final TablaRepresentantes tablaRepresentantes;
     private final String[] BU = {"Buscar"};
     private final String[] LI = {"Listar Todos"};
     private final String[] DE = {"Detallar"};
@@ -61,6 +61,8 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         setResizable(false);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setVisible(true);
+        setSize(750, 550);
 
         /**
          * Elementos del panel superior
@@ -81,9 +83,8 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
                 }
             }
         });
-
         panelTop = new JPanel();
-        panelTop.setLayout(new GridLayout(2,3));
+        panelTop.setLayout(new GridLayout(2,2));
         panelTop.add(nombres);
         panelTop.add(apellidos);
         panelTop.add(fechanac);
@@ -92,7 +93,7 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         /**
          * Elementos del panel central
          */
-        cedula = new CampoTexto("",15);
+        cedula = new CampoTexto("Cedula",15);
         botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         panelBusqueda = new JPanel();
@@ -112,13 +113,6 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
             }
         });
         
-        panelRepresentante = new JPanel();
-        panelRepresentante.setLayout(new GridLayout(2,2));
-        panelRepresentante.add(panelBusqueda);
-        panelRepresentante.add(parentesco);
-        panelRepresentante.add(botoneraLI);
-        panelRepresentante.add(botoneraDE);
-        
         botoneraMR = new Botonera(MR);
         botoneraMR.adherirEscucha(0, new ActionListener() {
             @Override
@@ -126,15 +120,23 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
                 VistaListaRepresentante vistaListaRepresentante = new VistaListaRepresentante();
             }
         });
+        panelRepresentante = new JPanel();
+        panelRepresentante.setLayout(new FlowLayout());
+        //panelRepresentante.setBorder(BorderFactory.createTitledBorder("Listado de Representante"));
+        panelRepresentante.add(panelBusqueda);
+        panelRepresentante.add(parentesco);
+        panelRepresentante.add(botoneraMR);
+
         representanteModelo = new Representante();
         resultado = representanteModelo.consultarRepresentantes();
-        tablaRepresentantes = new TablaModAdmRepresentantes();
+        tablaRepresentantes = new TablaRepresentantes(375,75);
         tablaRepresentantes.cargarTabla(resultado);
-        
         panelTabla = new JPanel();
         panelTabla.setLayout(new FlowLayout());
-        panelTabla.add(botoneraMR);
+        panelTabla.setBorder(BorderFactory.createTitledBorder("Listado de Representante"));
         panelTabla.add(tablaRepresentantes);
+        panelTabla.add(botoneraLI);
+        panelTabla.add(botoneraDE);
         
         /**
          * Ejecuta eventos de selección en tabla
@@ -166,12 +168,11 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         /**
          * Configuracion de Vista
          */
-        add(boton);
+        //add(boton);
         add(BorderLayout.NORTH,panelTop);
         add(BorderLayout.CENTER,panelCenter);
         add(BorderLayout.SOUTH,boton);
-        pack();
-        setVisible(true);
+        //pack();
     }
 
     public void detallar() {

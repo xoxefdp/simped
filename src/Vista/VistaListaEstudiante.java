@@ -101,7 +101,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
          * Se crea la tabla y se pobla con los resultados y el metodo cargarTabla
          */
         resultado = alumno.consultarAlumnosRepresentantes();
-        tablaAlumnos = new TablaAlumnos();
+        tablaAlumnos = new TablaAlumnos(825,250);
         tablaAlumnos.cargarTabla(resultado);
         
         /**
