@@ -156,17 +156,19 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
    
     @Override
     public void listar() { // consulta todos
-        ResultSet resultadoListar = alumno.consultarAlumnos();
+        /*ResultSet resultadoListar = alumno.consultarAlumnos();
+        tablaAlumnos.cargarTabla(resultadoListar);*/
+         ResultSet resultadoListar = alumno.consultarAlumnosRepresentantes();
         tablaAlumnos.cargarTabla(resultadoListar);
     }
     
     @Override
     public void consultar() { // consulta uno
-        if (codigo.obtenerContenido().length() != 0) {
+         if (codigo.obtenerContenido().length() != 0) {
             String stringCodigo = codigo.obtenerContenido(); //falta generalizar
             int codigoAlumno=Integer.parseInt(stringCodigo);    //   int
 
-            ResultSet resultadoConsulta = alumno.consultarAlumno(codigoAlumno);
+            ResultSet resultadoConsulta = alumno.consultarAlumnoRepresentante(codigoAlumno);
             tablaAlumnos.cargarTabla(resultadoConsulta);
         } else {
             JOptionPane.showMessageDialog(this,"Escriba el codigo a consultar");
