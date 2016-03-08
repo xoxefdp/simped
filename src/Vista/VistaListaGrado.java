@@ -149,26 +149,32 @@ public class VistaListaGrado extends JFrame {
         ResultSet resultadoGA = alumnoGrado.consultarFechas();
         try{
             while(resultadoGA.next()){
-                fechas.add(resultadoGA.getString(1));
+                if(!fechas.contains(resultadoGA.getString(1))){
+                    fechas.add(resultadoGA.getString(1));
+                }
             }
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
+            //JOptionPane.showMessageDialog(null,error);
         }
         
         ResultSet resultadoGP = gradoProfesor.consultarFechas();
         try{
             while(resultadoGP.next()){
-                fechas.add(resultadoGP.getString(1));
+                if(!fechas.contains(resultadoGP.getString(1))){
+                    fechas.add(resultadoGP.getString(1));
+                }
             }
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
+            //JOptionPane.showMessageDialog(null,error);
         }
         
         tablaGradosFechas = new TablaGradosFechas(55,100);
         tablaGradosFechas.cargarTabla(fechas);
-        
+    /*    
         botoneraNF = new Botonera(NF);
         botoneraNF.adherirEscucha(0, new ActionListener() {
             @Override
@@ -176,12 +182,13 @@ public class VistaListaGrado extends JFrame {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
-        
+    */    
         JPanel panelFecha = new JPanel();
         panelFecha.setLayout(new GridLayout(2,1));
+    //  panelFecha.setLayout(new FlowLayout());
         panelFecha.setBorder(BorderFactory.createTitledBorder("Fechas"));
         panelFecha.add(tablaGradosFechas);
-        panelFecha.add(botoneraNF);
+    //  panelFecha.add(botoneraNF);
         
         JPanel panelTopLeft = new JPanel();
         panelTopLeft.setLayout(new FlowLayout());
@@ -191,7 +198,7 @@ public class VistaListaGrado extends JFrame {
         /**
          * Ejecuta eventos de selección en tabla
          */
-        /*
+    /*
         tablaGrados.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -201,7 +208,7 @@ public class VistaListaGrado extends JFrame {
                 }
             }
         });
-        */
+    */
 
         //resultado = gradoProfesor.consultarGradoProfesorFecha(,);        
         tablaGradoFechaProfesores = new TablaGradoFechaProfesores(375,100);
@@ -290,8 +297,6 @@ public class VistaListaGrado extends JFrame {
                 }
             }
         });
-        
-
         
         pack();
         setVisible(true);

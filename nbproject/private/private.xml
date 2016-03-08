@@ -5,9 +5,11 @@
         <group>
             <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/Tablas/TablaGradosFechas.java</file>
             <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Modelo/GradoProfesor.java</file>
+            <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/Tablas/TablaGrados.java</file>
+            <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/MenuPrincipal.java</file>
+            <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Modelo/Grado.java</file>
             <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/VistaListaGrado.java</file>
             <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/Tablas/TablaGradoFechaProfesores.java</file>
-            <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/VistaListaProfesor.java</file>
             <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/Tablas/TablaGradoFechaAlumnos.java</file>
             <file>file:/home/josediaz/Desktop/proyectos-xoxe/simped/src/Modelo/AlumnoGrado.java</file>
         </group>
