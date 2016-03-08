@@ -112,15 +112,16 @@ public class AlumnoGrado {
     }
 
     // devuelve todos los alumnos inscritos en un grado, en un año escolar
-    public final ResultSet consultarListaAlumnosGradoFecha(String aescolar, int codigoGrado){
+    public final ResultSet consultarListaAlumnosGradoFecha(String aescolar, String codigoGrado){
         try{
+            int codigo = Integer.parseInt(codigoGrado);
             consulta = "SELECT " +
+                       "YEAR(alumno_has_grado.a_escolar)," +
                        "alumno.cod_al," +
                        "alumno.nombre_al," +
                        "alumno.apellido_al," +
                        "alumno.fecha_nac_alum," +
                        "alumno.sexo," +
-                       "YEAR(alumno_has_grado.a_escolar)," +
                        "grado.cod_gr," +
                        "grado.grado," +
                        "grado.seccion " +
@@ -128,7 +129,7 @@ public class AlumnoGrado {
                        "INNER JOIN alumno_has_grado ON alumno_has_grado.alumno_cod_al = alumno.cod_al " +
                        "INNER JOIN grado ON alumno_has_grado.grado_cod_gr = grado.cod_gr " +
                        "WHERE YEAR(alumno_has_grado.a_escolar) = '"+aescolar+"' " +
-                       "AND alumno_has_grado.grado_cod_gr = '"+codigoGrado+"'";
+                       "AND alumno_has_grado.grado_cod_gr = '"+codigo+"'";
             resultados = instruccionSql.executeQuery(consulta);
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());

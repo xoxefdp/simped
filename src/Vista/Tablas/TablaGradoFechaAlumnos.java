@@ -11,7 +11,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.BorderFactory;
+import java.util.Date;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,9 +28,9 @@ import javax.swing.table.TableColumn;
 public class TablaGradoFechaAlumnos extends JPanel{
     
     public Tabla tablaModelo;
-    private final Object[] datos = new Object[3];
+    private final Object[] datos = new Object[9];
     public JTable tabla;
-    private TableColumn colCodigo,colNombre,colApellido,colFecha,colGenero,colParentesco,colRepresentante;
+    private TableColumn colFecha,colCodigo,colNombre,colApellido,colGenero,colParentesco,colRepresentante,col8,col9;
     private JTextField campo;
     private String mensaje;
     
@@ -42,15 +42,15 @@ public class TablaGradoFechaAlumnos extends JPanel{
     public TablaGradoFechaAlumnos(int ancho, int alto){
         
         setLayout(new FlowLayout());
-        setBorder(BorderFactory.createTitledBorder("Lista de Alumnos del Grado"));
+        //setBorder(BorderFactory.createTitledBorder("Estudiantes Asignados(as)"));
         setOpaque(false);
         crearTabla(ancho,alto);
     }
     
     final void crearTabla(int ancho, int alto){
         
-        Object[] nombreColumnas = {"Codigo","Nombre","Apellido","Fecha de Nacimiento","Genero","Parentesco","Representante"};
-        Object[] claseColumnas  = {0,new String(),new String(),new String(),new String(),new String(),0};
+        Object[] nombreColumnas = {"Fecha","Codigo","Nombre","Apellido","","","","",""};
+        Object[] claseColumnas  = {new String(),0,new String(),new String(),new String(),new String(),new String(),new String(),new String()};
         
         tablaModelo = new Tabla(nombreColumnas,claseColumnas);
         campo = new JTextField();
@@ -59,21 +59,27 @@ public class TablaGradoFechaAlumnos extends JPanel{
         tabla = new JTable(tablaModelo);
         tabla.setPreferredScrollableViewportSize(new Dimension(ancho,alto)); // 825,250
         tabla.setFillsViewportHeight(false);
-        colCodigo       = tabla.getColumnModel().getColumn(0);
-        colNombre       = tabla.getColumnModel().getColumn(1);
-        colApellido     = tabla.getColumnModel().getColumn(2);
-        colFecha        = tabla.getColumnModel().getColumn(3);
-        colGenero       = tabla.getColumnModel().getColumn(4);
-        colParentesco   = tabla.getColumnModel().getColumn(5);
-        colRepresentante= tabla.getColumnModel().getColumn(6);
         
-        colCodigo.setMinWidth(75);          colCodigo.setMaxWidth(75);          colCodigo.setCellEditor(new DefaultCellEditor(campo));        
-        colNombre.setMinWidth(150);         colNombre.setMaxWidth(150);         colNombre.setCellEditor(new DefaultCellEditor(campo));        
-        colApellido.setMinWidth(150);       colApellido.setMaxWidth(150);       colApellido.setCellEditor(new DefaultCellEditor(campo));        
-        colFecha.setMinWidth(150);          colFecha.setMaxWidth(150);          colFecha.setCellEditor(new DefaultCellEditor(campo));        
-        colGenero.setMinWidth(75);          colGenero.setMaxWidth(75);          colGenero.setCellEditor(new DefaultCellEditor(campo));
-        colParentesco.setMinWidth(75);      colParentesco.setMaxWidth(75);      colParentesco.setCellEditor(new DefaultCellEditor(campo));
-        colRepresentante.setMinWidth(100);  colRepresentante.setMaxWidth(100);  colRepresentante.setCellEditor(new DefaultCellEditor(campo));        
+        colFecha        = tabla.getColumnModel().getColumn(0);
+        colCodigo       = tabla.getColumnModel().getColumn(1);
+        colNombre       = tabla.getColumnModel().getColumn(2);
+        colApellido     = tabla.getColumnModel().getColumn(3);
+        colGenero     = tabla.getColumnModel().getColumn(4);
+        colParentesco     = tabla.getColumnModel().getColumn(5);
+        colRepresentante     = tabla.getColumnModel().getColumn(6);
+        col8     = tabla.getColumnModel().getColumn(7);
+        col9     = tabla.getColumnModel().getColumn(8);
+        
+        
+        colFecha.setMinWidth(0);        colFecha.setMaxWidth(0);        colFecha.setCellEditor(new DefaultCellEditor(campo));
+        colCodigo.setMinWidth(75);      colCodigo.setMaxWidth(75);      colCodigo.setCellEditor(new DefaultCellEditor(campo));
+        colNombre.setMinWidth(150);     colNombre.setMaxWidth(150);     colNombre.setCellEditor(new DefaultCellEditor(campo));
+        colApellido.setMinWidth(150);   colApellido.setMaxWidth(150);   colApellido.setCellEditor(new DefaultCellEditor(campo));
+        colGenero.setMinWidth(150);   colGenero.setMaxWidth(150);   colGenero.setCellEditor(new DefaultCellEditor(campo));
+        colParentesco.setMinWidth(150);   colParentesco.setMaxWidth(150);   colParentesco.setCellEditor(new DefaultCellEditor(campo));
+        colRepresentante.setMinWidth(150);   colRepresentante.setMaxWidth(150);   colRepresentante.setCellEditor(new DefaultCellEditor(campo));
+        col8.setMinWidth(150);   col8.setMaxWidth(150);   col8.setCellEditor(new DefaultCellEditor(campo));
+        col9.setMinWidth(150);   col9.setMaxWidth(150);   col9.setCellEditor(new DefaultCellEditor(campo));
         JScrollPane scrollPanel = new JScrollPane(tabla);
         add(scrollPanel);
     }
@@ -107,9 +113,11 @@ public class TablaGradoFechaAlumnos extends JPanel{
                 datos[1]= entrada.getString(2); //colNombre
                 datos[2]= entrada.getString(3); //colApellido
                 datos[3]= entrada.getString(4); //colFecha
-                datos[4]= entrada.getString(5); //colGenero
-                datos[5]= entrada.getString(6); //colParentesco
-                datos[6]= entrada.getString(7); //colRepresentante
+                datos[4]= entrada.getString(5); //colFecha
+                datos[5]= entrada.getString(6); //colFecha
+                datos[6]= entrada.getString(7); //colFecha
+                datos[7]= entrada.getString(8); //colFecha
+                
                 tablaModelo.addRow(datos);
             }
         } catch (SQLException error) {
@@ -150,9 +158,10 @@ public class TablaGradoFechaAlumnos extends JPanel{
                 datos[1]= entrada.getString(2);
                 datos[2]= entrada.getString(3);
                 datos[3]= entrada.getString(4);
-                datos[4]= entrada.getString(5);
-                datos[5]= entrada.getString(6);
-                datos[6]= entrada.getString(7);
+                datos[4]= entrada.getString(5); //colFecha
+                datos[5]= entrada.getString(6); //colFecha
+                datos[6]= entrada.getString(7); //colFecha
+                datos[7]= entrada.getString(8); //colFecha
                 tablaModelo.addRow(datos);
             }
             status = true;

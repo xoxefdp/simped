@@ -79,7 +79,7 @@ public class Grado {
         return inserccionOk;
     }
 
-    public final boolean eliminar(int codigo, String seccion){
+    public final boolean eliminar(int codigo){
         boolean inserccionOk = false;
         try{  
             consulta="DELETE FROM grado WHERE cod_gr = '" +codigo+"'";

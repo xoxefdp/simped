@@ -86,12 +86,11 @@ public class GradoProfesor {
     */
 
     // devuelve el profesor asignado, en un grado, en un año
-    public final ResultSet consultarGradoFechaProfesor(String aescolar, int codigoGrado){
+    public final ResultSet consultarGradoFechaProfesor(String aescolar, String codigoGrado){
         try{
+            int codigo = Integer.parseInt(codigoGrado);
             consulta = "SELECT " +
-                       "grado.cod_gr," +
-                       "grado.grado," +
-                       "grado.seccion," +
+                       "YEAR(grado_has_profesor.a_escolar)," +
                        "profesor.cedula_pr," +
                        "profesor.nombre_pr," +
                        "profesor.apellido_pr," +
@@ -101,11 +100,13 @@ public class GradoProfesor {
                        "profesor.telefono_pr," +
                        "profesor.sexo_pr," +
                        "profesor.titulo_prof," +
-                       "YEAR(grado_has_profesor.a_escolar) " +
+                       "grado.cod_gr," +
+                       "grado.grado," +
+                       "grado.seccion " +
                        "FROM grado_has_profesor " +
                        "INNER JOIN grado ON grado_has_profesor.grado_cod_gr = grado.cod_gr " +
                        "INNER JOIN profesor ON grado_has_profesor.profesor_cedula_pr = profesor.cedula_pr " +
-                       "WHERE grado_has_profesor.grado_cod_gr = '"+codigoGrado+"' "+
+                       "WHERE grado_has_profesor.grado_cod_gr = '"+codigo+"' "+
                        "AND YEAR(grado_has_profesor.a_escolar) = '"+aescolar+"'";
             resultados = instruccionSql.executeQuery(consulta); 
         }catch(SQLException error){

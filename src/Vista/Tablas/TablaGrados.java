@@ -63,9 +63,9 @@ public class TablaGrados extends JPanel{
         colGrado    = tabla.getColumnModel().getColumn(1);
         colSeccion  = tabla.getColumnModel().getColumn(2);
         
-        colCodigo.setMinWidth(75);  colCodigo.setMaxWidth(75);  colCodigo.setCellEditor(new DefaultCellEditor(campo));
-        colGrado.setMinWidth(75);   colGrado.setMaxWidth(75);   colGrado.setCellEditor(new DefaultCellEditor(campo));
-        colSeccion.setMinWidth(75); colSeccion.setMaxWidth(75); colSeccion.setCellEditor(new DefaultCellEditor(campo));
+        colCodigo.setMinWidth(100);  colCodigo.setMaxWidth(100);  colCodigo.setCellEditor(new DefaultCellEditor(campo));
+        colGrado.setMinWidth(100);   colGrado.setMaxWidth(100);   colGrado.setCellEditor(new DefaultCellEditor(campo));
+        colSeccion.setMinWidth(100); colSeccion.setMaxWidth(100); colSeccion.setCellEditor(new DefaultCellEditor(campo));
         
         JScrollPane scrollPanel = new JScrollPane(tabla);
         add(scrollPanel);

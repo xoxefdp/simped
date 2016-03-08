@@ -11,7 +11,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -42,7 +41,7 @@ public class TablaGradoFechaProfesores extends JPanel{
     public TablaGradoFechaProfesores(int ancho, int alto){
         
         setLayout(new FlowLayout());
-        setBorder(BorderFactory.createTitledBorder("Profesor(es) Asignado(s)"));
+        //setBorder(BorderFactory.createTitledBorder("Profesor(es) Asignado(s)"));
         setOpaque(false);
         crearTabla(ancho,alto);
     }
