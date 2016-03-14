@@ -12,28 +12,21 @@ import Controlador.CerrarVentana;
 import Controlador.OyenteAceptar;
 import Controlador.OyenteCancelar;
 import Modelo.GradoProfesor;
-import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Profesor;
 import Vista.Formatos.Botonera;
-import Vista.Formatos.CampoAreaTexto;
-import Vista.Formatos.CampoCombo;
 import Vista.Formatos.CampoTexto;
 import Vista.Tablas.TablaProfesores;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 /**
  *

@@ -74,13 +74,25 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
             @Override
             public void keyTyped(KeyEvent ke) {
                 char escrito = ke.getKeyChar();
-                if((escrito <'a' || escrito >'z') && 
-                   (escrito <'A' || escrito >'Z') && 
-                   (escrito!='Á' || escrito!='á') && //problema
-                   (escrito!='É' || escrito!='é') && //problema
-                   (escrito!='Í' || escrito!='í') && //problema
-                   (escrito!='Ó' || escrito!='ó') && //problema
-                   (escrito!='Ú' || escrito!='ú') && //problema
+                if((escrito!='a') && (escrito!='b') && (escrito!='c') && (escrito!='d') &&
+                   (escrito!='e') && (escrito!='f') && (escrito!='g') && (escrito!='h') &&
+                   (escrito!='i') && (escrito!='j') && (escrito!='k') && (escrito!='l') &&
+                   (escrito!='m') && (escrito!='n') && (escrito!='ñ') && (escrito!='o') &&
+                   (escrito!='p') && (escrito!='q') && (escrito!='r') && (escrito!='s') &&
+                   (escrito!='t') && (escrito!='u') && (escrito!='v') && (escrito!='w') &&
+                   (escrito!='x') && (escrito!='y') && (escrito!='z') && (escrito!='A') &&
+                   (escrito!='B') && (escrito!='C') && (escrito!='D') && (escrito!='E') &&
+                   (escrito!='F') && (escrito!='G') && (escrito!='H') && (escrito!='I') &&
+                   (escrito!='J') && (escrito!='K') && (escrito!='L') && (escrito!='M') &&
+                   (escrito!='N') && (escrito!='Ñ') && (escrito!='O') && (escrito!='P') &&
+                   (escrito!='Q') && (escrito!='R') && (escrito!='S') && (escrito!='T') &&
+                   (escrito!='U') && (escrito!='V') && (escrito!='W') && (escrito!='X') &&
+                   (escrito!='Y') && (escrito!='Z') && (escrito!='Á') && (escrito!='á') &&
+                   (escrito!='É') && (escrito!='é') && (escrito!='Í') && (escrito!='í') &&
+                   (escrito!='Ó') && (escrito!='ó') && (escrito!='Ú') && (escrito!='ú') &&
+                   (escrito!='Ä') && (escrito!='ä') && (escrito!='Ë') && (escrito!='ë') &&
+                   (escrito!='Ï') && (escrito!='ï') && (escrito!='Ö') && (escrito!='ö') &&
+                   (escrito!='Ü') && (escrito!='ü') && (escrito!=KeyEvent.VK_BACK_SPACE) &&
                    (escrito!=KeyEvent.VK_SPACE)) ke.consume();
                 if(nombres.longuitudDelContenido() >= 45) ke.consume();
             }
@@ -91,49 +103,61 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
             @Override
             public void keyTyped(KeyEvent ke) {
                 char escrito = ke.getKeyChar();
-                if((escrito <'a' || escrito >'z') && 
-                   (escrito <'A' || escrito >'Z') && 
-                   (escrito!='Á' || escrito!='á') && //problema
-                   (escrito!='É' || escrito!='é') && //problema
-                   (escrito!='Í' || escrito!='í') && //problema
-                   (escrito!='Ó' || escrito!='ó') && //problema
-                   (escrito!='Ú' || escrito!='ú') && //problema
+                if((escrito!='a') && (escrito!='b') && (escrito!='c') && (escrito!='d') &&
+                   (escrito!='e') && (escrito!='f') && (escrito!='g') && (escrito!='h') &&
+                   (escrito!='i') && (escrito!='j') && (escrito!='k') && (escrito!='l') &&
+                   (escrito!='m') && (escrito!='n') && (escrito!='ñ') && (escrito!='o') &&
+                   (escrito!='p') && (escrito!='q') && (escrito!='r') && (escrito!='s') &&
+                   (escrito!='t') && (escrito!='u') && (escrito!='v') && (escrito!='w') &&
+                   (escrito!='x') && (escrito!='y') && (escrito!='z') && (escrito!='A') &&
+                   (escrito!='B') && (escrito!='C') && (escrito!='D') && (escrito!='E') &&
+                   (escrito!='F') && (escrito!='G') && (escrito!='H') && (escrito!='I') &&
+                   (escrito!='J') && (escrito!='K') && (escrito!='L') && (escrito!='M') &&
+                   (escrito!='N') && (escrito!='Ñ') && (escrito!='O') && (escrito!='P') &&
+                   (escrito!='Q') && (escrito!='R') && (escrito!='S') && (escrito!='T') &&
+                   (escrito!='U') && (escrito!='V') && (escrito!='W') && (escrito!='X') &&
+                   (escrito!='Y') && (escrito!='Z') && (escrito!='Á') && (escrito!='á') &&
+                   (escrito!='É') && (escrito!='é') && (escrito!='Í') && (escrito!='í') &&
+                   (escrito!='Ó') && (escrito!='ó') && (escrito!='Ú') && (escrito!='ú') &&
+                   (escrito!='Ä') && (escrito!='ä') && (escrito!='Ë') && (escrito!='ë') &&
+                   (escrito!='Ï') && (escrito!='ï') && (escrito!='Ö') && (escrito!='ö') &&
+                   (escrito!='Ü') && (escrito!='ü') && (escrito!=KeyEvent.VK_BACK_SPACE) &&
                    (escrito!=KeyEvent.VK_SPACE)) ke.consume();
                 if(apellidos.longuitudDelContenido() >= 45) ke.consume();
             }
         });
-        
+
         fechanac = new CampoTexto("Fecha de Nacimiento",20);
         fechanac.campo.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent ke) {
                 int escrito = ke.getKeyChar();
-                if((escrito<'0' || escrito>'9') && (escrito!=KeyEvent.VK_MINUS)) ke.consume(); 
-                if(fechanac.longuitudDelContenido() >= 10) ke.consume(); 
+                if((escrito<'0' || escrito>'9') && (escrito!=KeyEvent.VK_MINUS)) ke.consume();
+                if(fechanac.longuitudDelContenido() >= 10) ke.consume();
             }
         });
-        
+
         /**
          * Invoca calendario al enfocar
          */
         fechanac.campo.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (fechanac.obtenerContenido().length() == 0) {
+                if (fechanac.longuitudDelContenido() == 0) {
                     Calendario calendario = new Calendario(fechanac.campo);
                 }
             }
         });
-        
+
         sexo = new CampoCombo("Sexo",opcSexo);
-        
+
         panelTop = new JPanel();
         panelTop.setLayout(new GridLayout(2,2));
         panelTop.add(nombres);
         panelTop.add(apellidos);
         panelTop.add(fechanac);
         panelTop.add(sexo);
-        
+
         /**
          * Elementos del panel central
          */
@@ -142,11 +166,11 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
             @Override
             public void keyTyped(KeyEvent ke) {
                 int escrito = ke.getKeyChar();
-                if((escrito<'0' || escrito>'9')) ke.consume(); 
-                if(cedula.longuitudDelContenido() >= 8) ke.consume(); 
+                if((escrito<'0' || escrito>'9')) ke.consume();
+                if(cedula.longuitudDelContenido() >= 8) ke.consume();
             }
         });
-        
+
         botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         panelBusqueda = new JPanel();
@@ -155,23 +179,35 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
 
         botoneraLI = new Botonera(LI);
         botoneraLI.adherirEscucha(0, new OyenteListar(this));
-        
+
         parentesco = new CampoTexto("Parentesco",20);
         parentesco.campo.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent ke) {
                 char escrito = ke.getKeyChar();
-                if((escrito<'a' || escrito>'z') && 
-                   (escrito<'A' || escrito>'Z') &&
-                   (escrito!='Á' || escrito!='á') && //problema
-                   (escrito!='É' || escrito!='é') && //problema
-                   (escrito!='Í' || escrito!='í') && //problema
-                   (escrito!='Ó' || escrito!='ó') && //problema
-                   (escrito!='Ú' || escrito!='ú')) ke.consume();
+              if((escrito!='a') && (escrito!='b') && (escrito!='c') && (escrito!='d') &&
+                 (escrito!='e') && (escrito!='f') && (escrito!='g') && (escrito!='h') &&
+                 (escrito!='i') && (escrito!='j') && (escrito!='k') && (escrito!='l') &&
+                 (escrito!='m') && (escrito!='n') && (escrito!='ñ') && (escrito!='o') &&
+                 (escrito!='p') && (escrito!='q') && (escrito!='r') && (escrito!='s') &&
+                 (escrito!='t') && (escrito!='u') && (escrito!='v') && (escrito!='w') &&
+                 (escrito!='x') && (escrito!='y') && (escrito!='z') && (escrito!='A') &&
+                 (escrito!='B') && (escrito!='C') && (escrito!='D') && (escrito!='E') &&
+                 (escrito!='F') && (escrito!='G') && (escrito!='H') && (escrito!='I') &&
+                 (escrito!='J') && (escrito!='K') && (escrito!='L') && (escrito!='M') &&
+                 (escrito!='N') && (escrito!='Ñ') && (escrito!='O') && (escrito!='P') &&
+                 (escrito!='Q') && (escrito!='R') && (escrito!='S') && (escrito!='T') &&
+                 (escrito!='U') && (escrito!='V') && (escrito!='W') && (escrito!='X') &&
+                 (escrito!='Y') && (escrito!='Z') && (escrito!='Á') && (escrito!='á') &&
+                 (escrito!='É') && (escrito!='é') && (escrito!='Í') && (escrito!='í') &&
+                 (escrito!='Ó') && (escrito!='ó') && (escrito!='Ú') && (escrito!='ú') &&
+                 (escrito!='Ä') && (escrito!='ä') && (escrito!='Ë') && (escrito!='ë') &&
+                 (escrito!='Ï') && (escrito!='ï') && (escrito!='Ö') && (escrito!='ö') &&
+                 (escrito!='Ü') && (escrito!='ü')) ke.consume();
                 if(parentesco.longuitudDelContenido() >= 15) ke.consume();
             }
         });
-        
+
         botoneraDE = new Botonera(DE);
         botoneraDE.adherirEscucha(0, new ActionListener() {
             @Override
@@ -179,7 +215,7 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
                 detallar();
             }
         });
-        
+
         botoneraMR = new Botonera(MR);
         botoneraMR.adherirEscucha(0, new ActionListener() {
             @Override
@@ -204,7 +240,7 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         panelTabla.add(tablaRepresentantes);
         panelTabla.add(botoneraLI);
         panelTabla.add(botoneraDE);
-        
+
         /**
          * Ejecuta eventos de selección en tabla
          */
@@ -217,14 +253,14 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
                 }
             }
         });
-        
+
         panelCenter = new JPanel();
         panelCenter.setLayout(new GridLayout(2,1));
         panelCenter.setBorder(BorderFactory.createTitledBorder("Modulo de Seleccion de Representante"));
         panelCenter.add(panelRepresentante);
         panelCenter.add(panelTabla);
         //panelCenter.getPreferredSize();
-        
+
         /**
          * Elementos inferiores
          */
@@ -244,18 +280,18 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
 
     public void detallar() {
         if (tablaRepresentantes.tabla.getSelectedRow()>=0){
-            
+
             String stringCedRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0); //string
             int cedulaRepresentante=Integer.parseInt(stringCedRepresentante);    //   int
 
             String stringNomRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 1); //string
             String stringApeRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 2); //string
             String stringTelRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 3); //string
-            String stringDirRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 4); //string            
+            String stringDirRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 4); //string
             String stringCorRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 5); //string
             String stringFecRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 6); //string
             String stringSexRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 7); //string
-            
+
             JOptionPane.showMessageDialog(this,
                     "Datos Representante \n\n"
                 +   "Cedula: "+cedulaRepresentante+"\n"
@@ -281,13 +317,13 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
             String fechaNacAl = fechanac.obtenerContenido();
             String sexoAl = sexo.obtenerSeleccion().toString();
             String parentescoRep = parentesco.obtenerContenido();
-            
+
             //String stringRepresentante=(String)tablaRepresentantes.tablaModelo.getValueAt(tablaRepresentantes.tabla.getSelectedRow(), 0);
-            
+
             int cedulaRepresentante = Integer.parseInt(cedula.obtenerContenido());
             // chequear cedula antes de cambiar en registro
             //int cedulaRepresentante=Integer.parseInt(stringRepresentante);
-            
+
             if (alumno.incluir(nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRepresentante, parentescoRep)) {
                 cerrarVentana();
             } else {
@@ -313,7 +349,7 @@ public final class VistaAdmisionEstudiante extends JFrame implements Aceptar, Ca
         ResultSet resultadoListar = representanteModelo.consultarRepresentantes();
         tablaRepresentantes.cargarTabla(resultadoListar);
     }
-    
+
     @Override
     public void consultar() { // consulta uno
         if (cedula.longuitudDelContenido() != 0) {

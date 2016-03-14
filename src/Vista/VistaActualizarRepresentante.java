@@ -70,13 +70,25 @@ public final class VistaActualizarRepresentante extends JFrame implements Acepta
             @Override
             public void keyTyped(KeyEvent ke) {
                 char escrito = ke.getKeyChar();
-                if((escrito <'a' || escrito >'z') && 
-                   (escrito <'A' || escrito >'Z') && 
-                   (escrito!='Á' || escrito!='á') && //problema
-                   (escrito!='É' || escrito!='é') && //problema
-                   (escrito!='Í' || escrito!='í') && //problema
-                   (escrito!='Ó' || escrito!='ó') && //problema
-                   (escrito!='Ú' || escrito!='ú') && //problema
+                if((escrito!='a') && (escrito!='b') && (escrito!='c') && (escrito!='d') &&
+                   (escrito!='e') && (escrito!='f') && (escrito!='g') && (escrito!='h') &&
+                   (escrito!='i') && (escrito!='j') && (escrito!='k') && (escrito!='l') &&
+                   (escrito!='m') && (escrito!='n') && (escrito!='ñ') && (escrito!='o') &&
+                   (escrito!='p') && (escrito!='q') && (escrito!='r') && (escrito!='s') &&
+                   (escrito!='t') && (escrito!='u') && (escrito!='v') && (escrito!='w') &&
+                   (escrito!='x') && (escrito!='y') && (escrito!='z') && (escrito!='A') &&
+                   (escrito!='B') && (escrito!='C') && (escrito!='D') && (escrito!='E') &&
+                   (escrito!='F') && (escrito!='G') && (escrito!='H') && (escrito!='I') &&
+                   (escrito!='J') && (escrito!='K') && (escrito!='L') && (escrito!='M') &&
+                   (escrito!='N') && (escrito!='Ñ') && (escrito!='O') && (escrito!='P') &&
+                   (escrito!='Q') && (escrito!='R') && (escrito!='S') && (escrito!='T') &&
+                   (escrito!='U') && (escrito!='V') && (escrito!='W') && (escrito!='X') &&
+                   (escrito!='Y') && (escrito!='Z') && (escrito!='Á') && (escrito!='á') &&
+                   (escrito!='É') && (escrito!='é') && (escrito!='Í') && (escrito!='í') &&
+                   (escrito!='Ó') && (escrito!='ó') && (escrito!='Ú') && (escrito!='ú') &&
+                   (escrito!='Ä') && (escrito!='ä') && (escrito!='Ë') && (escrito!='ë') &&
+                   (escrito!='Ï') && (escrito!='ï') && (escrito!='Ö') && (escrito!='ö') &&
+                   (escrito!='Ü') && (escrito!='ü') && (escrito!=KeyEvent.VK_BACK_SPACE) &&
                    (escrito!=KeyEvent.VK_SPACE)) ke.consume();
                 if(nombres.longuitudDelContenido() >= 45) ke.consume();
             }
@@ -87,13 +99,25 @@ public final class VistaActualizarRepresentante extends JFrame implements Acepta
             @Override
             public void keyTyped(KeyEvent ke) {
                 char escrito = ke.getKeyChar();
-                if((escrito <'a' || escrito >'z') && 
-                   (escrito <'A' || escrito >'Z') && 
-                   (escrito!='Á' || escrito!='á') && //problema
-                   (escrito!='É' || escrito!='é') && //problema
-                   (escrito!='Í' || escrito!='í') && //problema
-                   (escrito!='Ó' || escrito!='ó') && //problema
-                   (escrito!='Ú' || escrito!='ú') && //problema
+                if((escrito!='a') && (escrito!='b') && (escrito!='c') && (escrito!='d') &&
+                   (escrito!='e') && (escrito!='f') && (escrito!='g') && (escrito!='h') &&
+                   (escrito!='i') && (escrito!='j') && (escrito!='k') && (escrito!='l') &&
+                   (escrito!='m') && (escrito!='n') && (escrito!='ñ') && (escrito!='o') &&
+                   (escrito!='p') && (escrito!='q') && (escrito!='r') && (escrito!='s') &&
+                   (escrito!='t') && (escrito!='u') && (escrito!='v') && (escrito!='w') &&
+                   (escrito!='x') && (escrito!='y') && (escrito!='z') && (escrito!='A') &&
+                   (escrito!='B') && (escrito!='C') && (escrito!='D') && (escrito!='E') &&
+                   (escrito!='F') && (escrito!='G') && (escrito!='H') && (escrito!='I') &&
+                   (escrito!='J') && (escrito!='K') && (escrito!='L') && (escrito!='M') &&
+                   (escrito!='N') && (escrito!='Ñ') && (escrito!='O') && (escrito!='P') &&
+                   (escrito!='Q') && (escrito!='R') && (escrito!='S') && (escrito!='T') &&
+                   (escrito!='U') && (escrito!='V') && (escrito!='W') && (escrito!='X') &&
+                   (escrito!='Y') && (escrito!='Z') && (escrito!='Á') && (escrito!='á') &&
+                   (escrito!='É') && (escrito!='é') && (escrito!='Í') && (escrito!='í') &&
+                   (escrito!='Ó') && (escrito!='ó') && (escrito!='Ú') && (escrito!='ú') &&
+                   (escrito!='Ä') && (escrito!='ä') && (escrito!='Ë') && (escrito!='ë') &&
+                   (escrito!='Ï') && (escrito!='ï') && (escrito!='Ö') && (escrito!='ö') &&
+                   (escrito!='Ü') && (escrito!='ü') && (escrito!=KeyEvent.VK_BACK_SPACE) &&
                    (escrito!=KeyEvent.VK_SPACE)) ke.consume();
                 if(apellidos.longuitudDelContenido() >= 45) ke.consume();
             }
@@ -117,20 +141,58 @@ public final class VistaActualizarRepresentante extends JFrame implements Acepta
             @Override
             public void keyTyped(KeyEvent ke) {
                 char escrito = ke.getKeyChar();
-                if((escrito <'a' || escrito >'z') && 
-                   (escrito <'A' || escrito >'Z') && 
-                   (escrito!='Á' || escrito!='á') && //problema
-                   (escrito!='É' || escrito!='é') && //problema
-                   (escrito!='Í' || escrito!='í') && //problema
-                   (escrito!='Ó' || escrito!='ó') && //problema
-                   (escrito!='Ú' || escrito!='ú') && //problema
-                   (escrito!=KeyEvent.VK_SPACE) &&
-                   (escrito!=KeyEvent.VK_COMMA)) ke.consume();
-                if(direccion.longuitudDelContenido() >= 100) ke.consume();
+                if((escrito!='a') && (escrito!='b') && (escrito!='c') && (escrito!='d') &&
+                   (escrito!='e') && (escrito!='f') && (escrito!='g') && (escrito!='h') &&
+                   (escrito!='i') && (escrito!='j') && (escrito!='k') && (escrito!='l') &&
+                   (escrito!='m') && (escrito!='n') && (escrito!='ñ') && (escrito!='o') &&
+                   (escrito!='p') && (escrito!='q') && (escrito!='r') && (escrito!='s') &&
+                   (escrito!='t') && (escrito!='u') && (escrito!='v') && (escrito!='w') &&
+                   (escrito!='x') && (escrito!='y') && (escrito!='z') && (escrito!='A') &&
+                   (escrito!='B') && (escrito!='C') && (escrito!='D') && (escrito!='E') &&
+                   (escrito!='F') && (escrito!='G') && (escrito!='H') && (escrito!='I') &&
+                   (escrito!='J') && (escrito!='K') && (escrito!='L') && (escrito!='M') &&
+                   (escrito!='N') && (escrito!='Ñ') && (escrito!='O') && (escrito!='P') &&
+                   (escrito!='Q') && (escrito!='R') && (escrito!='S') && (escrito!='T') &&
+                   (escrito!='U') && (escrito!='V') && (escrito!='W') && (escrito!='X') &&
+                   (escrito!='Y') && (escrito!='Z') && (escrito!='Á') && (escrito!='á') &&
+                   (escrito!='É') && (escrito!='é') && (escrito!='Í') && (escrito!='í') &&
+                   (escrito!='Ó') && (escrito!='ó') && (escrito!='Ú') && (escrito!='ú') &&
+                   (escrito!='Ä') && (escrito!='ä') && (escrito!='Ë') && (escrito!='ë') &&
+                   (escrito!='Ï') && (escrito!='ï') && (escrito!='Ö') && (escrito!='ö') &&
+                   (escrito!='Ü') && (escrito!='ü') && (escrito<'0' || escrito>'9') &&
+                   (escrito!=KeyEvent.VK_SPACE) && (escrito!=KeyEvent.VK_BACK_SPACE) && 
+                   (escrito!=KeyEvent.VK_COMMA) && (escrito!=KeyEvent.VK_PERIOD)) ke.consume();
+                if(direccion.longuitudDelContenido() >= 255) ke.consume();
             }
         });
         
         correo = new CampoTexto("Correo",20);
+        correo.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                char escrito = ke.getKeyChar();
+                System.out.println(escrito);
+                if((escrito!='a') && (escrito!='b') && (escrito!='c') && (escrito!='d') &&
+                   (escrito!='e') && (escrito!='f') && (escrito!='g') && (escrito!='h') &&
+                   (escrito!='i') && (escrito!='j') && (escrito!='k') && (escrito!='l') &&
+                   (escrito!='m') && (escrito!='n') && (escrito!='o') &&
+                   (escrito!='p') && (escrito!='q') && (escrito!='r') && (escrito!='s') &&
+                   (escrito!='t') && (escrito!='u') && (escrito!='v') && (escrito!='w') &&
+                   (escrito!='x') && (escrito!='y') && (escrito!='z') && (escrito!='A') &&
+                   (escrito!='B') && (escrito!='C') && (escrito!='D') && (escrito!='E') &&
+                   (escrito!='F') && (escrito!='G') && (escrito!='H') && (escrito!='I') &&
+                   (escrito!='J') && (escrito!='K') && (escrito!='L') && (escrito!='M') &&
+                   (escrito!='N') && (escrito!='O') && (escrito!='P') &&
+                   (escrito!='Q') && (escrito!='R') && (escrito!='S') && (escrito!='T') &&
+                   (escrito!='U') && (escrito!='V') && (escrito!='W') && (escrito!='X') &&
+                   (escrito!='Y') && (escrito!='Z') && (escrito!='@') && (escrito!='_') &&
+                   (escrito!=KeyEvent.VK_BACK_SPACE) && (escrito!=KeyEvent.VK_PERIOD) &&
+                   (escrito<'0' || escrito>'9') &&
+                   (escrito!=KeyEvent.VK_MINUS) && (escrito!=KeyEvent.VK_SPACE)
+                ) ke.consume();
+                if(correo.longuitudDelContenido() >= 45) ke.consume();
+            }
+        });
         
         fechanac = new CampoTexto("Fecha de Nacimiento",20);
         fechanac.campo.addKeyListener(new KeyAdapter() {
