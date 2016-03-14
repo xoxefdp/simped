@@ -17,12 +17,10 @@ import javax.swing.JPanel;
 public class Botonera extends JPanel{
     private final JButton[] botones;
     private final JPanel cuadroBotonera;
-    private String[] nombresBotones;
-    private int numeroBotones;
+    private final int numeroBotones;
     
     /**
      * Genera una botonera con las caracteristicas de los parametros de entrada
-     * @param numeroBotones cantidad de botones a generar
      * @param nombresBotones  nombre identificador de los botones
      */
     public Botonera(String[] nombresBotones){

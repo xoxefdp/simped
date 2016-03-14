@@ -22,6 +22,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -64,6 +66,14 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
          * Elementos del panel superior
          */
         cedula=new CampoTexto("",15);
+        cedula.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                int escrito = ke.getKeyChar();
+                if((escrito<'0' || escrito>'9')) ke.consume(); 
+                if(cedula.longuitudDelContenido() >= 8) ke.consume(); 
+            }
+        });
         botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         
@@ -218,7 +228,7 @@ public class VistaListaProfesor extends JFrame implements Incluir, Modificar, El
     
     @Override
     public void consultar() { // consulta uno
-        if (cedula.obtenerContenido().length() != 0) {
+        if (cedula.longuitudDelContenido() != 0) {
             String stringCedula = cedula.obtenerContenido(); //falta generalizar
             int cedulaProfesor=Integer.parseInt(stringCedula);    //   int
 

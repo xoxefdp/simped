@@ -35,6 +35,8 @@ import Vista.Tablas.TablaRepresentantes;
 import java.awt.FlowLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -73,9 +75,48 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
          * Elementos del panel superior
          */
         nombres = new CampoTexto("Nombres",20);
+        nombres.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                char escrito = ke.getKeyChar();
+                if((escrito <'a' || escrito >'z') && 
+                   (escrito <'A' || escrito >'Z') && 
+                   (escrito!='Á' || escrito!='á') && //problema
+                   (escrito!='É' || escrito!='é') && //problema
+                   (escrito!='Í' || escrito!='í') && //problema
+                   (escrito!='Ó' || escrito!='ó') && //problema
+                   (escrito!='Ú' || escrito!='ú') && //problema
+                   (escrito!=KeyEvent.VK_SPACE)) ke.consume();
+                if(nombres.longuitudDelContenido() >= 45) ke.consume();
+            }
+        });
+        
         apellidos = new CampoTexto("Apellidos",20);
+        apellidos.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                char escrito = ke.getKeyChar();
+                if((escrito <'a' || escrito >'z') && 
+                   (escrito <'A' || escrito >'Z') && 
+                   (escrito!='Á' || escrito!='á') && //problema
+                   (escrito!='É' || escrito!='é') && //problema
+                   (escrito!='Í' || escrito!='í') && //problema
+                   (escrito!='Ó' || escrito!='ó') && //problema
+                   (escrito!='Ú' || escrito!='ú') && //problema
+                   (escrito!=KeyEvent.VK_SPACE)) ke.consume();
+                if(apellidos.longuitudDelContenido() >= 45) ke.consume();
+            }
+        });
+        
         fechanac = new CampoTexto("Fecha de Nacimiento",20);
-        sexo = new CampoCombo("Sexo",opcSexo);        
+        fechanac.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                int escrito = ke.getKeyChar();
+                if((escrito<'0' || escrito>'9') && (escrito!=KeyEvent.VK_MINUS)) ke.consume(); 
+                if(fechanac.longuitudDelContenido() >= 10) ke.consume(); 
+            }
+        });
 
         /**
          * Invoca calendario al enfocar
@@ -83,11 +124,13 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         fechanac.campo.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (fechanac.obtenerContenido().length() == 0) {
+                if (fechanac.longuitudDelContenido() == 0) {
                     Calendario calendario = new Calendario(fechanac.campo);
                 }
             }
         });
+        
+        sexo = new CampoCombo("Sexo",opcSexo);
         
         panelTop = new JPanel();
         panelTop.setLayout(new GridLayout(2,2));
@@ -100,6 +143,15 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
          * Elementos del panel central
          */
         cedula = new CampoTexto("Cedula",15);
+        cedula.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                int escrito = ke.getKeyChar();
+                if((escrito<'0' || escrito>'9')) ke.consume(); 
+                if(cedula.longuitudDelContenido() >= 8) ke.consume(); 
+            }
+        });
+        
         botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         panelBusqueda = new JPanel();
@@ -107,6 +159,20 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         panelBusqueda.add(botoneraBU);
         
         parentesco = new CampoTexto("Parentesco",20);
+        parentesco.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                char escrito = ke.getKeyChar();
+                if((escrito<'a' || escrito>'z') && 
+                   (escrito<'A' || escrito>'Z') &&
+                   (escrito!='Á' || escrito!='á') && //problema
+                   (escrito!='É' || escrito!='é') && //problema
+                   (escrito!='Í' || escrito!='í') && //problema
+                   (escrito!='Ó' || escrito!='ó') && //problema
+                   (escrito!='Ú' || escrito!='ú')) ke.consume();
+                if(parentesco.longuitudDelContenido() >= 15) ke.consume();
+            }
+        });
 
         botoneraMR = new Botonera(MR);
         botoneraMR.adherirEscucha(0, new ActionListener() {
@@ -181,7 +247,7 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
         panelCenter.setBorder(BorderFactory.createTitledBorder("Modulo de Seleccion de Representante"));
         panelCenter.add(panelRepresentante);
         panelCenter.add(panelTabla);
-        panelCenter.getPreferredSize();
+        //panelCenter.getPreferredSize();
         
         /**
          * Elementos inferiores
@@ -231,9 +297,9 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
 
     @Override
     public void aceptar() {
-        if (nombres.obtenerContenido().length() != 0 && apellidos.obtenerContenido().length() != 0 &&
-        fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0 &&
-        cedula.obtenerContenido().length() != 0 && parentesco.obtenerContenido().length() != 0) {
+        if (nombres.longuitudDelContenido() != 0 && apellidos.longuitudDelContenido() != 0 &&
+        fechanac.longuitudDelContenido() != 0 && sexo.obtenerSeleccion().toString().length() != 0 &&
+        cedula.longuitudDelContenido() != 0 && parentesco.longuitudDelContenido() != 0) {
             String nombreAl = nombres.obtenerContenido();
             String apellidoAl = apellidos.obtenerContenido();
             String fechaNacAl = fechanac.obtenerContenido();
@@ -269,7 +335,7 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
     
     @Override
     public void consultar() { // consulta uno
-        if (cedula.obtenerContenido().length() != 0) {
+        if (cedula.longuitudDelContenido() != 0) {
             String stringCedula = cedula.obtenerContenido(); //falta generalizar
             int cedulaRepresentante=Integer.parseInt(stringCedula);    //   int
 

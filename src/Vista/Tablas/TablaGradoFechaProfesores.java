@@ -177,7 +177,7 @@ public class TablaGradoFechaProfesores extends JPanel{
         if (fila >= 0){
             int respuesta = JOptionPane.showConfirmDialog(this,
                                                "¿Seguro quiere eliminar a: "+
-                                               tablaModelo.getValueAt(fila, 0));
+                                               tablaModelo.getValueAt(fila, 1));
             if (respuesta == JOptionPane.OK_OPTION){
                 tablaModelo.removeRow(fila);
                 status = true;

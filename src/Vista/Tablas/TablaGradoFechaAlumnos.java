@@ -49,7 +49,7 @@ public class TablaGradoFechaAlumnos extends JPanel{
     
     final void crearTabla(int ancho, int alto){
         
-        Object[] nombreColumnas = {"Fecha","Codigo","Nombre","Apellido","","","","",""};
+        Object[] nombreColumnas = {"Fecha","Codigo","Nombre","Apellido"," "," "," "," "," "};
         Object[] claseColumnas  = {new String(),0,new String(),new String(),new String(),new String(),new String(),new String(),new String()};
         
         tablaModelo = new Tabla(nombreColumnas,claseColumnas);
@@ -117,6 +117,7 @@ public class TablaGradoFechaAlumnos extends JPanel{
                 datos[5]= entrada.getString(6); //colFecha
                 datos[6]= entrada.getString(7); //colFecha
                 datos[7]= entrada.getString(8); //colFecha
+                datos[8]= entrada.getString(9); //colFecha
                 
                 tablaModelo.addRow(datos);
             }
@@ -162,6 +163,7 @@ public class TablaGradoFechaAlumnos extends JPanel{
                 datos[5]= entrada.getString(6); //colFecha
                 datos[6]= entrada.getString(7); //colFecha
                 datos[7]= entrada.getString(8); //colFecha
+                datos[8]= entrada.getString(9); //colFecha
                 tablaModelo.addRow(datos);
             }
             status = true;
@@ -199,7 +201,7 @@ public class TablaGradoFechaAlumnos extends JPanel{
         if (fila >= 0){
             int respuesta = JOptionPane.showConfirmDialog(this,
                                                "¿Seguro quiere eliminar a: "+
-                                               tablaModelo.getValueAt(fila, 0));
+                                               tablaModelo.getValueAt(fila, 1));
             if (respuesta == JOptionPane.OK_OPTION){
                 tablaModelo.removeRow(fila);
                 status = true;

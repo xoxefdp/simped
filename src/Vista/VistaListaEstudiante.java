@@ -15,6 +15,7 @@ import Controlador.OyenteIncluir;
 import Controlador.OyenteListar;
 import Controlador.OyenteModificar;
 import Modelo.Alumno;
+import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Representante;
 import Vista.Formatos.CampoTexto;
 import Vista.Formatos.Botonera;
@@ -23,6 +24,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
@@ -65,7 +68,18 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
         /**
          * Elementos del panel superior
          */
+        
         codigo=new CampoTexto("",15);
+        codigo.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                int escrito = ke.getKeyChar();
+      
+                if((escrito<'0' || escrito>'9')) ke.consume(); 
+                if(codigo.longuitudDelContenido() >= 5) ke.consume(); 
+            }
+        });
+        
         botoneraBU = new Botonera(BU);
         botoneraBU.adherirEscucha(0, new OyenteConsultar(this));
         
@@ -164,7 +178,8 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
                     apellidoRep = rep.getString(3);
                 }
             }catch(SQLException error){
-                
+                String mensaje = errorSQL(error.getSQLState());
+                JOptionPane.showMessageDialog(null,mensaje);
             }
             
             JOptionPane.showMessageDialog(this,"Datos Estudiante \n\n"
@@ -228,7 +243,7 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
     
     @Override
     public void consultar() { // consulta uno
-        if (codigo.obtenerContenido().length() != 0) {
+        if (codigo.longuitudDelContenido() != 0) {
             String stringCodigo = codigo.obtenerContenido(); //falta generalizar
             int codigoAlumno=Integer.parseInt(stringCodigo);    //   int
 

@@ -20,7 +20,9 @@ public class Configuraciones {
     // Variables de configuracion para la base de datos
     private String BASE_DE_DATOS,USUARIO_BASE_DE_DATOS,CLAVE_USUARIO,URL_DEL_SERVIDOR,DRIVER,URL_CONEXION;
     // Variable de configuracion para la emision de reportes
-    private String RUTA_REPORTES;
+    private String RUTA_REPORTES,RUTA_LOGO_REPORTES;
+    // 
+    private String RUTA_FONDO;
 
     public Configuraciones(){
         configuraciones = new Properties();
@@ -147,5 +149,37 @@ public class Configuraciones {
             System.out.println("Error 70, No se puede leer el archivo");
         }
        return ReportRoute;
+    }
+    
+    /**
+     * Retorna la ruta de archivos para la emisión de reportes
+     * @return 
+     */
+    public String getReportLogoRoute(){
+        String ReportLogoRoute = null;
+        try {
+            configuraciones.load(new FileInputStream(rutaConfiguraciones));
+            RUTA_LOGO_REPORTES = configuraciones.getProperty("RUTA_LOGO_REPORTES"); 
+            ReportLogoRoute=RUTA_LOGO_REPORTES;
+        } catch (FileNotFoundException e) {
+            System.out.println("Error 80, No existe el archivo");
+        } catch (IOException e) {
+            System.out.println("Error 80, No se puede leer el archivo");
+        }
+       return ReportLogoRoute;
+    }
+    
+    public String getBackgroundApp(){
+        String BackgroundApp = null;
+        try {
+            configuraciones.load(new FileInputStream(rutaConfiguraciones));
+            RUTA_FONDO = configuraciones.getProperty("RUTA_FONDO");
+            BackgroundApp=RUTA_FONDO;
+        } catch (FileNotFoundException e) {
+            System.out.println("Error 90, No existe el archivo");
+        } catch (IOException e) {
+            System.out.println("Error 90, No se puede leer el archivo");
+        }
+       return BackgroundApp;
     }
 }

@@ -15,7 +15,7 @@ import javax.swing.JPanel;
  * @author josediaz
  */
 public class CampoAreaTexto extends JPanel{
-    private TextArea campo;
+    public TextArea campo;
     private JPanel panelIn;
        
     /**

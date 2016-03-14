@@ -5,12 +5,14 @@
  */
 package Vista;
 
+import Vista.Componentes.ReporteConstanciaInscripcion;
 import Controlador.Aceptar;
 import Controlador.ConsultarListar;
 import Controlador.OyenteAceptar;
 import Controlador.OyenteConsultar;
 import Controlador.OyenteListar;
 import Modelo.Alumno;
+import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Representante;
 import Vista.Formatos.CampoTexto;
 import Vista.Formatos.Botonera;
@@ -20,6 +22,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -31,7 +34,7 @@ import javax.swing.event.ListSelectionListener;
  * 
  * @author yonalix garcia
  */
-public class VistaConsultaEstudiante extends JFrame implements Aceptar,ConsultarListar{
+public class VistaReporteInscripcion extends JFrame implements ConsultarListar{
     private TablaAlumnos tablaAlumnos;
     private Botonera botoneraBU,botoneraLI,botoneraDE,botoneraIM;
     private CampoTexto codigo;
@@ -43,15 +46,16 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
  
     private final Alumno alumno = new Alumno();
     private ResultSet resultado;
+    private String nombreRep, apellidoRep;
     /**
      * Crea la interface de la clase.
      */
-    public VistaConsultaEstudiante(){
+    public VistaReporteInscripcion(){
         crearGui();
     }
     
     final void crearGui(){
-        setTitle("Lista de Estudiantes");
+        setTitle("Emision de Constancia de Inscripción");
         setResizable(false);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -110,7 +114,12 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
          * Elementos del panel inferior
          */
         botoneraIM = new Botonera(IM);
-        botoneraIM.adherirEscucha(0, new OyenteAceptar(this));
+        botoneraIM.adherirEscucha(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                imprimir();
+            }
+        });
         
         panelBottom =new JPanel();
         panelBottom.setBorder(BorderFactory.createTitledBorder("Operaciones"));
@@ -134,12 +143,22 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
             String stringApeEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 2); //string
             String stringFecEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 3); //string
             String stringSexEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 4); //string
-            
-            String stringRepEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 5); //string
+            String stringParRepresenta=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 5); //string
+            String stringRepEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 6); //string
             int cedulaRepEstudiante=Integer.parseInt(stringRepEstudiante);    //   int
             
             Representante representante = new Representante();
-            representante.consultarRepresentante(cedulaRepEstudiante);
+            ResultSet rep = representante.consultarRepresentante(cedulaRepEstudiante);
+            
+            try{
+                while(rep.next()){
+                    nombreRep = rep.getString(2);
+                    apellidoRep = rep.getString(3);
+                }
+            }catch(SQLException error){
+                String mensaje = errorSQL(error.getSQLState());
+                JOptionPane.showMessageDialog(null,mensaje);
+            }
             
             JOptionPane.showMessageDialog(this,"Datos Estudiante \n\n"
                                             +  "Codigo Estudiante: "+codigoEstudiante+"\n"
@@ -147,8 +166,9 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
                                             +  "Apellidos: "+stringApeEstudiante+"\n"
                                             +  "Fecha de Nacimiento: "+stringFecEstudiante+"\n"
                                             +  "Sexo: "+stringSexEstudiante+"\n\n"
-                                            +  "Representante: "+cedulaRepEstudiante+"\n"
-                                            +  "Cedula Representante: "+cedulaRepEstudiante+"\n");
+                                            +  "Representante: "+nombreRep+" "+apellidoRep+"\n"
+                                            +  "Cedula Representante: "+cedulaRepEstudiante+"\n"
+                                            +  "Parentesco: "+stringParRepresenta+"\n");
         } else {
             JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el estudiante a detallar");
         }
@@ -156,7 +176,7 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
    
     @Override
     public void listar() { // consulta todos
-        ResultSet resultadoListar = alumno.consultarAlumnos();
+        ResultSet resultadoListar = alumno.consultarAlumnosRepresentantes();
         tablaAlumnos.cargarTabla(resultadoListar);
     }
     
@@ -166,39 +186,29 @@ public class VistaConsultaEstudiante extends JFrame implements Aceptar,Consultar
             String stringCodigo = codigo.obtenerContenido(); //falta generalizar
             int codigoAlumno=Integer.parseInt(stringCodigo);    //   int
 
-            ResultSet resultadoConsulta = alumno.consultarAlumno(codigoAlumno);
+            ResultSet resultadoConsulta = alumno.consultarAlumnoRepresentante(codigoAlumno);
             tablaAlumnos.cargarTabla(resultadoConsulta);
         } else {
             JOptionPane.showMessageDialog(this,"Escriba el codigo a consultar");
         }
     }
-
-    @Override
-    public void aceptar() {
+    
+    public void imprimir() {
         if (tablaAlumnos.tabla.getSelectedRow()>=0){
             
             String stringCodEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 0); //string
             int codigoEstudiante=Integer.parseInt(stringCodEstudiante);    //   int
-
-            String stringNomEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 1); //string
-            String stringApeEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 2); //string
-            String stringFecEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 3); //string
-            String stringSexEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 4); //string
             
-            String stringRepEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 5); //string
+            ResultSet resultadoConsultaEstudiante = alumno.consultarAlumnoRepresentante(codigoEstudiante);
+            
+            String stringRepEstudiante=(String)tablaAlumnos.tablaModelo.getValueAt(tablaAlumnos.tabla.getSelectedRow(), 6); //string
             int cedulaRepEstudiante=Integer.parseInt(stringRepEstudiante);    //   int
             
             Representante representante = new Representante();
-            representante.consultarRepresentante(cedulaRepEstudiante);
+            ResultSet resultadoConsultaRepresentante = representante.consultarRepresentante(cedulaRepEstudiante);
             
-            JOptionPane.showMessageDialog(this,"Datos Estudiante \n\n"
-                                            +  "Codigo Estudiante: "+codigoEstudiante+"\n"
-                                            +  "Nombres: "+stringNomEstudiante+"\n"
-                                            +  "Apellidos: "+stringApeEstudiante+"\n"
-                                            +  "Fecha de Nacimiento: "+stringFecEstudiante+"\n"
-                                            +  "Sexo: "+stringSexEstudiante+"\n\n"
-                                            +  "Representante: "+cedulaRepEstudiante+"\n"
-                                            +  "Cedula Representante: "+cedulaRepEstudiante+"\n");
+            ReporteConstanciaInscripcion reporteConstanciaEstudiante = new ReporteConstanciaInscripcion(resultadoConsultaEstudiante,resultadoConsultaRepresentante);
+            
         } else {
             JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el estudiante");
         }

@@ -179,13 +179,13 @@ public class AlumnoGrado {
         return resultados;
     }
 
-    public final boolean incluir(int codigo, int cedulaRepresentante, String parentesco){
+    public final boolean incluir(int codigoGrado, int codigoAlumno, String aescolar){
         boolean inserccionOk = false;
         try{
-            consulta="INSERT INTO representante_has_alumno SET "
-                    +"representante_cedula_rp = '"+cedulaRepresentante+"', "
-                    +"alumno_cod_al = '"+codigo+"', "
-                    +"parentesco = '"+parentesco+"'";
+            consulta="INSERT INTO alumno_has_grado SET "
+                    +"grado_cod_gr = '"+codigoGrado+"', "
+                    +"alumno_cod_al = '"+codigoAlumno+"', "
+                    +"a_escolar = '"+aescolar+"'";
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
             instruccionSql.executeUpdate("COMMIT;");
@@ -223,12 +223,15 @@ public class AlumnoGrado {
         return inserccionOk;
     }
     */
-    public final boolean eliminar(int codigo, int cedulaRepresentante){
+    public final boolean eliminar(int codigoGrado, int codigoAlumno, String aescolar){
         boolean inserccionOk = false;
         try{  
-            consulta="DELETE FROM representante_has_alumno WHERE alumno_cod_al = '"+codigo+"' "
-                    +"AND representante_cedula_rep = '"+cedulaRepresentante+"'";
+            consulta="DELETE FROM alumno_has_grado WHERE grado_cod_gr='"+codigoGrado+"' "
+                    +"AND alumno_cod_al='"+codigoAlumno+"' "
+                    +"AND YEAR(a_escolar)='"+aescolar+"'";
+            instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
+            instruccionSql.executeUpdate("COMMIT;");
             inserccionOk = true;
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());

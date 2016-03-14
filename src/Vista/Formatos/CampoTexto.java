@@ -42,6 +42,8 @@ public class CampoTexto extends JPanel{
         this(null, 20);
     }
     
+    
+    
     /**
      * Devuelve un valor String con el contenido del campo de texto.
      * @return contenido del campo de texto.

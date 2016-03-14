@@ -5,38 +5,23 @@
  */
 package Vista;
 
-import Controlador.ConsultarListar;
-import Controlador.Eliminar;
-import Controlador.Incluir;
-import Controlador.Modificar;
-import Controlador.OyenteConsultar;
-import Controlador.OyenteEliminar;
-import Controlador.OyenteIncluir;
-import Controlador.OyenteListar;
-import Controlador.OyenteModificar;
 import Modelo.AlumnoGrado;
 import Modelo.Grado;
 import Modelo.GradoProfesor;
 import static Modelo.MensajesDeError.errorSQL;
-import Modelo.Representante;
-import Vista.Formatos.CampoTexto;
 import Vista.Formatos.Botonera;
 import Vista.Tablas.TablaGradoFechaAlumnos;
 import Vista.Tablas.TablaGradoFechaProfesores;
 import Vista.Tablas.TablaGrados;
 import Vista.Tablas.TablaGradosFechas;
-import Vista.Tablas.TablaRepresentantes;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import static javax.management.Query.and;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -106,14 +91,22 @@ public class VistaListaGrado extends JFrame {
         botoneraICG.adherirEscucha(0, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-        //        VistaAdmisionGrado vistaAdmisionGrado = new VistaAdmisionGrado();
+                VistaAdmisionGrado vistaAdmisionGrado = new VistaAdmisionGrado();
             }
         });
         botoneraMEG = new Botonera(ME);
         botoneraMEG.adherirEscucha(0, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-        //        VistaActualizarGrado vistaActualizarGrado = new VistaActualizarGrado();
+                if (tablaGrados.tabla.getSelectedRow()>=0) {
+                    String stringGrado=(String)tablaGrados.tablaModelo.getValueAt(tablaGrados.tabla.getSelectedRow(), 0); //string 
+                    int codigoGrado=Integer.parseInt(stringGrado);    //   int
+                    
+                    VistaActualizarGrado vistaActualizarGrado = new VistaActualizarGrado(codigoGrado);
+                }else {
+                    JOptionPane.showMessageDialog(null,"Seleccione antes en la tabla el grado a modificar");
+                }
+                
             }
         });
         botoneraMEG.adherirEscucha(1, new ActionListener() {
@@ -128,8 +121,6 @@ public class VistaListaGrado extends JFrame {
                     if (tablaGrados.eliminarFila()) {
                         grado.eliminar(codigoGrado);
                     }
-                } else {
-        //            JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el profesor a eliminar");
                 }
             }
         });
@@ -145,7 +136,6 @@ public class VistaListaGrado extends JFrame {
         panelGrado.add(tablaGrados);
         panelGrado.add(panelBotonesGrado);
         
-        
         ResultSet resultadoGA = alumnoGrado.consultarFechas();
         try{
             while(resultadoGA.next()){
@@ -156,9 +146,7 @@ public class VistaListaGrado extends JFrame {
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
-            //JOptionPane.showMessageDialog(null,error);
         }
-        
         ResultSet resultadoGP = gradoProfesor.consultarFechas();
         try{
             while(resultadoGP.next()){
@@ -169,56 +157,119 @@ public class VistaListaGrado extends JFrame {
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
             JOptionPane.showMessageDialog(null,mensaje);
-            //JOptionPane.showMessageDialog(null,error);
         }
         
         tablaGradosFechas = new TablaGradosFechas(55,100);
         tablaGradosFechas.cargarTabla(fechas);
-    /*    
-        botoneraNF = new Botonera(NF);
+        
+        String[] listar = {"Listar"};
+        botoneraNF = new Botonera(listar);
         botoneraNF.adherirEscucha(0, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                ResultSet resultadoGA = alumnoGrado.consultarFechas();
+                try{
+                    while(resultadoGA.next()){
+                        if(!fechas.contains(resultadoGA.getString(1))){
+                            fechas.add(resultadoGA.getString(1));
+                        }
+                    }
+                }catch(SQLException error){
+                    mensaje = errorSQL(error.getSQLState());
+                    JOptionPane.showMessageDialog(null,mensaje);
+                }
+                ResultSet resultadoGP = gradoProfesor.consultarFechas();
+                try{
+                    while(resultadoGP.next()){
+                        if(!fechas.contains(resultadoGP.getString(1))){
+                            fechas.add(resultadoGP.getString(1));
+                        }
+                    }
+                }catch(SQLException error){
+                    mensaje = errorSQL(error.getSQLState());
+                    JOptionPane.showMessageDialog(null,mensaje);
+                }
+                    resultado = grado.consultarGrados();
+                    tablaGrados.cargarTabla(resultado);
+                    tablaGradosFechas.cargarTabla(fechas);
             }
         });
-    */    
+    
         JPanel panelFecha = new JPanel();
         panelFecha.setLayout(new GridLayout(2,1));
     //  panelFecha.setLayout(new FlowLayout());
         panelFecha.setBorder(BorderFactory.createTitledBorder("Fechas"));
         panelFecha.add(tablaGradosFechas);
-    //  panelFecha.add(botoneraNF);
+        panelFecha.add(botoneraNF);
         
         JPanel panelTopLeft = new JPanel();
         panelTopLeft.setLayout(new FlowLayout());
         panelTopLeft.add(panelGrado);
         panelTopLeft.add(panelFecha);
-        
-        /**
-         * Ejecuta eventos de selección en tabla
-         */
-    /*
-        tablaGrados.tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int row = tablaGrados.tabla.getSelectedRow();
-                if (row >= 0) {
-                    cedula.cambiarContenido((String)tablaGrados.tabla.getValueAt(row, 0));
-                }
-            }
-        });
-    */
 
         //resultado = gradoProfesor.consultarGradoProfesorFecha(,);        
         tablaGradoFechaProfesores = new TablaGradoFechaProfesores(375,100);
         //tablaGradoFechaProfesores.cargarTabla(resultado);
         
         botoneraICP = new Botonera(IC);
-        //botoneraICP.adherirEscucha(0, new OyenteIncluir(this));        
-        botoneraMEP = new Botonera(ME);
-        //botoneraMEP.adherirEscucha(0, new OyenteModificar(this));
-        //botoneraMEP.adherirEscucha(1, new OyenteEliminar(this));
+        botoneraICP.adherirEscucha(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (getCodigoGrado() != null) {
+                    VistaAdmisionGradoProfesor vistaAdmisionGradoProfesor = new VistaAdmisionGradoProfesor(getCodigoGrado());
+                } else {
+                    JOptionPane.showMessageDialog(null,"Seleccione antes en la tabla de grados para insertar profesor");
+                }
+                
+            }
+        });
+         
+        String[] eliminar = {"Eliminar"};
+        botoneraMEP = new Botonera(eliminar);
+        /*
+        botoneraMEP.adherirEscucha(0, new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                int row = tablaGradoFechaProfesores.tabla.getSelectedRow();
+                if (row >= 0) {
+                    String cedulaProf = (String)tablaGradoFechaProfesores.tabla.getValueAt(row, 0);
+                    if (getCodigoGrado() != null && getFecha() !=null && cedulaProf !=null) {
+                        VistaActualizarGradoProfesor vistaActualizarGradoProfesor = new VistaActualizarGradoProfesor(getCodigoGrado(),getFecha(),cedulaProf);
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Seleccione antes en la tablas de grado, fecha y profesor para modificar profesor asignado");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,"Seleccione antes en la tablas de grado, fecha y profesor para modificar profesor asignado");
+                }
+                
+            }
+        });
+        */
+        botoneraMEP.adherirEscucha(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                
+                if (tablaGradoFechaProfesores.tabla.getSelectedRow() >= 0){
+
+                    String stringProfesor=(String)tablaGradoFechaProfesores.tablaModelo.getValueAt(tablaGradoFechaProfesores.tabla.getSelectedRow(), 1); //string 
+                    int cedulaProfesor=Integer.parseInt(stringProfesor);    //   int
+                    
+                    int codigoGrado = Integer.parseInt(getCodigoGrado());
+                    
+                    System.out.println(codigoGrado);
+                    System.out.println(cedulaProfesor);
+                    System.out.println(getFecha());
+
+                    // si confirma elimina de la base de datos
+                    if (tablaGradoFechaProfesores.eliminarFila()) {
+                        gradoProfesor.eliminar(codigoGrado,cedulaProfesor,getFecha());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,"Seleccione antes en las tablas el profesor a retirar");
+                }
+            }
+        });
         
         JPanel panelBotonesProfesor = new JPanel();
         panelBotonesProfesor.setLayout(new FlowLayout());
@@ -236,18 +287,57 @@ public class VistaListaGrado extends JFrame {
         //panelLeft.setBorder(BorderFactory.createTitledBorder("Grados"));
         panelLeft.add(panelTopLeft);
         panelLeft.add(panelProfesores);
-                
         
         //resultado = alumnnoGrado.consultarAlumnoGradoFecha(mensaje, ICONIFIED, NORMAL);
         tablaGradoFechaAlumnos = new TablaGradoFechaAlumnos(375,200);
         //tablaGradoFechaAlumnos.cargarTabla(resultado);
         
         botoneraICA = new Botonera(IC);
-        //botoneraICA.adherirEscucha(0, new OyenteIncluir(this));        
-        botoneraMEA = new Botonera(ME);
-        //botoneraMEA.adherirEscucha(0, new OyenteModificar(this));
-        //botoneraMEA.adherirEscucha(1, new OyenteEliminar(this));
+        botoneraICA.adherirEscucha(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (getCodigoGrado() != null) {
+                    VistaAdmisionGradoEstudiante vistaAdmisionGradoEstudiante = new VistaAdmisionGradoEstudiante(getCodigoGrado());
+                } else {
+                    JOptionPane.showMessageDialog(null,"Seleccione antes en la tabla de grados para insertar alumno");
+                }
+            }
+        });
         
+        botoneraMEA = new Botonera(eliminar);
+        
+        botoneraMEA.adherirEscucha(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                
+                if (tablaGradoFechaAlumnos.tabla.getSelectedRow() >= 0){
+
+                    String stringAlumno=(String)tablaGradoFechaAlumnos.tablaModelo.getValueAt(tablaGradoFechaAlumnos.tabla.getSelectedRow(), 1); //string 
+                    int codigoAlumno=Integer.parseInt(stringAlumno);    //   int
+                    
+                    int codigoGrado = Integer.parseInt(getCodigoGrado());
+                    
+                    System.out.println(codigoGrado);
+                    System.out.println(codigoAlumno);
+                    System.out.println(getFecha());
+
+                    // si confirma elimina de la base de datos
+                    if (tablaGradoFechaAlumnos.eliminarFila()) {
+                        alumnoGrado.eliminar(codigoGrado,codigoAlumno,getFecha());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,"Seleccione antes en las tablas el alumno a retirar");
+                }
+            }
+        });
+        /*
+        botoneraMEA.adherirEscucha(1, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        */
         JPanel panelBotonesAlumno = new JPanel();
         panelBotonesAlumno.setLayout(new FlowLayout());
         panelBotonesAlumno.add(botoneraICA);

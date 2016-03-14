@@ -6,11 +6,14 @@
 package Vista;
 
 import Controlador.CerrarVentana;
+import Controlador.Configuraciones;
 import Vista.Componentes.Fondo;
 import Vista.Componentes.Minutero;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -24,17 +27,29 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
  */
 public class MenuPrincipal extends JFrame implements ActionListener, CerrarVentana{
     private final JMenuBar barraDeNavegacion;
-    private final JMenu listado, balance, emitir, sistema;
-    private final JMenuItem admisionEstudiante, /*admisionRepresentante,*/ admisionProfesor, admisionGrado, balanceEstudiante, balanceProfesor, constanciaEstudio, reporteInscripciones, cerrarSistema, manual, acercade;
+    private final JMenu listado, /*balance,*/ emitir, sistema;
+    private final JMenuItem admisionEstudiante, /*admisionRepresentante,*/ admisionProfesor, admisionGrado, /*balanceEstudiante, balanceProfesor,*/ constanciaEstudio, constanciaInscripcion, /*reporteRegulares,*/ reporteListaGrado, cerrarSistema, /*manual,*/ acercade;
     private final Minutero tiempo;
-    //URI fuente = new URI("http://java.sun.com");
+    private final Configuraciones config = new Configuraciones();
+    
+    //BufferedImage bImage = ImageIO.read(new File(imagePath));
+    //BufferedImage bImage;
+    
+    // URI fuente = new URI("http://java.sun.com");
     // URI licencia = new URI("http://java.sun.com");
-    
-    
         
-    public MenuPrincipal(){
+    public MenuPrincipal() throws IOException{
         super("Sistema Informatico para Manejo de Población Estudiantil y Docente");
+        //bImage = ImageIO.read(new File("/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/Componentes/principal-fondo.jpg"));
+        //Fondo fondo = new Fondo(this,"/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/Componentes/principal-fondo.jpg");
+        //setContentPane(new JLabel(fondo));
+        //setContentPane(new JLabel(new ImageIcon(getClass().getResource("/Vista/Componentes/principal-fondo.jpg"))));
+        //Fondo fondo = new Fondo(this,"/home/josediaz/Desktop/proyectos-xoxe/simped/src/Vista/Componentes/principal-fondo.jpg");
+        Fondo fondo = new Fondo(this,config.getBackgroundApp());
+        fondo.setLayout(new FlowLayout());
         setLayout(new BorderLayout());
+        //setLayout(new FlowLayout());
+        //add(fondo);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         
         barraDeNavegacion = new JMenuBar(); // se crea la barra de menus        
@@ -58,7 +73,7 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
                 admisionGrado = new JMenuItem("Grados"); // se crea una opcion
                 admisionGrado.addActionListener(this);
                 listado.add(admisionGrado); // se agrega la opcion grado al elemento listado de la barra de navegacion
-            
+            /*
             balance = new JMenu("Balance"); //crea un elemento del menu
             barraDeNavegacion.add(balance);
             
@@ -69,17 +84,25 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
                 balanceProfesor = new JMenuItem("Profesores"); // se crea una opcion
                 balanceProfesor.addActionListener(this);
                 balance.add(balanceProfesor); // se agrega la opcion docente al elemento admision de la barra de navegacion
-                
+            */  
             emitir = new JMenu("Emitir"); //crea un elemento del menu
             barraDeNavegacion.add(emitir);
             
+                constanciaInscripcion = new JMenuItem("Constancia de Inscripción"); // se crea una opcion
+                constanciaInscripcion.addActionListener(this);
+                emitir.add(constanciaInscripcion); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
+                
                 constanciaEstudio = new JMenuItem("Constancia de Estudios"); // se crea una opcion
                 constanciaEstudio.addActionListener(this);
                 emitir.add(constanciaEstudio); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
-                
-                reporteInscripciones = new JMenuItem("Balance de Inscripciones"); // se crea una opcion
-                reporteInscripciones.addActionListener(this);
-                emitir.add(reporteInscripciones); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
+                /*
+                reporteRegulares = new JMenuItem("Balance de Alumnos Regulares"); // se crea una opcion
+                reporteRegulares.addActionListener(this);
+                emitir.add(reporteRegulares); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
+                */
+                reporteListaGrado = new JMenuItem("Lista de Asistencia Grado"); // se crea una opcion
+                reporteListaGrado.addActionListener(this);
+                emitir.add(reporteListaGrado); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
 
             sistema = new JMenu("Sistema"); //crea un elemento del menu
             barraDeNavegacion.add(sistema);
@@ -87,11 +110,11 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
                 acercade = new JMenuItem("Acerca De"); // se crea una opcion
                 acercade.addActionListener(this);
                 sistema.add(acercade); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
-                
+                /*
                 manual = new JMenuItem("Manual"); // se crea una opcion
                 manual.addActionListener(this);
                 sistema.add(manual); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
-                
+                */
                 cerrarSistema = new JMenuItem("Cerrar Sistema"); // se crea una opcion
                 cerrarSistema.addActionListener(this);
                 sistema.add(cerrarSistema); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
@@ -99,18 +122,46 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
         tiempo = new Minutero();
                 
         add(BorderLayout.NORTH, barraDeNavegacion);
+        add(BorderLayout.CENTER, fondo);
         add(BorderLayout.SOUTH, tiempo);
+        //add(barraDeNavegacion);
+        //add(tiempo);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setSize(600,500);
+        //formWindowOpened(null);
         setVisible(true);
-        formWindowOpened(null);
     }
-
+/*
+    @Override
+    public void paint(Graphics g) {
+        //getContentPane().paint(g);
+        super.paint(g);
+        System.out.println("image");
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                            RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        int w = getWidth();
+        int h = getHeight();
+        int iw = bImage.getWidth();
+        int ih = bImage.getHeight();
+        double xScale = (double)w/iw;
+        double yScale = (double)h/ih;
+        //double scale = Math.min(xScale, yScale);    // scale to fit
+        double scale = Math.min(xScale, yScale);  // scale to fill
+        int width = (int)(scale*iw);
+        int height = (int)(scale*ih);
+        int x = (w - width)/2;
+        int y = (h - height)/2;
+        g2.drawImage(bImage, x, y, width, height, null);
+    }
+*/
+/*
     private void formWindowOpened (java.awt.event.WindowEvent evt){
         Fondo fondo = new Fondo("principal-fondo.jpg");
         add(fondo, BorderLayout.CENTER);
         fondo.repaint();
     }
-
+*/
     @Override
     public void actionPerformed(ActionEvent e) {
         
@@ -129,26 +180,35 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
         if (e.getSource() == admisionGrado) {
             VistaListaGrado vistaListaGrado = new VistaListaGrado();
         }
-        
+        /*
         if (e.getSource() == balanceEstudiante) {
             VistaBalanceEstudiante vistaBalanceEstudiante = new VistaBalanceEstudiante();
         }
         if (e.getSource() == balanceProfesor) {
             VistaBalanceProfesor vistaBalanceProfesor = new VistaBalanceProfesor();
         }
-        
+        */
         if (e.getSource() == constanciaEstudio) {
-            VistaConsultaEstudiante vistaConsultaEstudiante = new VistaConsultaEstudiante();
-           
+            VistaReporteEstudios vistaConstanciaEstudiante = new VistaReporteEstudios();
         }
-        if (e.getSource() == reporteInscripciones) {
+        /*
+        if (e.getSource() == reporteRegulares) {
             //new VistaListaEstudiantes();
             //new VistaAdmisionProfesor();
         }
+        */
+        if (e.getSource() == constanciaInscripcion) {
+            VistaReporteInscripcion vistaConstanciaEstudiante = new VistaReporteInscripcion();
+        }
+        if (e.getSource() == reporteListaGrado) {
+            VistaReporteListaGrado vistaConstanciaEstudiante = new VistaReporteListaGrado();
+        }
         
+        /*
         if (e.getSource() == manual) {
             //cerrarVentana();
         }
+        */
         
         if (e.getSource() == acercade) {
             acercade();
@@ -224,7 +284,7 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
                                         + " "+licenseLink+"\n\n");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         MenuPrincipal principal = new MenuPrincipal();
     }
 

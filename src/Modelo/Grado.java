@@ -93,25 +93,17 @@ public class Grado {
 	}
         return inserccionOk;
     }
-/*
-    public final boolean modificar(String grado ){
+
+    public final boolean modificar(String grado ,String seccion, int codigo){
         boolean inserccionOk = false;
         try{  
-            consulta="UPDATE alumno SET "
-                    +"nombre_al = '"+nombre+"', "
-                    +"apellido_al = '"+apellido+"', "
-                    +"fecha_nac_alum = '"+fechaNacimiento+"', "
-                    +"sexo = '"+sexo+"' "
-                    +"WHERE cod_al = '"+codigo+"';";
-            
-            consulta2="UPDATE representante_has_alumno SET "
-                    +"representante_cedula_rp = '"+cedulaRepresentante+"', "
-                    +"parentesco = '"+parentesco+"' "
-                    +"WHERE alumno_cod_al = '"+codigo+"'";
+            consulta="UPDATE grado SET "
+                    +"grado = '"+grado+"', "
+                    +"seccion = '"+seccion+"' "
+                    +"WHERE cod_gr = '"+codigo+"';";
             
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
-            instruccionSql.executeUpdate(consulta2);
             instruccionSql.executeUpdate("COMMIT;");
             inserccionOk = true;
         }catch(SQLException error){
@@ -120,7 +112,7 @@ public class Grado {
 	}
         return inserccionOk;
     }
-*/
+
     public void cerrarConexion(){
         try{  
             instruccionSql.close();

@@ -212,7 +212,7 @@ public class GradoProfesor {
         try{  
             consulta="DELETE FROM grado_has_profesor WHERE grado_cod_gr='"+codigoGrado+"' "
                     +"AND profesor_cedula_pr='"+cedulaProfesor+"' "
-                    +"AND a_escolar='"+aescolar+"'";
+                    +"AND YEAR(a_escolar)='"+aescolar+"'";
             instruccionSql.executeUpdate("START TRANSACTION");
             instruccionSql.executeUpdate(consulta);
             instruccionSql.executeUpdate("COMMIT;");

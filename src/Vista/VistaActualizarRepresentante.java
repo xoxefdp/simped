@@ -11,6 +11,7 @@ import Controlador.Cancelar;
 import Controlador.CerrarVentana;
 import Controlador.OyenteAceptar;
 import Controlador.OyenteCancelar;
+import Controlador.ValidadorCorreo;
 import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Representante;
 import Vista.Formatos.Botonera;
@@ -21,6 +22,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
@@ -53,13 +56,91 @@ public final class VistaActualizarRepresentante extends JFrame implements Acepta
          * Elementos del panel superior
          */
         cedula = new CampoTexto("Cedula",20); cedula.hacerEditable(false);
+        cedula.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                int escrito = ke.getKeyChar();
+                if((escrito<'0' || escrito>'9')) ke.consume(); 
+                if(cedula.longuitudDelContenido() >= 8) ke.consume(); 
+            }
+        });
+        
         nombres = new CampoTexto("Nombres",20);
+        nombres.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                char escrito = ke.getKeyChar();
+                if((escrito <'a' || escrito >'z') && 
+                   (escrito <'A' || escrito >'Z') && 
+                   (escrito!='Á' || escrito!='á') && //problema
+                   (escrito!='É' || escrito!='é') && //problema
+                   (escrito!='Í' || escrito!='í') && //problema
+                   (escrito!='Ó' || escrito!='ó') && //problema
+                   (escrito!='Ú' || escrito!='ú') && //problema
+                   (escrito!=KeyEvent.VK_SPACE)) ke.consume();
+                if(nombres.longuitudDelContenido() >= 45) ke.consume();
+            }
+        });
+        
         apellidos = new CampoTexto("Apellidos",20);
+        apellidos.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                char escrito = ke.getKeyChar();
+                if((escrito <'a' || escrito >'z') && 
+                   (escrito <'A' || escrito >'Z') && 
+                   (escrito!='Á' || escrito!='á') && //problema
+                   (escrito!='É' || escrito!='é') && //problema
+                   (escrito!='Í' || escrito!='í') && //problema
+                   (escrito!='Ó' || escrito!='ó') && //problema
+                   (escrito!='Ú' || escrito!='ú') && //problema
+                   (escrito!=KeyEvent.VK_SPACE)) ke.consume();
+                if(apellidos.longuitudDelContenido() >= 45) ke.consume();
+            }
+        });
+        
         telefono = new CampoTexto("Telefono",20);
+        telefono.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                int escrito = ke.getKeyChar();
+                if(escrito<'0' || escrito>'9') ke.consume(); 
+                if(telefono.longuitudDelContenido() >= 10){ 
+                    ke.consume();
+                    JOptionPane.showMessageDialog(null, "Maximo 10 números para entradas de telefono, ejemplo: 4144456677");
+                }
+            }
+        });
+        
         direccion = new CampoAreaTexto("Dirección",20,2);
+        direccion.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                char escrito = ke.getKeyChar();
+                if((escrito <'a' || escrito >'z') && 
+                   (escrito <'A' || escrito >'Z') && 
+                   (escrito!='Á' || escrito!='á') && //problema
+                   (escrito!='É' || escrito!='é') && //problema
+                   (escrito!='Í' || escrito!='í') && //problema
+                   (escrito!='Ó' || escrito!='ó') && //problema
+                   (escrito!='Ú' || escrito!='ú') && //problema
+                   (escrito!=KeyEvent.VK_SPACE) &&
+                   (escrito!=KeyEvent.VK_COMMA)) ke.consume();
+                if(direccion.longuitudDelContenido() >= 100) ke.consume();
+            }
+        });
+        
         correo = new CampoTexto("Correo",20);
+        
         fechanac = new CampoTexto("Fecha de Nacimiento",20);
-        sexo = new CampoCombo("Sexo",opcSexo);
+        fechanac.campo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                int escrito = ke.getKeyChar();
+                if((escrito<'0' || escrito>'9') && (escrito!=KeyEvent.VK_MINUS)) ke.consume(); 
+                if(fechanac.longuitudDelContenido() >= 10) ke.consume(); 
+            }
+        });
 
         /**
          * Invoca calendario al enfocar
@@ -67,11 +148,13 @@ public final class VistaActualizarRepresentante extends JFrame implements Acepta
         fechanac.campo.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (fechanac.obtenerContenido().length() == 0) {
+                if (fechanac.longuitudDelContenido() == 0) {
                     Calendario calendario = new Calendario(fechanac.campo);
                 }
             }
         });
+        
+        sexo = new CampoCombo("Sexo",opcSexo);
         
         /**
          * Llenado de campos
@@ -122,26 +205,32 @@ public final class VistaActualizarRepresentante extends JFrame implements Acepta
 
     @Override
     public void aceptar() {
-        if (cedula.obtenerContenido().length() != 0 && nombres.obtenerContenido().length() != 0 &&
-        apellidos.obtenerContenido().length() != 0 && telefono.obtenerContenido().length() != 0 &&
-        direccion.obtenerContenido().length() != 0 && correo.obtenerContenido().length() != 0 &&
-        fechanac.obtenerContenido().length() != 0 && sexo.obtenerSeleccion().toString().length() != 0) {
+        if (cedula.longuitudDelContenido() != 0 && nombres.longuitudDelContenido() != 0 &&
+        apellidos.longuitudDelContenido() != 0 && telefono.longuitudDelContenido() != 0 &&
+        direccion.longuitudDelContenido() != 0 && correo.longuitudDelContenido() != 0 &&
+        fechanac.longuitudDelContenido() != 0 && sexo.obtenerSeleccion().toString().length() != 0) {
             
-            String strCedulaRep = cedula.obtenerContenido();
+            ValidadorCorreo correoValido = new ValidadorCorreo();
             
-            int cedulaRep = Integer.parseInt(strCedulaRep);
-            String nombreRep = nombres.obtenerContenido();
-            String apellidoRep = apellidos.obtenerContenido();
-            String telefonoRep = telefono.obtenerContenido();
-            String direccionRep = direccion.obtenerContenido();
-            String correoRep = correo.obtenerContenido();
-            String fechaNacRep = fechanac.obtenerContenido();
-            String sexoRep = sexo.obtenerSeleccion().toString();
-            
-            if (representante.modificar(cedulaRep, nombreRep, apellidoRep, telefonoRep, direccionRep, correoRep, fechaNacRep, sexoRep)) {
-                cerrarVentana();
+            if (correoValido.validarCorreo(correo.obtenerContenido())) {
+                String strCedulaRep = cedula.obtenerContenido();
+
+                int cedulaRep = Integer.parseInt(strCedulaRep);
+                String nombreRep = nombres.obtenerContenido();
+                String apellidoRep = apellidos.obtenerContenido();
+                String telefonoRep = telefono.obtenerContenido();
+                String direccionRep = direccion.obtenerContenido();
+                String correoRep = correo.obtenerContenido();
+                String fechaNacRep = fechanac.obtenerContenido();
+                String sexoRep = sexo.obtenerSeleccion().toString();
+
+                if (representante.modificar(cedulaRep, nombreRep, apellidoRep, telefonoRep, direccionRep, correoRep, fechaNacRep, sexoRep)) {
+                    cerrarVentana();
+                } else {
+                    JOptionPane.showMessageDialog(this,"Error al modificar");
+                }   
             } else {
-                JOptionPane.showMessageDialog(this,"Error al modificar");
+                JOptionPane.showMessageDialog(this,"El correo es invalido");
             }
         } else {
             JOptionPane.showMessageDialog(this,"Existen campos vacios");
