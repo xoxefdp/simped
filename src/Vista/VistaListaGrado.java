@@ -257,9 +257,9 @@ public class VistaListaGrado extends JFrame {
                     
                     int codigoGrado = Integer.parseInt(getCodigoGrado());
                     
-                    System.out.println(codigoGrado);
-                    System.out.println(cedulaProfesor);
-                    System.out.println(getFecha());
+                    //System.out.println(codigoGrado);
+                    //System.out.println(cedulaProfesor);
+                    //System.out.println(getFecha());
 
                     // si confirma elimina de la base de datos
                     if (tablaGradoFechaProfesores.eliminarFila()) {
@@ -317,9 +317,9 @@ public class VistaListaGrado extends JFrame {
                     
                     int codigoGrado = Integer.parseInt(getCodigoGrado());
                     
-                    System.out.println(codigoGrado);
-                    System.out.println(codigoAlumno);
-                    System.out.println(getFecha());
+                    //System.out.println(codigoGrado);
+                    //System.out.println(codigoAlumno);
+                    //System.out.println(getFecha());
 
                     // si confirma elimina de la base de datos
                     if (tablaGradoFechaAlumnos.eliminarFila()) {

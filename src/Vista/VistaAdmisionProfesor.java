@@ -174,7 +174,7 @@ public final class VistaAdmisionProfesor extends JFrame implements Aceptar, Canc
             @Override
             public void keyTyped(KeyEvent ke) {
                 char escrito = ke.getKeyChar();
-                System.out.println(escrito);
+                //System.out.println(escrito);
                 if((escrito!='a') && (escrito!='b') && (escrito!='c') && (escrito!='d') &&
                    (escrito!='e') && (escrito!='f') && (escrito!='g') && (escrito!='h') &&
                    (escrito!='i') && (escrito!='j') && (escrito!='k') && (escrito!='l') &&
