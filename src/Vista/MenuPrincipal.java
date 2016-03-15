@@ -10,9 +10,11 @@ import Controlador.Configuraciones;
 import Vista.Componentes.Fondo;
 import Vista.Componentes.Minutero;
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -28,7 +30,7 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
 public class MenuPrincipal extends JFrame implements ActionListener, CerrarVentana{
     private final JMenuBar barraDeNavegacion;
     private final JMenu listado, /*balance,*/ emitir, sistema;
-    private final JMenuItem admisionEstudiante, /*admisionRepresentante,*/ admisionProfesor, admisionGrado, /*balanceEstudiante, balanceProfesor,*/ constanciaEstudio, constanciaInscripcion, /*reporteRegulares,*/ reporteListaGrado, cerrarSistema, /*manual,*/ acercade;
+    private final JMenuItem admisionEstudiante, /*admisionRepresentante,*/ admisionProfesor, admisionGrado, /*balanceEstudiante, balanceProfesor,*/ constanciaEstudio, constanciaInscripcion, /*reporteRegulares,*/ reporteListaGrado, cerrarSistema,manual,acercade;
     private final Minutero tiempo;
     private final Configuraciones config = new Configuraciones();
     
@@ -110,11 +112,11 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
                 acercade = new JMenuItem("Acerca De"); // se crea una opcion
                 acercade.addActionListener(this);
                 sistema.add(acercade); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
-                /*
+                
                 manual = new JMenuItem("Manual"); // se crea una opcion
                 manual.addActionListener(this);
                 sistema.add(manual); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
-                */
+                
                 cerrarSistema = new JMenuItem("Cerrar Sistema"); // se crea una opcion
                 cerrarSistema.addActionListener(this);
                 sistema.add(cerrarSistema); // se agrega la opcion estudiante al elemento admision de la barra de navegacion
@@ -204,11 +206,17 @@ public class MenuPrincipal extends JFrame implements ActionListener, CerrarVenta
             VistaReporteListaGrado vistaConstanciaEstudiante = new VistaReporteListaGrado();
         }
         
-        /*
+        
         if (e.getSource() == manual) {
-            //cerrarVentana();
+            try {
+                    File path = new File (this.config.getManual());
+                    Desktop.getDesktop().open(path);
+                }catch (IOException ex) {
+                                            ex.printStackTrace();
+                                        }   
+            
         }
-        */
+        
         
         if (e.getSource() == acercade) {
             acercade();
