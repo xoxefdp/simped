@@ -30,7 +30,9 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
 public class MenuPrincipal extends JFrame implements ActionListener, CerrarVentana{
     private final JMenuBar barraDeNavegacion;
     private final JMenu listado, /*balance,*/ emitir, sistema;
+
     private final JMenuItem admisionEstudiante, /*admisionRepresentante,*/ admisionProfesor, admisionGrado, /*balanceEstudiante, balanceProfesor,*/ constanciaEstudio, constanciaInscripcion, /*reporteRegulares,*/ reporteListaGrado, cerrarSistema, manual, acercade;
+
     private final Minutero tiempo;
     private final Configuraciones config = new Configuraciones();
     

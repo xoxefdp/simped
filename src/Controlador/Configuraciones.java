@@ -182,7 +182,7 @@ public class Configuraciones {
         }
        return BackgroundApp;
     }
-    
+
     public String getManual(){
         String BackgroundApp = null;
         try {
