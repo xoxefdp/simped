@@ -12,6 +12,7 @@ import Controlador.CerrarVentana;
 import Controlador.OyenteAceptar;
 import Controlador.OyenteCancelar;
 import Controlador.ValidadorCorreo;
+import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Profesor;
 import Vista.Formatos.Botonera;
 import Vista.Formatos.CampoAreaTexto;
@@ -23,6 +24,10 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -295,10 +300,17 @@ public final class VistaAdmisionProfesor extends JFrame implements Aceptar, Canc
                 String sexoProf = sexo.obtenerSeleccion().toString();
                 String tituloProf = titulo.obtenerContenido();
 
-                if (profesor.incluir(cedulaProf, nombreProf, apellidoProf, fechaNacProf, direccionProf, telefonoProf, correoProf, tituloProf, sexoProf)) {
-                    cerrarVentana();
-                } else {
-                    JOptionPane.showMessageDialog(this,"Error al insertar");
+                ResultSet datos = profesor.consultarProfesor(cedulaProf);
+                try {
+                    if (!datos.isBeforeFirst()) {
+                        profesor.incluir(cedulaProf, nombreProf, apellidoProf, fechaNacProf, direccionProf, telefonoProf, correoProf, tituloProf, sexoProf);
+                        cerrarVentana();
+                    } else {
+                        JOptionPane.showMessageDialog(this,"Error al insertar, registro ya existe");
+                    }
+                }catch(SQLException error){
+                    String mensaje = errorSQL(error.getSQLState());
+                    JOptionPane.showMessageDialog(null,mensaje);
                 }
             } else {
                 JOptionPane.showMessageDialog(this,"El correo es invalido");

@@ -27,6 +27,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -42,6 +44,7 @@ public class VistaAdmisionGradoProfesor extends JFrame implements Aceptar, Cance
     private final ResultSet resultadoProf;
     private final TablaProfesores tablaProfesores;
     private final int codigoGradoLocal;
+    String fechaReducida=null;
 
     public VistaAdmisionGradoProfesor(String codigoGrado){
         setTitle("Asignar Profesor a Grado");
@@ -60,7 +63,7 @@ public class VistaAdmisionGradoProfesor extends JFrame implements Aceptar, Cance
             public void keyTyped(KeyEvent ke) {
                 int escrito = ke.getKeyChar();
                 if((escrito<'0' || escrito>'9') && (escrito!=KeyEvent.VK_MINUS)) ke.consume(); 
-                if(fechanac.longuitudDelContenido() >= 10) ke.consume(); 
+                if(fechanac.longuitudDelContenido() >= 4) ke.consume(); 
             }
         });
         /**
@@ -70,7 +73,31 @@ public class VistaAdmisionGradoProfesor extends JFrame implements Aceptar, Cance
             @Override
             public void focusGained(FocusEvent e) {
                 if (fechanac.longuitudDelContenido() == 0) {
+                    fechanac.campo.getDocument().addDocumentListener(new DocumentListener() {
+                        @Override
+                        public void insertUpdate(DocumentEvent de) {
+                            //System.out.println(de.getChange((Element)fechanac.campo));
+                            System.out.println(fechanac.obtenerContenido());
+                            fechaReducida = (fechanac.obtenerContenido()).substring(0,4)+"-01-01";
+                            System.out.println(fechaReducida);
+                            //System.out.println(fechanac.obtenerContenido());
+                        }
+
+                        @Override
+                        public void removeUpdate(DocumentEvent de) {
+                            //System.out.println(de.getChange((Element)fechanac.campo));
+                            System.out.println("Salida1");
+                        }
+
+                        @Override
+                        public void changedUpdate(DocumentEvent de) {
+                            //System.out.println(de.getChange((Element)fechanac.campo));
+                            System.out.println("Salida2");
+                        }
+                    });
                     Calendario calendario = new Calendario(fechanac.campo);
+                    fechanac.cambiarContenido(fechaReducida);
+                    //System.out.println(fechanac.obtenerContenido());
                 }
             }
         });

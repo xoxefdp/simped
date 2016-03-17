@@ -11,12 +11,15 @@ import Controlador.CerrarVentana;
 import Controlador.OyenteAceptar;
 import Controlador.OyenteCancelar;
 import Modelo.Grado;
+import static Modelo.MensajesDeError.errorSQL;
 import Vista.Formatos.Botonera;
 import Vista.Formatos.CampoTexto;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -91,10 +94,17 @@ public final class VistaAdmisionGrado extends JFrame implements Aceptar, Cancela
             String gradoGrado = grado.obtenerContenido();
             String seccionSeccion = seccion.obtenerContenido();
             
-            if (objetoGrado.incluir(gradoGrado,seccionSeccion)) {
-                cerrarVentana();
-            } else {
-                JOptionPane.showMessageDialog(this,"Error al insertar");
+            ResultSet datos = objetoGrado.consultarGradoSeccion(gradoGrado,seccionSeccion);
+            try {
+                if(!datos.isBeforeFirst()){
+                    objetoGrado.incluir(gradoGrado,seccionSeccion);
+                    cerrarVentana();
+                } else {
+                    JOptionPane.showMessageDialog(this,"Error al insertar, registro ya existe");
+                }
+            }catch(SQLException error){
+                String mensaje = errorSQL(error.getSQLState());
+                JOptionPane.showMessageDialog(null,mensaje);
             }
         } else {
             JOptionPane.showMessageDialog(this,"Existen campos vacios");

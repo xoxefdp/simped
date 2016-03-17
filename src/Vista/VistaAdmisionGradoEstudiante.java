@@ -27,6 +27,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -42,6 +44,7 @@ public class VistaAdmisionGradoEstudiante extends JFrame implements Aceptar, Can
     private final ResultSet resultadoAlum;
     private final TablaAlumnos tablaAlumnos;
     private final int codigoGradoLocal;
+    String fechaReducida=null;
 
     public VistaAdmisionGradoEstudiante(String codigoGrado){
         setTitle("Asignar Estudiante a Grado");
@@ -60,7 +63,7 @@ public class VistaAdmisionGradoEstudiante extends JFrame implements Aceptar, Can
             public void keyTyped(KeyEvent ke) {
                 int escrito = ke.getKeyChar();
                 if((escrito<'0' || escrito>'9') && (escrito!=KeyEvent.VK_MINUS)) ke.consume(); 
-                if(fechanac.longuitudDelContenido() >= 10) ke.consume(); 
+                if(fechanac.longuitudDelContenido() >= 4) ke.consume(); 
             }
         });
         /**
@@ -70,7 +73,29 @@ public class VistaAdmisionGradoEstudiante extends JFrame implements Aceptar, Can
             @Override
             public void focusGained(FocusEvent e) {
                 if (fechanac.longuitudDelContenido() == 0) {
+                    fechanac.campo.getDocument().addDocumentListener(new DocumentListener() {
+                        @Override
+                        public void insertUpdate(DocumentEvent de) {
+                            //System.out.println(fechanac.obtenerContenido());
+                            fechaReducida = (fechanac.obtenerContenido()).substring(0,4)+"-01-01";
+                            //System.out.println(fechaReducida);
+                        }
+
+                        @Override
+                        public void removeUpdate(DocumentEvent de) {
+                            //System.out.println(de.getChange((Element)fechanac.campo));
+                            //System.out.println("Salida1");
+                        }
+
+                        @Override
+                        public void changedUpdate(DocumentEvent de) {
+                            //System.out.println(de.getChange((Element)fechanac.campo));
+                            //System.out.println("Salida2");
+                        }
+                    });
                     Calendario calendario = new Calendario(fechanac.campo);
+                    fechanac.cambiarContenido(fechaReducida);
+                    //System.out.println(fechanac.obtenerContenido());
                 }
             }
         });
@@ -120,7 +145,7 @@ public class VistaAdmisionGradoEstudiante extends JFrame implements Aceptar, Can
             if (alumnoGrado.incluir(codigoGradoLocal,codigoAlumno,fechaNacProf)){
                 cerrarVentana();
             } else {
-                JOptionPane.showMessageDialog(this,"Error al modificar");
+                JOptionPane.showMessageDialog(this,"Error al insertar, registro existe");
             }
         } else {
             JOptionPane.showMessageDialog(this,"Existen campos vacios");

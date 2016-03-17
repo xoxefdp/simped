@@ -58,7 +58,7 @@ public class AlumnoRepresentante {
 	}
         return resultados;
     }
-    
+    */
     public final ResultSet consultarRepresentanteAlumnos(int cedulaRepresentante){
         try{
             consulta = "SELECT " +
@@ -82,7 +82,7 @@ public class AlumnoRepresentante {
 	}
         return resultados;
     }
-    */
+    
     public final ResultSet consultarAlumnoRepresentante(int codigo, int cedulaRepresentante){
         try{
             consulta = "SELECT " +

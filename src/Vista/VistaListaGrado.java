@@ -16,6 +16,7 @@ import Vista.Tablas.TablaGrados;
 import Vista.Tablas.TablaGradosFechas;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -344,7 +345,8 @@ public class VistaListaGrado extends JFrame {
         panelBotonesAlumno.add(botoneraMEA);
         
         JPanel panelAlumnos = new JPanel();
-        panelAlumnos.setLayout(new GridLayout(2,1));
+        //panelAlumnos.setLayout(new GridLayout(2,1));
+        panelAlumnos.setLayout(new GridBagLayout());
         panelAlumnos.setBorder(BorderFactory.createTitledBorder("Estudiantes Asignados(as)"));
         panelAlumnos.add(tablaGradoFechaAlumnos);
         panelAlumnos.add(panelBotonesAlumno);

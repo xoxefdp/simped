@@ -49,6 +49,17 @@ public class Grado {
         return resultados;
     }
     
+        public final ResultSet consultarGradoSeccion(String grado, String seccion){
+        try{
+            consulta = "SELECT * FROM grado WHERE grado = '"+grado+"' AND seccion = '"+seccion+"'";
+            resultados = instruccionSql.executeQuery(consulta); 
+        }catch(SQLException error){
+            mensaje = errorSQL(error.getSQLState());
+            JOptionPane.showMessageDialog(null,mensaje);
+	}
+        return resultados;
+    }
+    
     public final ResultSet consultarGrados(){
         try{
             consulta = "SELECT * FROM grado ORDER BY grado ASC";

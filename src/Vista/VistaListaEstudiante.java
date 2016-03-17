@@ -15,6 +15,8 @@ import Controlador.OyenteIncluir;
 import Controlador.OyenteListar;
 import Controlador.OyenteModificar;
 import Modelo.Alumno;
+import Modelo.AlumnoGrado;
+import Modelo.AlumnoRepresentante;
 import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Representante;
 import Vista.Formatos.CampoTexto;
@@ -228,7 +230,19 @@ public class VistaListaEstudiante extends JFrame implements Incluir, Modificar, 
             
             // si confirma elimina de la base de datos
             if (tablaAlumnos.eliminarFila()) {
-                alumno.eliminar(codigoEstudiante);
+                AlumnoGrado alumnoGrado = new AlumnoGrado();
+                ResultSet datos = alumnoGrado.consultarAlumnoGradosFechas(codigoEstudiante);
+                try{
+                    if(!datos.isBeforeFirst()){
+                        alumno.eliminar(codigoEstudiante);
+                    } else {
+                        JOptionPane.showMessageDialog(this,"No se puede eliminar a un estudiante regular inscrito en un grado, refresque lista");
+                        VistaListaGrado vistaListagrado = new VistaListaGrado();
+                    }
+                }catch(SQLException error){
+                    String mensaje = errorSQL(error.getSQLState());
+                    JOptionPane.showMessageDialog(null,mensaje);
+                }
             }
         } else {
             JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el estudiante a eliminar");

@@ -14,6 +14,8 @@ import Controlador.OyenteEliminar;
 import Controlador.OyenteIncluir;
 import Controlador.OyenteListar;
 import Controlador.OyenteModificar;
+import Modelo.AlumnoRepresentante;
+import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Representante;
 import Vista.Formatos.CampoTexto;
 import Vista.Formatos.Botonera;
@@ -25,7 +27,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -211,7 +217,29 @@ public class VistaListaRepresentante extends JFrame implements Incluir, Modifica
             
             // si confirma elimina de la base de datos
             if (tablaRepresentantes.eliminarFila()) {
-                representante.eliminar(cedulaRepresentante);
+                AlumnoRepresentante alumnoRepresentante = new AlumnoRepresentante();
+                ResultSet datos = alumnoRepresentante.consultarRepresentanteAlumnos(cedulaRepresentante);
+                try{
+                    if(!datos.isBeforeFirst()){
+                        representante.eliminar(cedulaRepresentante);
+                    } else {
+                        int respuesta = JOptionPane.showConfirmDialog(this, "Cambie los representantes de los alumnos o se eliminaran tambien");
+                        if (respuesta == JOptionPane.OK_OPTION){
+                            try {
+                                while(datos.next()) {
+                                    VistaActualizarEstudiante vistaActualizarEstudiante = new VistaActualizarEstudiante(datos.getInt(1));
+                                }
+                                JOptionPane.showMessageDialog(this,"Ahora modifique y refresque la tabla para intentar eliminar de nuevo");
+                            }catch(SQLException error){
+                                String mensaje = errorSQL(error.getSQLState());
+                                JOptionPane.showMessageDialog(null,mensaje);
+                            }
+                        }
+                    }
+                }catch(SQLException error){
+                    String mensaje = errorSQL(error.getSQLState());
+                    JOptionPane.showMessageDialog(null,mensaje);
+                }
             }
         } else {
             JOptionPane.showMessageDialog(this,"Seleccione antes en la tabla el representante a eliminar");

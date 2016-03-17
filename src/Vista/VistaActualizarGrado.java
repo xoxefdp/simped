@@ -111,11 +111,17 @@ public class VistaActualizarGrado extends JFrame implements Aceptar, Cancelar, C
             String seccionSeccion = seccion.obtenerContenido();
             
             Grado objetoGrado = new Grado();
-            
-            if (objetoGrado.modificar(gradoGrado,seccionSeccion,codigo)){
-                cerrarVentana();
-            } else {
-                JOptionPane.showMessageDialog(this,"Error al modificar");
+            ResultSet datos = objetoGrado.consultarGradoSeccion(gradoGrado,seccionSeccion);
+            try {
+                if(!datos.isBeforeFirst()){
+                    objetoGrado.modificar(gradoGrado,seccionSeccion,codigo);
+                    cerrarVentana();
+                } else {
+                    JOptionPane.showMessageDialog(this,"Error al modificar, registro ya existe");
+                }
+            }catch(SQLException error){
+                String mensaje = errorSQL(error.getSQLState());
+                JOptionPane.showMessageDialog(null,mensaje);
             }
         } else {
             JOptionPane.showMessageDialog(this,"Existen campos vacios");

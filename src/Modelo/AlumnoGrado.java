@@ -58,8 +58,9 @@ public class AlumnoGrado {
 	}
         return resultados;
     }
-    
-    public final ResultSet consultarRepresentanteAlumnos(int cedulaRepresentante){
+    */
+    // devuelve el alumno inscrito, en todos los grados y años
+    public final ResultSet consultarAlumnoGradosFechas(int codigoAlumno){
         try{
             consulta = "SELECT " +
                        "alumno.cod_al," +
@@ -67,14 +68,14 @@ public class AlumnoGrado {
                        "alumno.apellido_al," +
                        "alumno.fecha_nac_alum," +
                        "alumno.sexo," +
-                       "representante_has_alumno.parentesco," +
-                       "representante.cedula_rp " +
-                       "FROM " +
-                       "alumno " +
-                       "INNER JOIN representante_has_alumno ON representante_has_alumno.alumno_cod_al = alumno.cod_al " +
-                       "INNER JOIN representante ON representante_has_alumno.representante_cedula_rp = representante.cedula_rp " +
-                       "WHERE " +
-                       "representante_has_alumno.representante_cedula_rp = '"+cedulaRepresentante+"'";
+                       "YEAR(alumno_has_grado.a_escolar)," +
+                       "grado.cod_gr," +
+                       "grado.grado," +
+                       "grado.seccion " +
+                       "FROM alumno " +
+                       "INNER JOIN alumno_has_grado ON alumno_has_grado.alumno_cod_al = alumno.cod_al " +
+                       "INNER JOIN grado ON alumno_has_grado.grado_cod_gr = grado.cod_gr " +
+                       "WHERE alumno_has_grado.alumno_cod_al = '"+codigoAlumno+"'";
             resultados = instruccionSql.executeQuery(consulta); 
         }catch(SQLException error){
             mensaje = errorSQL(error.getSQLState());
@@ -82,7 +83,7 @@ public class AlumnoGrado {
 	}
         return resultados;
     }
-    */
+    
     
     // devuelve el alumno inscrito, en un grado, en un año escolar
     public final ResultSet consultarAlumnoGradoFecha(String aescolar, int codigoGrado, int codigoAlumno){

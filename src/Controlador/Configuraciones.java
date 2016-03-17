@@ -22,7 +22,7 @@ public class Configuraciones {
     // Variable de configuracion para la emision de reportes
     private String RUTA_REPORTES,RUTA_LOGO_REPORTES;
     // 
-    private String RUTA_FONDO;
+    private String RUTA_FONDO, RUTA_MANUAL;
 
     public Configuraciones(){
         configuraciones = new Properties();
@@ -179,6 +179,20 @@ public class Configuraciones {
             System.out.println("Error 90, No existe el archivo");
         } catch (IOException e) {
             System.out.println("Error 90, No se puede leer el archivo");
+        }
+       return BackgroundApp;
+    }
+    
+    public String getManual(){
+        String BackgroundApp = null;
+        try {
+            configuraciones.load(new FileInputStream(rutaConfiguraciones));
+            RUTA_MANUAL = configuraciones.getProperty("RUTA_MANUAL");
+            BackgroundApp=RUTA_MANUAL;
+        } catch (FileNotFoundException e) {
+            System.out.println("Error 100, No existe el archivo");
+        } catch (IOException e) {
+            System.out.println("Error 100, No se puede leer el archivo");
         }
        return BackgroundApp;
     }

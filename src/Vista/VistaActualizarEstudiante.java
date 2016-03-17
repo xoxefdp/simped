@@ -342,7 +342,7 @@ public class VistaActualizarEstudiante extends JFrame implements Aceptar, Cancel
             String sexoAl = sexo.obtenerSeleccion().toString();
             int cedulaRep = Integer.parseInt(cedula.obtenerContenido());
             String parentescoRep = parentesco.obtenerContenido();
-
+            
             if (alumno.modificar(codigoAlumno, nombreAl, apellidoAl, fechaNacAl, sexoAl, cedulaRep, parentescoRep)) {
                 cerrarVentana();
             } else {

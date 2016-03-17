@@ -12,6 +12,7 @@ import Controlador.CerrarVentana;
 import Controlador.OyenteAceptar;
 import Controlador.OyenteCancelar;
 import Controlador.ValidadorCorreo;
+import static Modelo.MensajesDeError.errorSQL;
 import Modelo.Representante;
 import Vista.Formatos.Botonera;
 import Vista.Formatos.CampoAreaTexto;
@@ -23,6 +24,10 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -264,10 +269,18 @@ public final class VistaAdmisionRepresentante extends JFrame implements Aceptar,
                 String fechaNacRep = fechanac.obtenerContenido();
                 String sexoRep = sexo.obtenerSeleccion().toString();
 
-                if (representante.incluir(cedulaRep, nombreRep, apellidoRep, telefonoRep, direccionRep, correoRep, fechaNacRep, sexoRep)) {
-                    cerrarVentana();
-                } else {
-                    JOptionPane.showMessageDialog(this,"Error al insertar");
+                Representante representanteVerifica = new Representante();
+                ResultSet datos = representanteVerifica.consultarRepresentante(cedulaRep);
+                try {
+                    if(!datos.isBeforeFirst()){
+                        representante.incluir(cedulaRep, nombreRep, apellidoRep, telefonoRep, direccionRep, correoRep, fechaNacRep, sexoRep);
+                        cerrarVentana();
+                    } else {
+                        JOptionPane.showMessageDialog(this,"Error al insertar, registro ya existe");
+                    }
+                }catch(SQLException error){
+                    String mensaje = errorSQL(error.getSQLState());
+                    JOptionPane.showMessageDialog(null,mensaje);
                 }
             } else {
                 JOptionPane.showMessageDialog(this,"El correo es invalido");
